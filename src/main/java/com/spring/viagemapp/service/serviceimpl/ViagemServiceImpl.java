@@ -28,4 +28,10 @@ public class ViagemServiceImpl implements ViagemService {
     public Viagem save(Viagem viagem) {
         return viagemRepository.save(viagem);
     }
+
+	@Override
+	public void deleteById(long id) {
+		viagemRepository.deleteById(id);;
+
+	}
 }

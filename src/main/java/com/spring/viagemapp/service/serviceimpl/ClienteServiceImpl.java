@@ -33,4 +33,10 @@ public class ClienteServiceImpl implements ClienteService {
     public boolean existsByCpf(String cpf) {
         return clienteRepository.existsByCpf(cpf);
     }
+
+	@Override
+	public void deleteById(long id) {
+		clienteRepository.deleteById(id);;
+
+	}
 }

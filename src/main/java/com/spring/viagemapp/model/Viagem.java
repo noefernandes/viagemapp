@@ -1,5 +1,7 @@
 package com.spring.viagemapp.model;
 
+import java.util.List;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 
@@ -20,6 +22,9 @@ public class Viagem {
     @ManyToOne
     private Agencia agencia;
 
+    @OneToMany
+    private List<Cliente> clientes;
+    
     public Long getId() {
         return id;
     }

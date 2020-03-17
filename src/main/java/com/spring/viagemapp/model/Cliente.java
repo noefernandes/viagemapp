@@ -1,5 +1,7 @@
 package com.spring.viagemapp.model;
 
+import java.util.List;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 
@@ -18,6 +20,12 @@ public class Cliente {
 
     @NotBlank
     private String email;
+    
+    @OneToMany
+    private List<Viagem> viagens;
+    
+    
+
 
     public Long getId() {
         return id;

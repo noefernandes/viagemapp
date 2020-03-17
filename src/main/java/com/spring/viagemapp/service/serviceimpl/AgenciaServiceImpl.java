@@ -33,4 +33,9 @@ public class AgenciaServiceImpl implements AgenciaService {
     public boolean existsByCnpj(String cnpj) {
         return agenciaRepository.existsByCnpj(cnpj);
     }
+
+	@Override
+	public void deleteById(long id) {
+		 agenciaRepository.deleteById(id);
+	}
 }
