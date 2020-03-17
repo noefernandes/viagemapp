@@ -28,4 +28,9 @@ public class AgenciaServiceImpl implements AgenciaService {
     public Agencia save(Agencia agencia) {
         return agenciaRepository.save(agencia);
     }
+
+    @Override
+    public boolean existsByCnpj(String cnpj) {
+        return agenciaRepository.existsByCnpj(cnpj);
+    }
 }

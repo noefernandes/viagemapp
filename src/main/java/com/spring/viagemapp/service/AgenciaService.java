@@ -8,4 +8,5 @@ public interface AgenciaService {
     List<Agencia> findAll();
     Agencia findById(long id);
     Agencia save(Agencia agencia);
+    boolean existsByCnpj(String cnpj);
 }

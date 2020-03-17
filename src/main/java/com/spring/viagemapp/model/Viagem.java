@@ -9,18 +9,16 @@ public class Viagem {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-
     @NotBlank
     private String localPartida;
-
     @NotBlank
     private String localChegada;
-
     private double preco;
-
     private double capacidade;
-
     private double avaliacao;
+
+    @ManyToOne
+    private Agencia agencia;
 
     public Long getId() {
         return id;
@@ -68,5 +66,13 @@ public class Viagem {
 
     public void setAvaliacao(double avaliacao) {
         this.avaliacao = avaliacao;
+    }
+
+    public Agencia getAgencia() {
+        return agencia;
+    }
+
+    public void setAgencia(Agencia agencia) {
+        this.agencia = agencia;
     }
 }

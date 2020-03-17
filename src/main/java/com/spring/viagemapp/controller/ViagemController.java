@@ -17,7 +17,7 @@ public class ViagemController {
 
     @RequestMapping(value = "/viagens", method = RequestMethod.GET)
     public ModelAndView getViagens(){
-        ModelAndView mv = new ModelAndView("viagens");
+        ModelAndView mv = new ModelAndView("viagens");//Página que vai renderizar
         List<Viagem> viagens = viagemService.findAll();
         mv.addObject("viagens", viagens);
         return mv;

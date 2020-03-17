@@ -16,6 +16,7 @@ public class Cliente {
     @NotBlank
     private String cpf;
 
+    @NotBlank
     private String email;
 
     public Long getId() {

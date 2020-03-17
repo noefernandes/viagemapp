@@ -4,6 +4,7 @@ import com.spring.viagemapp.model.Cliente;
 import com.spring.viagemapp.service.ClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -14,6 +15,22 @@ import java.util.List;
 public class ClienteController {
     @Autowired
     ClienteService clienteService;
+
+    @RequestMapping(value = "/cadastrarCliente", method = RequestMethod.GET)
+    public String form(){
+        return "formCadastroCliente";
+    }
+
+    @Transactional
+    @RequestMapping(value = "/cadastrarCliente", method = RequestMethod.POST)
+    public String cadastrarCliente(Cliente cliente){
+        if(clienteService.existsByCpf(cliente.getCpf())) {
+            System.err.println("O cliente já existe!");
+        }else{
+            clienteService.save(cliente);
+        }
+        return "redirect:/cadastrarCliente";
+    }
 
     @RequestMapping(value = "/clientes", method = RequestMethod.GET)
     public ModelAndView getClientes(){
