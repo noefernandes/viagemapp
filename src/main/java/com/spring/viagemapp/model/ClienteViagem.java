@@ -7,19 +7,20 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 @Entity
-@Table(name="CLIENTEVIAGEM")
+@SequenceGenerator(name="seq_cliente_viagem", initialValue=1, allocationSize=100)
+@Table(name="cliente_viagem")
 public class ClienteViagem {
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_cliente_viagem")
 	private long id;
 
 	private double avaliacaoViagem;
 
-	@ManyToOne(cascade=CascadeType.PERSIST)
+	@ManyToOne(cascade={CascadeType.ALL})
 	@JoinColumn(name = "id_cliente")
 	private Cliente cliente;
 
-	@ManyToOne(cascade=CascadeType.PERSIST)
+	@ManyToOne(cascade={CascadeType.ALL})
 	@JoinColumn(name = "id_viagem")
 	private Viagem viagem;
 
