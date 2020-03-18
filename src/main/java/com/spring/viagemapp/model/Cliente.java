@@ -6,10 +6,11 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 
 @Entity
-@Table(name="CLIENTE")
+@Table(name="cliente")
+@SequenceGenerator(name="seq_cliente", initialValue=1, allocationSize=100)
 public class Cliente {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_cliente")
     private Long id;
 
     @NotBlank
@@ -20,8 +21,10 @@ public class Cliente {
 
     @NotBlank
     private String email;
-    
-    @OneToMany(mappedBy = "cliente")
+
+    //Adding in the cascade = {CascadeType.ALL} on the Parent's reference to the Child solved
+    // the problem in both cases. This saved the Child and the Parent.
+    @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL)
     private List<ClienteViagem> clienteViagem;
 
     public Long getId() {

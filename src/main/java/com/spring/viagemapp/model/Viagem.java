@@ -6,10 +6,11 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 
 @Entity
-@Table(name="VIAGEM")
+@SequenceGenerator(name="seq_viagem", initialValue=1, allocationSize=100)
+@Table(name="viagem")
 public class Viagem {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_viagem")
     private Long id;
     @NotBlank
     private String localPartida;
@@ -19,10 +20,12 @@ public class Viagem {
     private double capacidade;
     private double avaliacao;
 
-    @ManyToOne(cascade=CascadeType.PERSIST)
+    @ManyToOne(cascade={CascadeType.ALL})
     private Agencia agencia;
 
-    @OneToMany(mappedBy = "viagem")
+    //Adding in the cascade = {CascadeType.ALL} on the Parent's reference to the Child
+    // solved the problem in both cases. This saved the Child and the Parent.
+    @OneToMany(mappedBy = "viagem", cascade = CascadeType.ALL)
     private List<ClienteViagem> clienteViagem;
 
     public Long getId() {
