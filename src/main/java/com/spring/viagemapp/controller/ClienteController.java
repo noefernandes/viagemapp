@@ -1,10 +1,12 @@
 package com.spring.viagemapp.controller;
 
+import com.spring.viagemapp.model.Agencia;
 import com.spring.viagemapp.model.Cliente;
 import com.spring.viagemapp.service.ClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -39,6 +41,8 @@ public class ClienteController {
         mv.addObject("clientes", clientes);
         return mv;
     }
+
+    
 
 
 }
