@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 //import javax.annotation.PostConstruct;
+import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,7 +30,7 @@ public class Auxiliar {
     ClienteViagemRepository clienteViagemRepository;
 
     //Esta anotação sempre executa primeiro na aplicação.
-    //@PostConstruct
+    @PostConstruct
     public void saveClientes(){
         Agencia agencia1 = new Agencia();
         agencia1.setNome("Gol");

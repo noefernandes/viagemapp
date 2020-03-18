@@ -42,6 +42,14 @@ public class ClienteController {
         return mv;
     }
 
+    @RequestMapping(value="/clientes/{id}", method=RequestMethod.GET)
+    public ModelAndView getPostClienteDetails2(@PathVariable("id") long id){
+        ModelAndView mv = new ModelAndView("clienteDetails2");
+        Cliente clientes = clienteService.findById(id);
+        mv.addObject("cliente", clientes);
+        return mv;
+    }
+
 
 
 
