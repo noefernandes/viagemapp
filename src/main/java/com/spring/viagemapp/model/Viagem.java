@@ -19,12 +19,12 @@ public class Viagem {
     private double capacidade;
     private double avaliacao;
 
-    @ManyToOne
+    @ManyToOne(cascade=CascadeType.PERSIST)
     private Agencia agencia;
 
-    @OneToMany
-    private List<Cliente> clientes;
-    
+    @OneToMany(mappedBy = "viagem")
+    private List<ClienteViagem> clienteViagem;
+
     public Long getId() {
         return id;
     }
@@ -79,5 +79,13 @@ public class Viagem {
 
     public void setAgencia(Agencia agencia) {
         this.agencia = agencia;
+    }
+
+    public List<ClienteViagem> getClienteViagem() {
+        return clienteViagem;
+    }
+
+    public void setClienteViagem(List<ClienteViagem> clienteViagem) {
+        this.clienteViagem = clienteViagem;
     }
 }

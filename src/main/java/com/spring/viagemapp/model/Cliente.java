@@ -21,11 +21,8 @@ public class Cliente {
     @NotBlank
     private String email;
     
-    @OneToMany
-    private List<Viagem> viagens;
-    
-    
-
+    @OneToMany(mappedBy = "cliente")
+    private List<ClienteViagem> clienteViagem;
 
     public Long getId() {
         return id;
@@ -57,5 +54,13 @@ public class Cliente {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public List<ClienteViagem> getClienteViagem() {
+        return clienteViagem;
+    }
+
+    public void setClienteViagem(List<ClienteViagem> clienteViagem) {
+        this.clienteViagem = clienteViagem;
     }
 }

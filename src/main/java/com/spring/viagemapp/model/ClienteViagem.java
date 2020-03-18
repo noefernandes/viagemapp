@@ -12,15 +12,16 @@ public class ClienteViagem {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
-	
-	@NotNull
-	@OneToMany(mappedBy = "id")
-	private List<Cliente> clientes;
 
-	
-	@NotNull
-	@OneToMany(mappedBy = "id")
-	private List<Viagem> viagens;
+	private double avaliacaoViagem;
+
+	@ManyToOne(cascade=CascadeType.PERSIST)
+	@JoinColumn(name = "id_cliente")
+	private Cliente cliente;
+
+	@ManyToOne(cascade=CascadeType.PERSIST)
+	@JoinColumn(name = "id_viagem")
+	private Viagem viagem;
 
 	public long getId() {
 		return id;
@@ -30,21 +31,27 @@ public class ClienteViagem {
 		this.id = id;
 	}
 
-	public List<Cliente> getClientes() {
-		return clientes;
+	public Cliente getCliente() {
+		return cliente;
 	}
 
-	public void setClientes(List<Cliente> clientes) {
-		this.clientes = clientes;
+	public void setCliente(Cliente cliente) {
+		this.cliente = cliente;
 	}
 
-	public List<Viagem> getViagens() {
-		return viagens;
+	public Viagem getViagem() {
+		return viagem;
 	}
 
-	public void setViagens(List<Viagem> viagens) {
-		this.viagens = viagens;
+	public void setViagem(Viagem viagem) {
+		this.viagem = viagem;
 	}
-	
-	
+
+	public double getAvaliacaoViagem() {
+		return avaliacaoViagem;
+	}
+
+	public void setAvaliacaoViagem(double avaliacaoViagem) {
+		this.avaliacaoViagem = avaliacaoViagem;
+	}
 }

@@ -10,5 +10,4 @@ public interface AgenciaService {
     Agencia save(Agencia agencia);
     void deleteById(long id);
     boolean existsByCnpj(String cnpj);
-    
 }
