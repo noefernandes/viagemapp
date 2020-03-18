@@ -6,6 +6,7 @@ import com.spring.viagemapp.service.AgenciaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -41,5 +42,12 @@ public class AgenciaController {
         return mv;
     }
     
+    @RequestMapping(value = "/agencias/(id)", method = RequestMethod.GET)
+    public ModelAndView getAgenciasDetails(@PathVariable("id") long id){
+        ModelAndView mv = new ModelAndView("agenciaDetails");
+        Agencia agencias = agenciaService.findById(id);
+        mv.addObject("agencias", agencias);
+        return mv;
+    }
     
 }
