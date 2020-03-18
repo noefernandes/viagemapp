@@ -5,10 +5,11 @@ import javax.validation.constraints.NotBlank;
 import java.util.List;
 
 @Entity
-@Table(name="AGENCIA")
+@SequenceGenerator(name="seq_agencia", initialValue=1, allocationSize=100)
+@Table(name="agencia")
 public class Agencia {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_agencia")
     private Long id;
     @NotBlank
     private String nome;
@@ -18,7 +19,7 @@ public class Agencia {
     private String cnpj;
     private double nota;
 
-    @OneToMany
+    @OneToMany(cascade = {CascadeType.ALL})
     private List<Viagem> viagens;
 
     public Long getId() {

@@ -36,12 +36,19 @@ public class AgenciaController {
 
     @RequestMapping(value = "/agencias", method = RequestMethod.GET)
     public ModelAndView getAgencias(){
-        ModelAndView mv = new ModelAndView("agencia");
+        ModelAndView mv = new ModelAndView("agencias");
         List<Agencia> agencias = agenciaService.findAll();
         mv.addObject("agencias", agencias);
         return mv;
     }
 
-
+    @RequestMapping(value="/agencias/{id}", method=RequestMethod.GET)
+    public ModelAndView getPostAgenciasDetails2(@PathVariable("id") long id){
+        ModelAndView mv = new ModelAndView("agenciaDetails2");
+        Agencia agencia = agenciaService.findById(id);
+        mv.addObject("agencia", agencia);
+        return mv;
+    }
+    
     
 }
