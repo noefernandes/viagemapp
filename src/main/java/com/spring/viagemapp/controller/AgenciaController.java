@@ -36,7 +36,7 @@ public class AgenciaController {
 
     @RequestMapping(value = "/agencias", method = RequestMethod.GET)
     public ModelAndView getAgencias(){
-        ModelAndView mv = new ModelAndView("agencias");
+        ModelAndView mv = new ModelAndView("agencia");
         List<Agencia> agencias = agenciaService.findAll();
         mv.addObject("agencias", agencias);
         return mv;
