@@ -43,8 +43,8 @@ public class AgenciaController {
     }
 
     @RequestMapping(value="/agencias/{id}", method=RequestMethod.GET)
-    public ModelAndView getPostAgenciasDetails2(@PathVariable("id") long id){
-        ModelAndView mv = new ModelAndView("agenciaDetails2");
+    public ModelAndView getPostAgenciasDetails(@PathVariable("id") long id){
+        ModelAndView mv = new ModelAndView("agenciaDetails");
         Agencia agencia = agenciaService.findById(id);
         mv.addObject("agencia", agencia);
         return mv;
