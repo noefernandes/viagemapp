@@ -7,11 +7,11 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 @Entity
-@SequenceGenerator(name="seq_cliente_viagem", initialValue=1, allocationSize=100)
 @Table(name="cliente_viagem")
 public class ClienteViagem {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_cliente_viagem")
+	@SequenceGenerator(name="seq_cliente_viagem", initialValue=1, allocationSize=1)
 	private long id;
 
 	private double avaliacaoViagem;

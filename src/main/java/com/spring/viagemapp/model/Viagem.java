@@ -6,11 +6,11 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 
 @Entity
-@SequenceGenerator(name="seq_viagem", initialValue=1, allocationSize=100)
 @Table(name="viagem")
 public class Viagem {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_viagem")
+    @SequenceGenerator(name="seq_viagem", initialValue=1, allocationSize=1)
     private Long id;
     @NotBlank
     private String localPartida;

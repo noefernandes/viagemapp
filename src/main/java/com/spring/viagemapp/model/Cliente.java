@@ -7,10 +7,10 @@ import javax.validation.constraints.NotBlank;
 
 @Entity
 @Table(name="cliente")
-@SequenceGenerator(name="seq_cliente", initialValue=1, allocationSize=100)
 public class Cliente {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_cliente")
+    @SequenceGenerator(name="seq_cliente", initialValue=1, allocationSize=1)
     private Long id;
 
     @NotBlank

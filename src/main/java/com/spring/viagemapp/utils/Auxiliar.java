@@ -30,7 +30,7 @@ public class Auxiliar {
     ClienteViagemRepository clienteViagemRepository;
 
     //Esta anotação sempre executa primeiro na aplicação.
-    @PostConstruct
+    //@PostConstruct
     public void saveClientes(){
         Agencia agencia1 = new Agencia();
         agencia1.setNome("Gol");

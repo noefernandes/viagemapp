@@ -5,11 +5,11 @@ import javax.validation.constraints.NotBlank;
 import java.util.List;
 
 @Entity
-@SequenceGenerator(name="seq_agencia", initialValue=1, allocationSize=100)
 @Table(name="agencia")
 public class Agencia {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_agencia")
+    @SequenceGenerator(name="seq_agencia", initialValue=1, allocationSize=1)
     private Long id;
     @NotBlank
     private String nome;
