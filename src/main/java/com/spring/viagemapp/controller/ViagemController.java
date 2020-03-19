@@ -26,8 +26,8 @@ public class ViagemController {
     }
 
     @RequestMapping(value="/viagens/{id}", method=RequestMethod.GET)
-    public ModelAndView getPostViagemDetails(@PathVariable("id") long id){
-        ModelAndView mv = new ModelAndView("viagemDetails");
+    public ModelAndView getPostViagemDetails2(@PathVariable("id") long id){
+        ModelAndView mv = new ModelAndView("viagemDetails2");
         Viagem viagens = viagemService.findById(id);
         mv.addObject("viagem", viagens);
         return mv;
