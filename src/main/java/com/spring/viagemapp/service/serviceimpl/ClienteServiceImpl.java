@@ -28,4 +28,15 @@ public class ClienteServiceImpl implements ClienteService {
     public Cliente save(Cliente cliente) {
         return clienteRepository.save(cliente);
     }
+
+    @Override
+    public boolean existsByCpf(String cpf) {
+        return clienteRepository.existsByCpf(cpf);
+    }
+
+	@Override
+	public void deleteById(long id) {
+		clienteRepository.deleteById(id);;
+
+	}
 }

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+<head>
+    <title>Clientes</title>
+</head>
+<body>
+<div th:each="viagem : ${viagens}">
+    <div>
+        <p>
+            <span th:text = "${viagem.localPartida}"></span><br>
+            <span th:text = "${viagem.localChegada}"></span><br>
+            <span th:text = "${viagem.preco}"></span><br>
+            <span th:text = "${viagem.capacidade}"></span><br>
+            <span th:text = "${viagem.avaliacao}"></span><br>
+        </p>
+    </div>
+</div>
+</body>
+</html>>

@@ -1,26 +1,32 @@
 package com.spring.viagemapp.model;
 
+import java.util.List;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 
 @Entity
-@Table(name="VIAGEM")
+@Table(name="viagem")
 public class Viagem {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_viagem")
+    @SequenceGenerator(name="seq_viagem", initialValue=1, allocationSize=1)
     private Long id;
-
     @NotBlank
     private String localPartida;
-
     @NotBlank
     private String localChegada;
-
     private double preco;
-
     private double capacidade;
-
     private double avaliacao;
+
+    @ManyToOne(cascade={CascadeType.ALL})
+    private Agencia agencia;
+
+    //Adding in the cascade = {CascadeType.ALL} on the Parent's reference to the Child
+    // solved the problem in both cases. This saved the Child and the Parent.
+    @OneToMany(mappedBy = "viagem", cascade = CascadeType.ALL)
+    private List<ClienteViagem> clienteViagem;
 
     public Long getId() {
         return id;
@@ -68,5 +74,21 @@ public class Viagem {
 
     public void setAvaliacao(double avaliacao) {
         this.avaliacao = avaliacao;
+    }
+
+    public Agencia getAgencia() {
+        return agencia;
+    }
+
+    public void setAgencia(Agencia agencia) {
+        this.agencia = agencia;
+    }
+
+    public List<ClienteViagem> getClienteViagem() {
+        return clienteViagem;
+    }
+
+    public void setClienteViagem(List<ClienteViagem> clienteViagem) {
+        this.clienteViagem = clienteViagem;
     }
 }
