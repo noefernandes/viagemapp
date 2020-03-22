@@ -11,4 +11,5 @@ public interface ClienteService {
     Cliente save(Cliente cliente);
     void deleteById(long id);
     boolean existsByCpf(String cpf);
+    public Cliente findByCpf(String Cpf);
 }
