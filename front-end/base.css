@@ -27,3 +27,17 @@ body
     padding-top: 4%;
     text-align: center;
 }
+
+.cliente
+{
+    padding-top: 3%;
+    text-align: center;
+}
+.cliente h5
+{
+    font-size: 150%;
+}
+.cliente p
+{
+    font-size: 120%;
+}
