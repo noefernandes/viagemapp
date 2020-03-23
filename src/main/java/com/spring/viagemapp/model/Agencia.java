@@ -2,6 +2,11 @@ package com.spring.viagemapp.model;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import java.util.List;
 
 @Entity
@@ -19,6 +24,7 @@ public class Agencia {
     private String cnpj;
     private double nota;
 
+    @JsonIgnore
     @OneToMany(cascade = {CascadeType.ALL})
     private List<Viagem> viagens;
 

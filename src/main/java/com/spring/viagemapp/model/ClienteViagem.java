@@ -6,6 +6,8 @@ import java.util.List;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
 @Table(name="cliente_viagem")
 public class ClienteViagem {
@@ -16,6 +18,7 @@ public class ClienteViagem {
 
 	private double avaliacaoViagem;
 
+	@JsonBackReference
 	@ManyToOne(cascade={CascadeType.ALL})
 	@JoinColumn(name = "id_cliente")
 	private Cliente cliente;

@@ -5,6 +5,9 @@ import java.util.List;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
 @Table(name="viagem")
 public class Viagem {
@@ -25,6 +28,7 @@ public class Viagem {
 
     //Adding in the cascade = {CascadeType.ALL} on the Parent's reference to the Child
     // solved the problem in both cases. This saved the Child and the Parent.
+    @JsonBackReference
     @OneToMany(mappedBy = "viagem", cascade = CascadeType.ALL)
     private List<ClienteViagem> clienteViagem;
 
