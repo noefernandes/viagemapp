@@ -17,9 +17,14 @@ public class Agencia {
     private String email;
     @NotBlank
     private String cnpj;
+    @NotBlank
+    private String nomeUsuario;
+    @NotBlank
+    private String senha;
     private double nota;
 
-    @OneToMany(cascade = {CascadeType.ALL})
+
+    @OneToMany(mappedBy = "agencia")
     private List<Viagem> viagens;
 
     public Long getId() {
@@ -64,5 +69,21 @@ public class Agencia {
 
     public void setViagens(List<Viagem> viagens) {
         this.viagens = viagens;
+    }
+
+    public String getNomeUsuario() {
+        return nomeUsuario;
+    }
+
+    public void setNomeUsuario(String nomeUsuario) {
+        this.nomeUsuario = nomeUsuario;
+    }
+
+    public String getSenha() {
+        return senha;
+    }
+
+    public void setSenha(String senha) {
+        this.senha = senha;
     }
 }

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class AgenciaServiceImpl implements AgenciaService {
@@ -20,8 +21,8 @@ public class AgenciaServiceImpl implements AgenciaService {
     }
 
     @Override
-    public Agencia findById(long id) {
-        return agenciaRepository.findById(id).get();
+    public Optional<Agencia> findById(long id) {
+        return agenciaRepository.findById(id);
     }
 
     @Override
@@ -34,7 +35,27 @@ public class AgenciaServiceImpl implements AgenciaService {
         return agenciaRepository.existsByCnpj(cnpj);
     }
 
-	@Override
+    @Override
+    public boolean existsByEmail(String email) {
+        return agenciaRepository.existsByEmail(email);
+    }
+
+    @Override
+    public boolean existsByNomeUsuario(String nomeUsuario) {
+        return agenciaRepository.existsByNomeUsuario(nomeUsuario);
+    }
+
+    @Override
+    public boolean existsByNome(String nome) {
+        return agenciaRepository.existsByNome(nome);
+    }
+
+    @Override
+    public Optional<Agencia> findByNomeUsuario(String nomeUsuario) {
+        return agenciaRepository.findByNomeUsuario(nomeUsuario);
+    }
+
+    @Override
 	public void deleteById(long id) {
 		 agenciaRepository.deleteById(id);
 	}

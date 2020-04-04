@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ViagemServiceImpl implements ViagemService {
@@ -20,8 +21,8 @@ public class ViagemServiceImpl implements ViagemService {
     }
 
     @Override
-    public Viagem findById(long id) {
-        return viagemRepository.findById(id).get();
+    public Optional<Viagem> findById(long id) {
+        return viagemRepository.findById(id);
     }
 
     @Override
@@ -30,8 +31,7 @@ public class ViagemServiceImpl implements ViagemService {
     }
 
 	@Override
-	public void deleteById(long id) {
-		viagemRepository.deleteById(id);;
-
+	public void delete(Viagem viagem) {
+		viagemRepository.delete(viagem);;
 	}
 }
