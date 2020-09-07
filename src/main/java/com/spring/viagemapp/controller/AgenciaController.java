@@ -4,7 +4,6 @@ import com.spring.viagemapp.model.Agencia;
 import com.spring.viagemapp.model.Usuario;
 import com.spring.viagemapp.model.Viagem;
 import com.spring.viagemapp.service.AgenciaService;
-import com.spring.viagemapp.service.UsuarioService;
 import com.spring.viagemapp.service.ViagemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -27,9 +26,6 @@ public class AgenciaController {
     AgenciaService agenciaService;
 
     @Autowired
-    UsuarioService usuarioService;
-
-    @Autowired
     ViagemService viagemService;
 
     @Transactional
@@ -46,11 +42,7 @@ public class AgenciaController {
             return new ResponseEntity<>("O nome de usuário já existe", HttpStatus.FORBIDDEN);
         }
 
-        Usuario usuario = new Usuario();
-        usuario.setNomeUsuario(agencia.getNomeUsuario());
-        usuario.setSenha(getMd5(agencia.getSenha()));
-        agencia.setSenha(usuario.getSenha());
-        usuarioService.save(usuario);
+        agencia.setSenha(getMd5(agencia.getSenha()));
 
         return new ResponseEntity<Agencia>(agenciaService.save(agencia), HttpStatus.CREATED);
     }
@@ -67,7 +59,6 @@ public class AgenciaController {
 
         return new ResponseEntity<Agencia>(agenciaOp.get(), HttpStatus.OK);
     }
-
 
     @GetMapping("/agencias")
     public ResponseEntity<?> getAgencias(){

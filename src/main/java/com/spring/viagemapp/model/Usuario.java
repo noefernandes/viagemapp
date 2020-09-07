@@ -3,8 +3,8 @@ package com.spring.viagemapp.model;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 
-@Entity
-@Table(name="usuario")
+
+@MappedSuperclass
 public class Usuario{
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_usuario")
@@ -29,5 +29,13 @@ public class Usuario{
 
     public void setSenha(String senha) {
         this.senha = senha;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 }

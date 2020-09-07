@@ -3,37 +3,22 @@ package com.spring.viagemapp.model;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.util.List;
+import com.spring.viagemapp.model.Usuario;
 
 @Entity
 @Table(name="agencia")
-public class Agencia {
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_agencia")
-    @SequenceGenerator(name="seq_agencia", initialValue=1, allocationSize=1)
-    private Long id;
+public class Agencia extends Usuario {
     @NotBlank
     private String nome;
     @NotBlank
     private String email;
     @NotBlank
     private String cnpj;
-    @NotBlank
-    private String nomeUsuario;
-    @NotBlank
-    private String senha;
     private double nota;
-
 
     @OneToMany(mappedBy = "agencia")
     private List<Viagem> viagens;
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getNome() {
         return nome;
@@ -69,21 +54,5 @@ public class Agencia {
 
     public void setViagens(List<Viagem> viagens) {
         this.viagens = viagens;
-    }
-
-    public String getNomeUsuario() {
-        return nomeUsuario;
-    }
-
-    public void setNomeUsuario(String nomeUsuario) {
-        this.nomeUsuario = nomeUsuario;
-    }
-
-    public String getSenha() {
-        return senha;
-    }
-
-    public void setSenha(String senha) {
-        this.senha = senha;
     }
 }
