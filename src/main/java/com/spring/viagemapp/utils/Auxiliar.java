@@ -14,13 +14,14 @@ import org.springframework.transaction.annotation.Transactional;
 
 //import javax.annotation.PostConstruct;
 import javax.annotation.PostConstruct;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-@Component
+//@Component
 public class Auxiliar {
 
-    @Autowired
+    /*@Autowired
     ClienteRepository clienteRepository;
     @Autowired
     AgenciaRepository agenciaRepository;
@@ -28,10 +29,16 @@ public class Auxiliar {
     ViagemRepository viagemRepository;
     @Autowired
     ClienteViagemRepository clienteViagemRepository;
+    */
 
     //Esta anotação sempre executa primeiro na aplicação.
     //@PostConstruct
     public void saveClientes(){
+
+
+
+
+
         /*Agencia agencia1 = new Agencia();
         agencia1.setNome("Gol");
         agencia1.setCnpj("34432543");
