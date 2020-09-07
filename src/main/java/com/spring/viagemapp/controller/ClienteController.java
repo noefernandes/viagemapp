@@ -8,11 +8,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
@@ -40,12 +42,12 @@ public class ClienteController {
 
     @RequestMapping(value = "/clientes", method = RequestMethod.GET)
     public List<Cliente> getClientes(){
-        return clienteService.findAll();
-        /*
+        //return clienteService.findAll();
+
         ModelAndView mv = new ModelAndView("clientes");
         List<Cliente> clientes = clienteService.findAll();
         mv.addObject("clientes", clientes);
-        return mv;*/
+        return mv;
     }
 
     @RequestMapping(value="/clientes/findById/{id}", method=RequestMethod.GET)
@@ -75,6 +77,17 @@ public class ClienteController {
         redirectAttrs.addFlashAttribute("message","Cliente excluído!");
         return "redirect:/clientes";
     }
+
+
+    @PutMapping(value="clientes/{id}")
+    public String updateCliente(@PathVariable("id") long id, @Valid Cliente cliente, RedirectAttributes redirectAttrs) {
+
+        clienteService.save(cliente);
+        redirectAttrs.addFlashAttribute("message","Cliente excluído!");
+        return "redirect:/clientes/{id}";
+    }
+
+
 
 
 
