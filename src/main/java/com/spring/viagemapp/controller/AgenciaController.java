@@ -25,9 +25,6 @@ public class AgenciaController {
     @Autowired
     AgenciaService agenciaService;
 
-    @Autowired
-    ViagemService viagemService;
-
     @Transactional
     @PostMapping(value = "/cadastroAgencia")
     public ResponseEntity<?> cadastrarAgencia(@RequestBody @Valid Agencia agencia){
