@@ -40,7 +40,6 @@ public class AgenciaController {
         }
 
         agencia.setSenha(getMd5(agencia.getSenha()));
-
         return new ResponseEntity<Agencia>(agenciaService.save(agencia), HttpStatus.CREATED);
     }
 
