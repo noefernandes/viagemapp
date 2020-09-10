@@ -14,13 +14,14 @@ import org.springframework.transaction.annotation.Transactional;
 
 //import javax.annotation.PostConstruct;
 import javax.annotation.PostConstruct;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-@Component
+//@Component
 public class Auxiliar {
 
-    @Autowired
+    /*@Autowired
     ClienteRepository clienteRepository;
     @Autowired
     AgenciaRepository agenciaRepository;
@@ -28,11 +29,17 @@ public class Auxiliar {
     ViagemRepository viagemRepository;
     @Autowired
     ClienteViagemRepository clienteViagemRepository;
+    */
 
     //Esta anotação sempre executa primeiro na aplicação.
     @PostConstruct
     public void saveClientes(){
-        Agencia agencia1 = new Agencia();
+
+
+
+
+
+        /*Agencia agencia1 = new Agencia();
         agencia1.setNome("Gol");
         agencia1.setCnpj("34432543");
         agencia1.setEmail("gol@fic.com");
@@ -116,7 +123,7 @@ public class Auxiliar {
         cv5.setCliente(c3);
         cv5.setAvaliacaoViagem(6.5);
 
-        /****************** Para viagem ***********************/
+
 
         ArrayList<ClienteViagem> listaCV1 = new ArrayList<>();
         listaCV1.add(cv1);
@@ -131,7 +138,7 @@ public class Auxiliar {
         ArrayList<ClienteViagem> listaCV4 = new ArrayList<>();
         listaCV4.add(cv5);
 
-        /******************* Para cliente *********************/
+
 
         ArrayList<ClienteViagem> listaCV11 = new ArrayList<>();
         listaCV11.add(cv1);
@@ -144,7 +151,6 @@ public class Auxiliar {
         ArrayList<ClienteViagem> listaCV13 = new ArrayList<>();
         listaCV13.add(cv5);
 
-        /******************* Atribuições **********************/
 
         viagem1.setClienteViagem(listaCV1);
         viagem2.setClienteViagem(listaCV2);
@@ -155,7 +161,7 @@ public class Auxiliar {
         c2.setClienteViagem(listaCV12);
         c3.setClienteViagem(listaCV13);
 
-        /****************** Lista de Viagens *******************/
+
 
         ArrayList<Viagem> listaViagem1 = new ArrayList<>();
         listaViagem1.add(viagem1);
@@ -183,5 +189,6 @@ public class Auxiliar {
         clienteViagemRepository.save(cv5);
         agenciaRepository.save(agencia1);
         agenciaRepository.save(agencia2);
+        */
     }
 }

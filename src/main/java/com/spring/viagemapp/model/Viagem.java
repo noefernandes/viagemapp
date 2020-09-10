@@ -1,5 +1,7 @@
 package com.spring.viagemapp.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.List;
 
 import javax.persistence.*;
@@ -16,17 +18,19 @@ public class Viagem {
     private String localPartida;
     @NotBlank
     private String localChegada;
+    @NotBlank
+    private String horarioPartida;
+    @NotBlank
+    private String horarioChegada;
+    @NotBlank
+    private String data;
     private double preco;
-    private double capacidade;
-    private double avaliacao;
+    private int capacidade;
 
-    @ManyToOne(cascade={CascadeType.ALL})
+    @ManyToOne
+    @JsonIgnore
+    @JoinColumn(name = "agencia_id")
     private Agencia agencia;
-
-    //Adding in the cascade = {CascadeType.ALL} on the Parent's reference to the Child
-    // solved the problem in both cases. This saved the Child and the Parent.
-    @OneToMany(mappedBy = "viagem", cascade = CascadeType.ALL)
-    private List<ClienteViagem> clienteViagem;
 
     public Long getId() {
         return id;
@@ -52,6 +56,14 @@ public class Viagem {
         this.localChegada = localChegada;
     }
 
+    public String getData() {
+        return data;
+    }
+
+    public void setData(String data) {
+        this.data = data;
+    }
+
     public double getPreco() {
         return preco;
     }
@@ -60,20 +72,12 @@ public class Viagem {
         this.preco = preco;
     }
 
-    public double getCapacidade() {
+    public int getCapacidade() {
         return capacidade;
     }
 
-    public void setCapacidade(double capacidade) {
+    public void setCapacidade(int capacidade) {
         this.capacidade = capacidade;
-    }
-
-    public double getAvaliacao() {
-        return avaliacao;
-    }
-
-    public void setAvaliacao(double avaliacao) {
-        this.avaliacao = avaliacao;
     }
 
     public Agencia getAgencia() {
@@ -84,11 +88,19 @@ public class Viagem {
         this.agencia = agencia;
     }
 
-    public List<ClienteViagem> getClienteViagem() {
-        return clienteViagem;
+    public String getHorarioPartida() {
+        return horarioPartida;
     }
 
-    public void setClienteViagem(List<ClienteViagem> clienteViagem) {
-        this.clienteViagem = clienteViagem;
+    public void setHorarioPartida(String horarioPartida) {
+        this.horarioPartida = horarioPartida;
+    }
+
+    public String getHorarioChegada() {
+        return horarioChegada;
+    }
+
+    public void setHorarioChegada(String horarioChegada) {
+        this.horarioChegada = horarioChegada;
     }
 }

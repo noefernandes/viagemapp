@@ -3,14 +3,11 @@ package com.spring.viagemapp.model;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.util.List;
+import com.spring.viagemapp.model.Usuario;
 
 @Entity
 @Table(name="agencia")
-public class Agencia {
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_agencia")
-    @SequenceGenerator(name="seq_agencia", initialValue=1, allocationSize=1)
-    private Long id;
+public class Agencia extends Usuario {
     @NotBlank
     private String nome;
     @NotBlank
@@ -19,16 +16,9 @@ public class Agencia {
     private String cnpj;
     private double nota;
 
-    @OneToMany(cascade = {CascadeType.ALL})
+    @OneToMany(mappedBy = "agencia")
     private List<Viagem> viagens;
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getNome() {
         return nome;
