@@ -3,6 +3,7 @@ package com.spring.viagemapp.controller;
 import com.spring.viagemapp.model.Agencia;
 import com.spring.viagemapp.model.Cliente;
 import com.spring.viagemapp.model.Usuario;
+import com.spring.viagemapp.model.Viagem;
 import com.spring.viagemapp.service.ClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -29,7 +30,7 @@ public class ClienteController {
     ClienteService clienteService;
 
     @Transactional
-    @PostMapping(value = "/cadastrarCliente")
+    @PostMapping(value = "/cadastroCliente")
     public ResponseEntity<?> cadastrarCliente(@RequestBody @Valid Cliente cliente){
         if(clienteService.existsByNome(cliente.getNome())){
             return new ResponseEntity<>("O nome já existe", HttpStatus.FORBIDDEN);
@@ -46,18 +47,7 @@ public class ClienteController {
         return new ResponseEntity<Cliente>(clienteService.save(cliente), HttpStatus.CREATED);
     }
 
-    @PostMapping(value = "/loginCliente")
-    public ResponseEntity<?> realizarLogin(@RequestBody @Valid Usuario usuario){
-        Optional<Cliente> clienteOp = clienteService.findByNomeUsuario(usuario.getNomeUsuario());
 
-        if(!clienteOp.isPresent()){
-            return new ResponseEntity<>("O usuário não existe", HttpStatus.NOT_FOUND);
-        }else if(!clienteOp.get().getSenha().equals(getMd5(usuario.getSenha()))){
-            return new ResponseEntity<>("Senha incorreta", HttpStatus.UNAUTHORIZED);
-        }
-
-        return new ResponseEntity<Cliente>(clienteOp.get(), HttpStatus.OK);
-    }
 
     @RequestMapping(value = "/clientes", method = RequestMethod.GET)
     public ResponseEntity<?> getClientes(){
@@ -79,11 +69,17 @@ public class ClienteController {
        return new ResponseEntity<Cliente>(cliente.get(),HttpStatus.OK);
     }
 
-    @RequestMapping("clientes/delete/{id}")
-    public String deleteClienteById(@PathVariable long id,RedirectAttributes redirectAttrs){
-        clienteService.deleteById(id);
-        redirectAttrs.addFlashAttribute("message","Cliente excluído!");
-        return "redirect:/clientes";
+    @PostMapping(value = "/loginCliente")
+    public ResponseEntity<?> realizarLogein(@RequestBody @Valid Usuario usuario){
+        Optional<Cliente> cliente = clienteService.findByNomeUsuario(usuario.getNomeUsuario());
+
+        if(!cliente.isPresent()){
+            return new ResponseEntity<>("O usuário não existe", HttpStatus.NOT_FOUND);
+        }else if(!cliente.get().getSenha().equals(getMd5(usuario.getSenha()))){
+            return new ResponseEntity<>("Senha incorreta", HttpStatus.UNAUTHORIZED);
+        }
+
+        return new ResponseEntity<Cliente>(cliente.get(), HttpStatus.OK);
     }
 
 
