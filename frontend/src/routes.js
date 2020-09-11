@@ -8,6 +8,7 @@ import LoginCliente from './pages/LoginCliente';
 import LoginAgencia from './pages/LoginAgencia';
 import PerfilAgencia from './pages/PerfilAgencia';
 import CadastroViagem from './pages/CadastroViagem';
+import PerfilCliente from './pages/PerfilCliente';
 
 export default function Routes(){
     return (
@@ -20,6 +21,7 @@ export default function Routes(){
                 <Route path='/loginAgencia' exact component={LoginAgencia} />
                 <Route path='/perfilAgencia' exact component={PerfilAgencia} />
                 <Route path='/cadastroViagem' exact component={CadastroViagem} />
+                <Route path='/perfilCliente' exact component={PerfilCliente}/>
             </Switch>
         </BrowserRouter>
     );
