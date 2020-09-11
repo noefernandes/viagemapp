@@ -7,12 +7,7 @@ import javax.validation.constraints.NotBlank;
 
 @Entity
 @Table(name="cliente")
-public class Cliente {
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_cliente")
-    @SequenceGenerator(name="seq_cliente", initialValue=1, allocationSize=1)
-    private Long id;
-
+public class Cliente extends Usuario{
     @NotBlank
     private String nome;
 
@@ -26,14 +21,6 @@ public class Cliente {
     // the problem in both cases. This saved the Child and the Parent.
     @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL)
     private List<ClienteViagem> clienteViagem;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getNome() {
         return nome;

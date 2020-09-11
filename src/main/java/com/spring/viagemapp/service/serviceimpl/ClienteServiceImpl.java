@@ -1,12 +1,14 @@
 package com.spring.viagemapp.service.serviceimpl;
 
 import com.spring.viagemapp.model.Cliente;
+import com.spring.viagemapp.model.Viagem;
 import com.spring.viagemapp.repository.ClienteRepository;
 import com.spring.viagemapp.service.ClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ClienteServiceImpl implements ClienteService {
@@ -20,8 +22,8 @@ public class ClienteServiceImpl implements ClienteService {
     }
 
     @Override
-    public Cliente findById(long id) {
-        return clienteRepository.findById(id).get();
+    public Optional<Cliente> findById(long id) {
+        return clienteRepository.findById(id);
     }
 
     @Override
@@ -36,7 +38,17 @@ public class ClienteServiceImpl implements ClienteService {
 
 	@Override
     public void deleteById(long id) { clienteRepository.deleteById(id); }
+
+    @Override
+    public boolean existsByEmail(String email){return clienteRepository.existsByEmail(email);}
+
+    @Override
+    public boolean existsByNome(String nome){ return  clienteRepository.existsByNome(nome);}
+
+    @Override
+    public boolean existsByNomeUsuario(String nomeUsuario){return clienteRepository.existsByNomeUsuario(nomeUsuario);}
     
     @Override
-	public Cliente findByCpf(String cpf) { return clienteRepository.findByCpf(cpf); }
+	public Optional<Cliente> findByNomeUsuario(String nomeUsuario) { return clienteRepository.findByNomeUsuario(nomeUsuario); }
+
 }

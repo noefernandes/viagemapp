@@ -13,5 +13,6 @@ public interface AgenciaRepository extends JpaRepository<Agencia, Long> {
     boolean existsByNomeUsuario(String nomeUsuario);
     boolean existsByNome(String nome);
 
+
     Optional<Agencia> findByNomeUsuario(String nomeUsuario);
 }

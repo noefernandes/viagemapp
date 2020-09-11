@@ -2,6 +2,7 @@ package com.spring.viagemapp.controller;
 
 import com.spring.viagemapp.model.Agencia;
 import com.spring.viagemapp.model.Cliente;
+import com.spring.viagemapp.model.Usuario;
 import com.spring.viagemapp.service.ClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,57 +19,64 @@ import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
-@CrossOrigin(origins = "*", allowedHeaders = "*")
+import static com.spring.viagemapp.security.MD5.getMd5;
+
+@CrossOrigin(origins = "*")
 @RestController
+@RequestMapping(value="/")
 public class ClienteController {
     @Autowired
     ClienteService clienteService;
 
-    @RequestMapping(value = "/cadastrarCliente", method = RequestMethod.GET)
-    public String form(){
-        return "formCadastroCliente";
+    @Transactional
+    @PostMapping(value = "/cadastrarCliente")
+    public ResponseEntity<?> cadastrarCliente(@RequestBody @Valid Cliente cliente){
+        if(clienteService.existsByNome(cliente.getNome())){
+            return new ResponseEntity<>("O nome já existe", HttpStatus.FORBIDDEN);
+        }else if(clienteService.existsByCpf(cliente.getCpf())) {
+            return new ResponseEntity<>("O CPF já existe", HttpStatus.FORBIDDEN);
+        }else if(clienteService.existsByEmail(cliente.getEmail())){
+            return new ResponseEntity<>("O E-mail já existe", HttpStatus.FORBIDDEN);
+        }else if(clienteService.existsByNomeUsuario(cliente.getNomeUsuario())){
+            return new ResponseEntity<>("O nome de usuário já existe", HttpStatus.FORBIDDEN);
+        }
+
+
+        cliente.setSenha(getMd5(cliente.getSenha()));
+        return new ResponseEntity<Cliente>(clienteService.save(cliente), HttpStatus.CREATED);
     }
 
-    @Transactional
-    @RequestMapping(value = "/cadastrarCliente", method = RequestMethod.POST)
-    public String cadastrarCliente(Cliente cliente){
-        if(clienteService.existsByCpf(cliente.getCpf())) {
-            System.err.println("O cliente já existe!");
-        }else{
-            clienteService.save(cliente);
+    @PostMapping(value = "/loginCliente")
+    public ResponseEntity<?> realizarLogin(@RequestBody @Valid Usuario usuario){
+        Optional<Cliente> clienteOp = clienteService.findByNomeUsuario(usuario.getNomeUsuario());
+
+        if(!clienteOp.isPresent()){
+            return new ResponseEntity<>("O usuário não existe", HttpStatus.NOT_FOUND);
+        }else if(!clienteOp.get().getSenha().equals(getMd5(usuario.getSenha()))){
+            return new ResponseEntity<>("Senha incorreta", HttpStatus.UNAUTHORIZED);
         }
-        return "redirect:/cadastrarCliente";
+
+        return new ResponseEntity<Cliente>(clienteOp.get(), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/clientes", method = RequestMethod.GET)
-    public List<Cliente> getClientes(){
-        //return clienteService.findAll();
+    public ResponseEntity<?> getClientes(){
+        List<Cliente> clientes =  clienteService.findAll();
+        if(clientes.isEmpty()){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
 
-        ModelAndView mv = new ModelAndView("clientes");
-        List<Cliente> clientes = clienteService.findAll();
-        mv.addObject("clientes", clientes);
-        return mv;
+        return new ResponseEntity<List<Cliente>>(clientes, HttpStatus.OK);
     }
 
-    @RequestMapping(value="/clientes/findById/{id}", method=RequestMethod.GET)
-    public Cliente getPostClienteDetails(@PathVariable("id") long id){
-        return clienteService.findById(id);
-        /*
-        ModelAndView mv = new ModelAndView("clienteDetails");
-        Cliente clientes = clienteService.findById(id);
-        mv.addObject("cliente", clientes);
-        return mv;*/
-    }
+    @RequestMapping(value="/clientes/{id}", method=RequestMethod.GET)
+    public ResponseEntity<?> getPostClienteDetails(@PathVariable("id") long id){
+       Optional<Cliente> cliente = clienteService.findById(id);
+       if(!cliente.isPresent()){
+           return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+       }
 
-    @RequestMapping(value="/clientes/findByCpf/{cpf}", method=RequestMethod.GET)
-    public Cliente getClienteDetails(@PathVariable("cpf") String cpf){
-        Optional<Cliente> cliente;
-        return clienteService.findByCpf(cpf);
-        /*
-        ModelAndView mv = new ModelAndView("clienteDetails");
-        Cliente clientes = clienteService.findById(id);
-        mv.addObject("cliente", clientes);
-        return mv;*/
+       return new ResponseEntity<Cliente>(cliente.get(),HttpStatus.OK);
     }
 
     @RequestMapping("clientes/delete/{id}")
@@ -86,6 +94,7 @@ public class ClienteController {
         redirectAttrs.addFlashAttribute("message","Cliente excluído!");
         return "redirect:/clientes/{id}";
     }
+
 
 
 
