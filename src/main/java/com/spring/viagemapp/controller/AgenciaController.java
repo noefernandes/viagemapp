@@ -1,6 +1,8 @@
 package com.spring.viagemapp.controller;
 
+import com.spring.viagemapp.error.*;
 import com.spring.viagemapp.model.Agencia;
+import com.spring.viagemapp.model.Cliente;
 import com.spring.viagemapp.model.Usuario;
 import com.spring.viagemapp.model.Viagem;
 import com.spring.viagemapp.service.AgenciaService;
@@ -25,22 +27,22 @@ public class AgenciaController {
     @Autowired
     AgenciaService agenciaService;
 
-    @Transactional
     @PostMapping(value = "/cadastroAgencia")
     public ResponseEntity<?> cadastrarAgencia(@RequestBody @Valid Agencia agencia){
-
-        if(agenciaService.existsByNome(agencia.getNome())){
-            return new ResponseEntity<>("O nome já existe", HttpStatus.FORBIDDEN);
-        }else if(agenciaService.existsByCnpj(agencia.getCnpj())) {
-            return new ResponseEntity<>("O CNPJ já existe", HttpStatus.FORBIDDEN);
-        }else if(agenciaService.existsByEmail(agencia.getEmail())){
-            return new ResponseEntity<>("O E-mail já existe", HttpStatus.FORBIDDEN);
-        }else if(agenciaService.existsByNomeUsuario(agencia.getNomeUsuario())){
-            return new ResponseEntity<>("O nome de usuário já existe", HttpStatus.FORBIDDEN);
+        Agencia temp = new Agencia();
+        try{
+        temp = agenciaService.save(agencia);
+        }catch(RepeatedNameException e){
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.FORBIDDEN);
+        }catch(RepeatedCnpjException e){
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.FORBIDDEN);
+        }catch(RepeatedEmailException e){
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.FORBIDDEN);
+        }catch(RepeteadUsernameException e){
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.FORBIDDEN);
         }
 
-        agencia.setSenha(getMd5(agencia.getSenha()));
-        return new ResponseEntity<Agencia>(agenciaService.save(agencia), HttpStatus.CREATED);
+        return new ResponseEntity<Agencia>(temp, HttpStatus.CREATED);
     }
 
     @PostMapping(value = "/loginAgencia")

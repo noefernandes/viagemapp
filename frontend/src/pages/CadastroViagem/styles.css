@@ -53,3 +53,13 @@
 
     margin-bottom: 80px;
 }
+
+.container-cadastro-viagem form.form-cadastro-viagem div.tags{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.container-cadastro-viagem form.form-cadastro-viagem div.tags input{
+    width: 630px;
+}

@@ -19,6 +19,7 @@ export default function CadastroViagem(){
     const [data, setData] = useState('');
     const [preco, setPreco] = useState();
     const [capacidade, setCapacidade] = useState();
+    const [tags, setTags] = useState('');
     
     const history = useHistory();
 
@@ -123,6 +124,16 @@ export default function CadastroViagem(){
                         placeholder='Capacidade' 
                         value={capacidade}
                         onChange={e => setCapacidade(e.target.value)}
+                    />
+                </div>
+
+                <h2 style={{marginBottom: 30}}>Insira as ofertas de sua viagem (separe com ";")</h2>
+                <div className="tags">
+                    <input 
+                        type='text'
+                        placeholder='Tags' 
+                        value={tags}
+                        onChange={e => setTags(e.target.value)}
                     />
                 </div>
 
