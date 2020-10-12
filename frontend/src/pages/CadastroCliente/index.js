@@ -14,7 +14,7 @@ export default function CadastroCliente(){
     const [email, setEmail] = useState('');
     const [nomeUsuario, setNomeUsuario] = useState('');
     const [senha, setSenha] = useState('');
-    const [tags, setTags] = useState('');
+    const [tagString, setTags] = useState('');
 
     const history = useHistory();
 
@@ -22,16 +22,20 @@ export default function CadastroCliente(){
         e.preventDefault();
 
         const data = {
-            nome,
-            cpf,
-            email,
-            nomeUsuario,
-            senha
+        	cliente:{
+            	nome,
+            	cpf,
+            	email,
+            	nomeUsuario,
+            	senha,
+            },
+            	tagString
         }
 
+	
         try{
             //Manda a requisição
-            const response = await api.post('cadastroCliente', [data, tags]);
+            const response = await api.post('cadastrarCliente', data);
 
             if(response.status === 200){
                 alert('Usuario cadastrado com sucesso!');
@@ -102,7 +106,7 @@ export default function CadastroCliente(){
                         <input 
                             type='text'
                             placeholder='Tags' 
-                            value={tags}
+                            value={tagString}
                             onChange={e => setTags(e.target.value)}
                         />
                     </div>

@@ -7,10 +7,14 @@ import com.spring.viagemapp.error.RepeteadUsernameException;
 import com.spring.viagemapp.model.Cliente;
 import com.spring.viagemapp.repository.ClienteRepository;
 import com.spring.viagemapp.service.ClienteService;
+import com.spring.viagemapp.utils.ClienteTags;
+import com.spring.viagemapp.utils.ViagemTags;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -35,19 +39,29 @@ public class ClienteServiceImpl implements ClienteService {
 
     @Override
     @Transactional(readOnly = false)
-    public Cliente save(Cliente cliente) {
-        if(clienteRepository.existsByNome(cliente.getNome())){
+    public Cliente save(ClienteTags clienteTags) {
+        if(clienteRepository.existsByNome(clienteTags.cliente.getNome())){
             throw new RepeatedNameException("O nome já existe");
-        }else if(clienteRepository.existsByCpf(cliente.getCpf())) {
+        }else if(clienteRepository.existsByCpf(clienteTags.cliente.getCpf())) {
             throw new RepeatedCpfException("O CNPJ já existe");
-        }else if(clienteRepository.existsByEmail(cliente.getEmail())){
+        }else if(clienteRepository.existsByEmail(clienteTags.cliente.getEmail())){
             throw new RepeatedEmailException("O E-mail já existe");
-        }else if(clienteRepository.existsByNomeUsuario(cliente.getNomeUsuario())){
+        }else if(clienteRepository.existsByNomeUsuario(clienteTags.cliente.getNomeUsuario())){
             throw new RepeteadUsernameException("O nome de usuário já existe");
         }
 
-        cliente.setSenha(getMd5(cliente.getSenha()));
-        return clienteRepository.save(cliente);
+        System.out.print("Nome do cliente: " + clienteTags.cliente.getNome()
+        +"\nCPF do cliente: " +  clienteTags.cliente.getCpf()
+        +"\nEmail do cliente: " +  clienteTags.cliente.getEmail()
+        +"\nNome de usuario: " +  clienteTags.cliente.getNomeUsuario()
+        +"\nSenha: " +  clienteTags.cliente.getSenha()
+        +"\nTags registradas: " + clienteTags.tagString);
+
+        List<String> tags = Arrays.asList(clienteTags.tagString.split(";"));
+        clienteTags.cliente.setTags(tags);
+        
+        clienteTags.cliente.setSenha(getMd5(clienteTags.cliente.getSenha()));
+        return clienteRepository.save(clienteTags.cliente);
     }
 
     @Override
@@ -71,4 +85,14 @@ public class ClienteServiceImpl implements ClienteService {
     @Override
 	public Optional<Cliente> findByNomeUsuario(String nomeUsuario) { return clienteRepository.findByNomeUsuario(nomeUsuario); }
 
+    public boolean addNewTags(long id, ClienteTags clienteTags){
+        if(findById(id).isPresent()) {
+            List<String> tags = Arrays.asList(clienteTags.tagString.split(";"));
+            clienteTags.cliente.addTags(tags);
+            return true;
+        }
+        return false;
+
+    }
+    
 }
