@@ -24,6 +24,10 @@ public class Viagem {
     private String horarioChegada;
     @NotBlank
     private String data;
+
+    @NotBlank
+    private List<String> tags;
+
     private double preco;
     private int capacidade;
 
@@ -31,6 +35,8 @@ public class Viagem {
     @JsonIgnore
     @JoinColumn(name = "agencia_id")
     private Agencia agencia;
+
+
 
     public Long getId() {
         return id;
@@ -55,6 +61,12 @@ public class Viagem {
     public void setLocalChegada(String localChegada) {
         this.localChegada = localChegada;
     }
+
+    public List<String> getTags(){ return tags;}
+
+    public void setTags(List<String> tags){ this.tags = tags; }
+
+    public void addTags(List<String> tags){ this.tags.addAll((tags)); }
 
     public String getData() {
         return data;

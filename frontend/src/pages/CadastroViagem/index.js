@@ -25,22 +25,23 @@ export default function CadastroViagem(){
 
     async function handleCadastroViagem(e){
         e.preventDefault();
-        
-        const viagem = {
-            localPartida,
-            localChegada,
-            data,
-            horarioPartida,
-            horarioChegada,
-            preco,
-            capacidade
-        }
+
+         const viagem = {
+                localPartida,
+                localChegada,
+                data,
+                horarioPartida,
+                horarioChegada,
+                preco,
+                capacidade
+            };
+        const tag = tags;
 
         const idUsuario = localStorage.getItem('idUsuario');
 
 
         try{
-            const response = await api.post(`/viagens/${idUsuario}`, viagem, idUsuario);
+            const response = await api.post(`/viagens/${idUsuario}`, [viagem,tag], idUsuario,tag);
             history.push('PerfilAgencia'); 
 
         }catch(err){
