@@ -50,13 +50,6 @@ public class ClienteServiceImpl implements ClienteService {
             throw new RepeteadUsernameException("O nome de usuário já existe");
         }
 
-        System.out.print("Nome do cliente: " + clienteTags.cliente.getNome()
-        +"\nCPF do cliente: " +  clienteTags.cliente.getCpf()
-        +"\nEmail do cliente: " +  clienteTags.cliente.getEmail()
-        +"\nNome de usuario: " +  clienteTags.cliente.getNomeUsuario()
-        +"\nSenha: " +  clienteTags.cliente.getSenha()
-        +"\nTags registradas: " + clienteTags.tagString);
-
         List<String> tags = Arrays.asList(clienteTags.tagString.split(";"));
         clienteTags.cliente.setTags(tags);
         
