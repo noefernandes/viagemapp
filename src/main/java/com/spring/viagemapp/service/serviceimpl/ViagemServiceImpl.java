@@ -32,7 +32,7 @@ public class ViagemServiceImpl implements ViagemService {
 
     @Override
     public Viagem save(ViagemTags viagemtags) {
-        List<String> tags = Arrays.asList(viagemtags.tags.split(";"));
+        List<String> tags = Arrays.asList(viagemtags.tagString.split(";"));
         viagemtags.viagem.setTags(tags);
         return viagemRepository.save(viagemtags.viagem);
     }
@@ -44,7 +44,7 @@ public class ViagemServiceImpl implements ViagemService {
 
 	public boolean addNewTags(long id, ViagemTags viagemtags){
         if(findById(id).isPresent()) {
-            List<String> tags = Arrays.asList(viagemtags.tags.split(";"));
+            List<String> tags = Arrays.asList(viagemtags.tagString.split(";"));
             viagemtags.viagem.addTags(tags);
             return true;
         }
