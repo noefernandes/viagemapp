@@ -27,7 +27,7 @@ import static com.spring.viagemapp.security.MD5.getMd5;
 public class ClienteController {
     @Autowired
     ClienteService clienteService;
-    
+
     @PostMapping(value = "/cadastrarCliente")
     public ResponseEntity<?> cadastrarCliente(@RequestBody @Valid Cliente cliente){
         if(clienteService.existsByNome(cliente.getNome())){
