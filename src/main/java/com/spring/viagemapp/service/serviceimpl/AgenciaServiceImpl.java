@@ -1,13 +1,13 @@
 package com.spring.viagemapp.service.serviceimpl;
 
-import com.spring.viagemapp.error.RepeatedCpfException;
-import com.spring.viagemapp.error.RepeatedEmailException;
-import com.spring.viagemapp.error.RepeatedNameException;
-import com.spring.viagemapp.error.RepeteadUsernameException;
+import com.spring.viagemapp.error.*;
 import com.spring.viagemapp.model.Agencia;
+import com.spring.viagemapp.model.Usuario;
 import com.spring.viagemapp.repository.AgenciaRepository;
 import com.spring.viagemapp.service.AgenciaService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,12 +25,21 @@ public class AgenciaServiceImpl implements AgenciaService {
 
     @Override
     public List<Agencia> findAll() {
-        return agenciaRepository.findAll();
+        List<Agencia> agencias = agenciaRepository.findAll();
+        if(agencias.isEmpty()){
+            throw new NotFoundAgenciaException("Agências não encontradas");
+        }
+        return agencias;
     }
 
     @Override
     public Optional<Agencia> findById(long id) {
-        return agenciaRepository.findById(id);
+        Optional<Agencia> agencia = agenciaRepository.findById(id);
+        if(!agencia.isPresent()){
+            throw new NotFoundAgenciaException("Agência não encontrada");
+        }
+
+        return agencia;
     }
 
     @Override
@@ -73,6 +82,18 @@ public class AgenciaServiceImpl implements AgenciaService {
     @Override
     public Optional<Agencia> findByNomeUsuario(String nomeUsuario) {
         return agenciaRepository.findByNomeUsuario(nomeUsuario);
+    }
+
+    @Override
+    public Optional<Agencia> checkLogin(Usuario usuario) {
+        Optional<Agencia> agenciaOp = agenciaRepository.findByNomeUsuario(Usuario.getNomeUsuario());
+
+        if (!agenciaOp.isPresent()) {
+            throw  new NotFoundLoginException("O usuário não existe");
+        } else if (!agenciaOp.get().getSenha().equals(getMd5(usuario.getSenha()))) {
+            throw new WrongPasswordException("Senha incorreta");
+        }
+        return agenciaOp;
     }
 
     @Override

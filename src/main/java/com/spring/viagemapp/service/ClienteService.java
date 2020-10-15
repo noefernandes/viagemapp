@@ -3,6 +3,7 @@ package com.spring.viagemapp.service;
 
 import com.spring.viagemapp.model.Agencia;
 import com.spring.viagemapp.model.Cliente;
+import com.spring.viagemapp.model.Usuario;
 import com.spring.viagemapp.model.Viagem;
 import com.spring.viagemapp.utils.ClienteTags;
 
@@ -21,5 +22,7 @@ public interface ClienteService {
     boolean addNewTags(long id, ClienteTags clienteTags);
 
     Optional<Cliente> findByNomeUsuario(String nomeUsuario);
+    Optional<Cliente> checkLogin(Usuario usuario);
 
-}
+
+    }

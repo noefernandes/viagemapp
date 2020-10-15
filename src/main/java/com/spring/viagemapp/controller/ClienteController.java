@@ -1,5 +1,8 @@
 package com.spring.viagemapp.controller;
 
+import com.spring.viagemapp.error.NotFoundClienteException;
+import com.spring.viagemapp.error.NotFoundLoginException;
+import com.spring.viagemapp.error.WrongPasswordException;
 import com.spring.viagemapp.model.Agencia;
 import com.spring.viagemapp.model.Cliente;
 import com.spring.viagemapp.model.Usuario;
@@ -42,7 +45,7 @@ public class ClienteController {
         return new ResponseEntity<Cliente>(clienteService.save(clienteTags), HttpStatus.CREATED);
     }
 
-    @PostMapping(value = "/loginCliente")
+    /*@PostMapping(value = "/loginCliente")
     public ResponseEntity<?> realizarLogin(@RequestBody @Valid Usuario usuario){
         Optional<Cliente> clienteOp = clienteService.findByNomeUsuario(usuario.getNomeUsuario());
 
@@ -73,7 +76,46 @@ public class ClienteController {
        }
 
        return new ResponseEntity<Cliente>(cliente.get(),HttpStatus.OK);
+    }*/
+
+    @PostMapping(value = "/loginCliente")
+    public ResponseEntity<?> realizarLogin(@RequestBody @Valid Usuario usuario){
+        Optional<Cliente> temp = new Optional<Cliente>();
+        try{
+            temp = clienteService.checkLogin(usuario);
+        }catch(NotFoundLoginException e){
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        }catch(WrongPasswordException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.FORBIDDEN);
+        }
+        return new ResponseEntity<Cliente>(temp.get(), HttpStatus.OK);
     }
+
+
+    @RequestMapping(value = "/clientes", method = RequestMethod.GET)
+    public ResponseEntity<?> getClientes(){
+        List<Cliente> clientes =  new List<Cliente>() {
+        try{
+                clientes = clienteService.findAll();
+            }catch(
+            NotFoundClienteException e){
+                return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+            }
+
+        return new ResponseEntity<List<Cliente>>(clientes, HttpStatus.OK);
+        }
+
+        @RequestMapping(value="/clientes/{id}", method=RequestMethod.GET)
+        public ResponseEntity<?> getPostClienteDetails(@PathVariable("id") long id){
+            Optional<Cliente> cliente = new Optional<Cliente>();
+            try{
+                cliente = clienteService.findById(id);
+            }catch (NotFoundClienteException e){
+                return ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+            }
+
+            return new ResponseEntity<Cliente>(cliente.get(),HttpStatus.OK);
+        }
     
     @PostMapping("clientes/{id}/tag")
     public ResponseEntity<?> cadastrarTags(@RequestBody ClienteTags clienteTags, @PathVariable long id){

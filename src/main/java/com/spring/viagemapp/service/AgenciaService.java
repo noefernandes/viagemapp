@@ -1,6 +1,7 @@
 package com.spring.viagemapp.service;
 
 import com.spring.viagemapp.model.Agencia;
+import com.spring.viagemapp.model.Usuario;
 
 import java.util.List;
 import java.util.Optional;
@@ -16,4 +17,5 @@ public interface AgenciaService {
     boolean existsByNome(String nome);
 
     Optional<Agencia> findByNomeUsuario(String nomeUsuario);
+    Optional<Agencia> checkLogin(Usuario usuario);
 }

@@ -1,15 +1,16 @@
 package com.spring.viagemapp.service.serviceimpl;
 
-import com.spring.viagemapp.error.RepeatedCpfException;
-import com.spring.viagemapp.error.RepeatedEmailException;
-import com.spring.viagemapp.error.RepeatedNameException;
-import com.spring.viagemapp.error.RepeteadUsernameException;
+import com.spring.viagemapp.error.*;
+import com.spring.viagemapp.model.Agencia;
 import com.spring.viagemapp.model.Cliente;
+import com.spring.viagemapp.model.Usuario;
 import com.spring.viagemapp.repository.ClienteRepository;
 import com.spring.viagemapp.service.ClienteService;
 import com.spring.viagemapp.utils.ClienteTags;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,12 +29,21 @@ public class ClienteServiceImpl implements ClienteService {
 
     @Override
     public List<Cliente> findAll() {
-        return clienteRepository.findAll();
+        List<Cliente> clientes = clienteRepository.findAll();
+        if(clientes.isEmpty()) {
+            throw new NotFoundClienteException("Clientes não encontrados");
+        }
+        return clientes;
     }
 
     @Override
     public Optional<Cliente> findById(long id) {
-        return clienteRepository.findById(id);
+        Optional<Cliente> cliente = clienteRepository.findById(id);
+        if(!cliente.isPresent()){
+            throw  new NotFoundClienteException("Cliente não encontrado");
+        }
+
+        return cliente;
     }
 
     @Override
@@ -54,6 +64,18 @@ public class ClienteServiceImpl implements ClienteService {
         
         clienteTags.cliente.setSenha(getMd5(clienteTags.cliente.getSenha()));
         return clienteRepository.save(clienteTags.cliente);
+    }
+
+    @Override
+    public Optional<Cliente> checkLogin(Usuario usuario) {
+        Optional<Cliente> clienteOp = clienteRepository.findByNomeUsuario(Usuario.getNomeUsuario());
+
+        if (!clienteOp.isPresent()) {
+            throw  new NotFoundLoginException("O usuário não existe");
+        } else if (!clienteOp.get().getSenha().equals(getMd5(usuario.getSenha()))) {
+            throw new WrongPasswordException("Senha incorreta");
+        }
+        return clienteOp;
     }
 
     @Override
