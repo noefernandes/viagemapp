@@ -25,7 +25,7 @@ public class Viagem {
     @NotBlank
     private String data;
 
-    @NotBlank
+    @ElementCollection
     private List<String> tags;
 
     private double preco;

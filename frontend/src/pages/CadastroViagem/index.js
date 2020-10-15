@@ -35,13 +35,12 @@ export default function CadastroViagem(){
                 preco,
                 capacidade
             };
-        const tag = tags;
 
         const idUsuario = localStorage.getItem('idUsuario');
 
 
         try{
-            const response = await api.post(`/viagens/${idUsuario}`, [viagem,tag], idUsuario,tag);
+            const response = await api.post(`/viagens/${idUsuario}`, [viagem,tags], idUsuario,tags);
             history.push('PerfilAgencia'); 
 
         }catch(err){

@@ -16,6 +16,9 @@ public class Cliente extends Usuario{
 
     @NotBlank
     private String email;
+    
+    @ElementCollection
+    private List<String> tags;
 
     //Adding in the cascade = {CascadeType.ALL} on the Parent's reference to the Child solved
     // the problem in both cases. This saved the Child and the Parent.
@@ -46,11 +49,25 @@ public class Cliente extends Usuario{
         this.email = email;
     }
 
-    public List<ClienteViagem> getClienteViagem() {
+    public List<String> getTags() {
+		return tags;
+	}
+
+	public void setTags(List<String> tagsCliente) {
+		this.tags = tagsCliente;
+	}
+	
+	public void addTags(List<String> tagsCliente)
+    {
+    	this.tags.addAll((tagsCliente)); 
+    }
+
+	public List<ClienteViagem> getClienteViagem() {
         return clienteViagem;
     }
 
     public void setClienteViagem(List<ClienteViagem> clienteViagem) {
         this.clienteViagem = clienteViagem;
     }
+    
 }
