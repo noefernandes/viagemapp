@@ -17,5 +17,5 @@ public interface AgenciaService {
     boolean existsByNome(String nome);
 
     Optional<Agencia> findByNomeUsuario(String nomeUsuario);
-    Optional<Agencia> checkLogin(Usuario usuario);
+    Agencia checkLogin(Usuario usuario);
 }

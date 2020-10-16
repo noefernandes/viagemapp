@@ -13,9 +13,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -80,7 +80,7 @@ public class ClienteController {
 
     @PostMapping(value = "/loginCliente")
     public ResponseEntity<?> realizarLogin(@RequestBody @Valid Usuario usuario){
-        Optional<Cliente> temp = new Optional<Cliente>();
+        Cliente temp = new Cliente();
         try{
             temp = clienteService.checkLogin(usuario);
         }catch(NotFoundLoginException e){
@@ -88,60 +88,42 @@ public class ClienteController {
         }catch(WrongPasswordException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.FORBIDDEN);
         }
-        return new ResponseEntity<Cliente>(temp.get(), HttpStatus.OK);
+        return new ResponseEntity<Cliente>(temp, HttpStatus.OK);
     }
 
 
     @RequestMapping(value = "/clientes", method = RequestMethod.GET)
     public ResponseEntity<?> getClientes(){
-        List<Cliente> clientes =  new List<Cliente>() {
+        List<Cliente> clientes =  new ArrayList<Cliente>();
         try{
-                clientes = clienteService.findAll();
-            }catch(
-            NotFoundClienteException e){
-                return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
-            }
-
-        return new ResponseEntity<List<Cliente>>(clientes, HttpStatus.OK);
+            clientes = clienteService.findAll();
+        }catch(NotFoundClienteException e){
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }
 
-        @RequestMapping(value="/clientes/{id}", method=RequestMethod.GET)
-        public ResponseEntity<?> getPostClienteDetails(@PathVariable("id") long id){
-            Optional<Cliente> cliente = new Optional<Cliente>();
-            try{
-                cliente = clienteService.findById(id);
-            }catch (NotFoundClienteException e){
-                return ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
-            }
+        return new ResponseEntity<>(clientes, HttpStatus.OK);
+    }
 
-            return new ResponseEntity<Cliente>(cliente.get(),HttpStatus.OK);
+    @RequestMapping(value="/clientes/{id}", method=RequestMethod.GET)
+    public ResponseEntity<?> getPostClienteDetails(@PathVariable("id") long id){
+        Optional<Cliente> cliente;
+        try{
+            cliente = clienteService.findById(id);
+        }catch (NotFoundClienteException e){
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }
+
+        return new ResponseEntity<>(cliente.get(),HttpStatus.OK);
+    }
     
-    @PostMapping("clientes/{id}/tag")
+    /*@PostMapping("clientes/{id}/tag")
     public ResponseEntity<?> cadastrarTags(@RequestBody ClienteTags clienteTags, @PathVariable long id){
         if(clienteService.addNewTags(id,clienteTags)){
             return new ResponseEntity<Agencia>(HttpStatus.OK);
         }
         return new ResponseEntity<>("O cliente com ID" + id + "não existe",HttpStatus.NOT_FOUND);
     }
-
-    @RequestMapping("clientes/delete/{id}")
-    public String deleteClienteById(@PathVariable long id,RedirectAttributes redirectAttrs){
-        clienteService.deleteById(id);
-        redirectAttrs.addFlashAttribute("message","Cliente excluído!");
-        return "redirect:/clientes";
-    }
-
-
-    @PutMapping(value="clientes/{id}")
-    public String updateCliente(@PathVariable("id") long id, @Valid ClienteTags clienteTags, RedirectAttributes redirectAttrs) {
-
-        clienteService.save(clienteTags);
-        redirectAttrs.addFlashAttribute("message","Cliente excluído!");
-        return "redirect:/clientes/{id}";
-    }
-
-
+     */
 
 
 

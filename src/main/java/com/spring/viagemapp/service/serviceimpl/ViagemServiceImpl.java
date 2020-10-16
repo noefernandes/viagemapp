@@ -3,6 +3,7 @@ package com.spring.viagemapp.service.serviceimpl;
 import com.spring.viagemapp.model.Viagem;
 import com.spring.viagemapp.repository.ViagemRepository;
 import com.spring.viagemapp.service.ViagemService;
+import com.spring.viagemapp.utils.ViagemTags;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,11 +27,10 @@ public class ViagemServiceImpl implements ViagemService {
         return viagemRepository.findById(id);
     }
 
-    @Override
-    public Viagem save(ViagemTags viagemtags) {
-        List<String> tags = Arrays.asList(viagemtags.tagString.split(";"));
-        viagemtags.viagem.setTags(tags);
-        return viagemRepository.save(viagemtags.viagem);
+    public Viagem save(ViagemTags viagemTags) {
+        List<String> tags = Arrays.asList(viagemTags.tagString.split(";"));
+        viagemTags.viagem.setTags(tags);
+        return viagemRepository.save(viagemTags.viagem);
     }
 
 	@Override

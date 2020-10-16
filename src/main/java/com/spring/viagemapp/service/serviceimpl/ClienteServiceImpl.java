@@ -67,15 +67,15 @@ public class ClienteServiceImpl implements ClienteService {
     }
 
     @Override
-    public Optional<Cliente> checkLogin(Usuario usuario) {
-        Optional<Cliente> clienteOp = clienteRepository.findByNomeUsuario(Usuario.getNomeUsuario());
+    public Cliente checkLogin(Usuario usuario) {
+        Optional<Cliente> clienteOp = clienteRepository.findByNomeUsuario(usuario.getNomeUsuario());
 
         if (!clienteOp.isPresent()) {
-            throw  new NotFoundLoginException("O usuário não existe");
+            throw new NotFoundLoginException("O usuário não existe");
         } else if (!clienteOp.get().getSenha().equals(getMd5(usuario.getSenha()))) {
             throw new WrongPasswordException("Senha incorreta");
         }
-        return clienteOp;
+        return clienteOp.get();
     }
 
     @Override

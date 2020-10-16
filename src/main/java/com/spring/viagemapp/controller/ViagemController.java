@@ -5,6 +5,7 @@ import com.spring.viagemapp.model.Viagem;
 import com.spring.viagemapp.service.AgenciaService;
 import com.spring.viagemapp.service.ClienteService;
 import com.spring.viagemapp.service.ViagemService;
+import com.spring.viagemapp.utils.ViagemTags;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,24 +37,32 @@ public class ViagemController {
     }
 
     @PostMapping("/viagens/{id}")
-    public ResponseEntity<?> cadastrarViagem(@RequestBody ViagemTags viagemtags, @PathVariable long id){
+    public ResponseEntity<?> cadastrarViagem(@RequestBody ViagemTags viagemTags, @PathVariable long id){
         if(agenciaService.findById(id).isPresent()) {
             Agencia agencia = agenciaService.findById(id).get();
-            viagemtags.viagem.setAgencia(agencia);
-            viagemService.save(viagemtags);
+            viagemTags.viagem.setAgencia(agencia);
+            viagemService.save(viagemTags);
             return new ResponseEntity<Agencia>(HttpStatus.OK);
         }
 
         return new ResponseEntity<>("A agência com ID " + id + " não existe", HttpStatus.NOT_FOUND);
+
+        /*
+
+        try{
+            viagemService.cadastrarViagem()
+        }*/
+
     }
 
-    @PostMapping("viagens/{id}/tag")
+   /* @PostMapping("viagens/{id}/tag")
     public ResponseEntity<?> cadastrarTags(@RequestBody ViagemTags viagemtags, @PathVariable long id){
         if(viagemService.addNewTags(id,viagemtags)){
             return new ResponseEntity<Agencia>(HttpStatus.OK);
         }
         return new ResponseEntity<>("A viagem com ID" + id + "não existe",HttpStatus.NOT_FOUND);
     }
+    */
 
     @DeleteMapping("/viagens/{id}")
     public ResponseEntity<?> deletarViagem(@PathVariable long id){

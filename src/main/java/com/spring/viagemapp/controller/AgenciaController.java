@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -60,7 +61,7 @@ public class AgenciaController {
 
     @PostMapping(value = "/loginAgencia")
     public ResponseEntity<?> realizarLogin(@RequestBody @Valid Usuario usuario){
-        Optional<Agencia> temp = new Optional<Agencia>();
+        Agencia temp = new Agencia();
 
         try{
             temp = agenciaService.checkLogin(usuario);
@@ -69,13 +70,13 @@ public class AgenciaController {
         }catch(WrongPasswordException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.FORBIDDEN);
         }
-        return new ResponseEntity<Agencia>(temp.get(), HttpStatus.OK);
+        return new ResponseEntity<Agencia>(temp, HttpStatus.OK);
 
     }
 
     @GetMapping("/agencias")
     public ResponseEntity<?> getAgencias(){
-        List<Agencia> listaAgencias = new List<Agencia>();
+        List<Agencia> listaAgencias = new ArrayList<Agencia>();
         try {
             listaAgencias = agenciaService.findAll();
         }catch (NotFoundAgenciaException e){
@@ -86,7 +87,7 @@ public class AgenciaController {
 
     @GetMapping("/agencias/{id}")
     public ResponseEntity<?> getOneAgencia(@PathVariable("id") long id){
-        Optional<Agencia> agenciaOp = new Optional<Agencia>();
+        Optional<Agencia> agenciaOp;
         try{
             agenciaOp = agenciaService.findById(id);
         }catch (NotFoundAgenciaException e){
