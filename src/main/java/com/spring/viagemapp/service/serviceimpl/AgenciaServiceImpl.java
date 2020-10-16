@@ -85,15 +85,15 @@ public class AgenciaServiceImpl implements AgenciaService {
     }
 
     @Override
-    public Optional<Agencia> checkLogin(Usuario usuario) {
-        Optional<Agencia> agenciaOp = agenciaRepository.findByNomeUsuario(Usuario.getNomeUsuario());
+    public Agencia checkLogin(Usuario usuario) {
+        Optional<Agencia> agenciaOp = agenciaRepository.findByNomeUsuario(usuario.getNomeUsuario());
 
         if (!agenciaOp.isPresent()) {
             throw  new NotFoundLoginException("O usuário não existe");
         } else if (!agenciaOp.get().getSenha().equals(getMd5(usuario.getSenha()))) {
             throw new WrongPasswordException("Senha incorreta");
         }
-        return agenciaOp;
+        return agenciaOp.get();
     }
 
     @Override

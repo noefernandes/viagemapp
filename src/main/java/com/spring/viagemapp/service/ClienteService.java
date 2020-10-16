@@ -22,7 +22,7 @@ public interface ClienteService {
     boolean addNewTags(long id, ClienteTags clienteTags);
 
     Optional<Cliente> findByNomeUsuario(String nomeUsuario);
-    Optional<Cliente> checkLogin(Usuario usuario);
+    Cliente checkLogin(Usuario usuario);
 
 
     }
