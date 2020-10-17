@@ -43,8 +43,6 @@ export default function CadastroViagem(){
 
 
         try{
-        	console.log(idUsuario);
-        	
             const response = await api.post(`/${idUsuario}/cadastrarViagem`, viagem, idUsuario,tagString);
             history.push('PerfilAgencia'); 
 
