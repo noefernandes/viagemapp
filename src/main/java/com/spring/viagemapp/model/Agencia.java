@@ -52,6 +52,8 @@ public class Agencia extends Usuario {
         return viagens;
     }
 
+    public void addViagem(Viagem viagem){viagens.add(viagem);}
+
     public void setViagens(List<Viagem> viagens) {
         this.viagens = viagens;
     }
