@@ -1,7 +1,6 @@
 package com.spring.viagemapp.service.serviceimpl;
 
 import com.spring.viagemapp.error.*;
-import com.spring.viagemapp.model.Agencia;
 import com.spring.viagemapp.model.Cliente;
 import com.spring.viagemapp.model.Usuario;
 import com.spring.viagemapp.repository.ClienteRepository;
@@ -9,8 +8,6 @@ import com.spring.viagemapp.service.ClienteService;
 import com.spring.viagemapp.utils.ClienteTags;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -37,7 +34,7 @@ public class ClienteServiceImpl implements ClienteService {
     }
 
     @Override
-    public Optional<Cliente> findById(long id) {
+    public Cliente findById(long id) {
         Optional<Cliente> cliente = clienteRepository.findById(id);
         if(!cliente.isPresent()){
             throw  new NotFoundClienteException("Cliente não encontrado");
