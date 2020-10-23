@@ -10,7 +10,7 @@ import java.util.Optional;
 
 public interface ClienteService {
     List<Cliente> findAll();
-    Cliente findById(long id);
+    Optional<Cliente> findById(long id);
     Cliente save(ClienteTags clienteTags);
     void deleteById(long id);
     boolean existsByCpf(String cpf);

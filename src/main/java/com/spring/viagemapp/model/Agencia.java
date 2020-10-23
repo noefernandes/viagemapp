@@ -2,6 +2,8 @@ package com.spring.viagemapp.model;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+
+import java.util.ArrayList;
 import java.util.List;
 import com.spring.viagemapp.model.Usuario;
 
@@ -44,7 +46,7 @@ public class Agencia extends Usuario {
     public List<String> getAvaliadores(){return avaliadores;}
 
     public Double getAvaliacaoGeral() {
-        List<Double> avaliacao = new List<Double>();
+        List<Double> avaliacao = new ArrayList<Double>();
         avaliacao.add(getAvaliacaoAtendimento());
         avaliacao.add(getAvaliacaoConforto());
         avaliacao.add(getAvaliacaoLimpeza());
@@ -159,14 +161,6 @@ public class Agencia extends Usuario {
 
     public void setCnpj(String cnpj) {
         this.cnpj = cnpj;
-    }
-
-    public double getNota() {
-        return nota;
-    }
-
-    public void setNota(double nota) {
-        this.nota = nota;
     }
 
     public List<Viagem> getViagens() {

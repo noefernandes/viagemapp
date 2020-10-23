@@ -34,7 +34,7 @@ public class ClienteServiceImpl implements ClienteService {
     }
 
     @Override
-    public Cliente findById(long id) {
+    public Optional<Cliente> findById(long id) {
         Optional<Cliente> cliente = clienteRepository.findById(id);
         if(!cliente.isPresent()){
             throw  new NotFoundClienteException("Cliente não encontrado");

@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
@@ -100,7 +101,7 @@ public class AgenciaServiceImpl implements AgenciaService {
     }
     @Override
     public List<Double> showNotas(Agencia agencia){
-        List<Double> avaliacoes = new List<Double>();
+        List<Double> avaliacoes = new ArrayList<Double>();
         avaliacoes.add(agencia.getAvaliacaoAtendimento());
         avaliacoes.add(agencia.getAvaliacaoLimpeza());
         avaliacoes.add(agencia.getAvaliacaoRapidez());
@@ -113,14 +114,16 @@ public class AgenciaServiceImpl implements AgenciaService {
     @Override
     public HashMap<String,String> showCometarios(Agencia agencia){
         HashMap<String,String> comentariosAvaliador = new HashMap<String,String>();
-        List<String> comentarios = new List<String>();
-        List<String> avaliadores = new List<String>();
+        List<String> comentarios = new ArrayList<String>();
+        List<String> avaliadores = new ArrayList<String>();
 
         comentarios = agencia.getComentarios();
         avaliadores = agencia.getAvaliadores();
         for(int i = 0; i < comentarios.size();i++){
             comentariosAvaliador.put(avaliadores.get(i),comentarios.get(i));
         }
+        
+        return comentariosAvaliador;
     }
 
     @Override

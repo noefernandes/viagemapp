@@ -50,8 +50,8 @@ public class AgenciaController {
     @PostMapping(value = "{id_cliente}/avaliarAgencia/{id_agencia}")
     public ResponseEntity<?> avaliarAgencia(@PathVariable ("id_cliente") long id_cliente,
                                             @PathVariable ("id_agencia") long id_agencia,@RequestBody @Valid Avaliacoes avaliacoes){
-        Optional<Agencia> agencia = agenciaService.findById(id_agencia);
-        Optional<Cliente> cliente = Optional.ofNullable(clienteService.findById(id_cliente));
+        Agencia agencia = agenciaService.findById(id_agencia).get();
+        Cliente cliente = clienteService.findById(id_cliente).get();
 
         agenciaService.addAvaliacao(agencia,cliente,avaliacoes);
         return new ResponseEntity<Agencia>(agencia,HttpStatus.OK);
@@ -60,15 +60,15 @@ public class AgenciaController {
     //conforto,preço e nota geral
     @PostMapping(value = "/showNotas/{id_agencia}")
     public ResponseEntity<?> showNotas(@PathVariable ("id_agencia") long id_agencia){
-        Optional<Agencia> agencia = agenciaService.findById(id_agencia);
-        List<Double> notas = new List<Double>();
+        Agencia agencia = agenciaService.findById(id_agencia).get();
+        List<Double> notas = new ArrayList<Double>();
         notas = agenciaService.showNotas(agencia);
         return new ResponseEntity<List<Double>>(notas,HttpStatus.OK);
     }
 //Aqui será retornado um hashmap, sendo a chave o nome do usuario que comentou e o valor o comentário
     @PostMapping(value = "/showComentarios/{id_agencia}")
     public ResponseEntity<?> showComentarios(@PathVariable ("id_agencia") long id_agencia){
-        Optional<Agencia> agencia = agenciaService.findById(id_agencia);
+        Agencia agencia = agenciaService.findById(id_agencia).get();
         HashMap<String,String> comentarios = new HashMap<String,String>();
         comentarios = agenciaService.showCometarios(agencia);
         return new ResponseEntity<HashMap<String,String>>(comentarios,HttpStatus.OK);
@@ -115,14 +115,14 @@ public class AgenciaController {
 
     @GetMapping("/agencias/{id}")
     public ResponseEntity<?> getOneAgencia(@PathVariable("id") long id){
-        Optional<Agencia> agenciaOp;
+        Agencia agenciaOp;
         try{
-            agenciaOp = agenciaService.findById(id);
+            agenciaOp = agenciaService.findById(id).get();
         }catch (NotFoundAgenciaException e){
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }
 
-        return new ResponseEntity<Agencia>(agenciaOp.get(), HttpStatus.OK);
+        return new ResponseEntity<Agencia>(agenciaOp, HttpStatus.OK);
     }
 
 
