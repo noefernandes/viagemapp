@@ -20,15 +20,22 @@ public class Agencia extends Usuario {
     @OneToMany(mappedBy = "agencia")
     private List<Viagem> viagens;
 
+    @ElementCollection
     private List<Double> avaliacaoGeral;
+    @ElementCollection
     private List<Double> avaliacaoConforto;
+    @ElementCollection
     private List<Double> avaliacaoPreco;
+    @ElementCollection
     private List<Double> avaliacaoAtendimento;
+    @ElementCollection
     private List<Double> avaliacaoRapidez;
+    @ElementCollection
     private List<Double> avaliacaoLimpeza;
-
+    @ElementCollection
     private List<String> comentarios;
     //Nome dos usuarios que avaliaram
+    @ElementCollection
     private List<String> avaliadores;
 
     public void addComentarios(String comentarios){

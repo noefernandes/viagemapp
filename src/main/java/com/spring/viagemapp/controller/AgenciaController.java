@@ -58,7 +58,7 @@ public class AgenciaController {
     }
 //Aqui será retornado uma lista de notas que serão na ordem: atendimento,limpeza,rapidez,
     //conforto,preço e nota geral
-    @PostMapping(value = "/showNotas/{id_agencia}")
+    @GetMapping(value = "/showNotas/{id_agencia}")
     public ResponseEntity<?> showNotas(@PathVariable ("id_agencia") long id_agencia){
         Agencia agencia = agenciaService.findById(id_agencia).get();
         List<Double> notas = new ArrayList<Double>();
@@ -66,7 +66,7 @@ public class AgenciaController {
         return new ResponseEntity<List<Double>>(notas,HttpStatus.OK);
     }
 //Aqui será retornado um hashmap, sendo a chave o nome do usuario que comentou e o valor o comentário
-    @PostMapping(value = "/showComentarios/{id_agencia}")
+    @GetMapping(value = "/showComentarios/{id_agencia}")
     public ResponseEntity<?> showComentarios(@PathVariable ("id_agencia") long id_agencia){
         Agencia agencia = agenciaService.findById(id_agencia).get();
         HashMap<String,String> comentarios = new HashMap<String,String>();
