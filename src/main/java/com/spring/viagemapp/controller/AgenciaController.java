@@ -26,7 +26,7 @@ import static com.spring.viagemapp.security.MD5.getMd5;
 public class AgenciaController {
     @Autowired
     AgenciaService agenciaService;
-
+    @Autowired
     ClienteService clienteService;
 
     @PostMapping(value = "/cadastroAgencia")
@@ -47,13 +47,17 @@ public class AgenciaController {
         return new ResponseEntity<Agencia>(temp, HttpStatus.CREATED);
     }
 
-    @PostMapping(value = "{id_cliente}/avaliarAgencia/{id_agencia}")
+    @PostMapping(value = "/{id_cliente}/avaliarAgencia/{id_agencia}")
     public ResponseEntity<?> avaliarAgencia(@PathVariable ("id_cliente") long id_cliente,
-                                            @PathVariable ("id_agencia") long id_agencia,@RequestBody @Valid Avaliacoes avaliacoes){
-        Agencia agencia = agenciaService.findById(id_agencia).get();
+    										@PathVariable ("id_agencia") long id_agencia,@RequestBody @Valid Avaliacoes avaliacoes){
+        //System.out.println("Id da agência: "+id_agencia + "\nId do cliente: "+id_cliente);
+    	Agencia agencia = agenciaService.findById(id_agencia).get();
+    	//System.out.println("Nome da agencia: "+agencia.getNome());
         Cliente cliente = clienteService.findById(id_cliente).get();
-
+        //System.out.println("Nome do cliente: " + cliente.getNome());
+        
         agenciaService.addAvaliacao(agencia,cliente,avaliacoes);
+       
         return new ResponseEntity<Agencia>(agencia,HttpStatus.OK);
     }
 //Aqui será retornado uma lista de notas que serão na ordem: atendimento,limpeza,rapidez,

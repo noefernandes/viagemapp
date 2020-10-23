@@ -38,8 +38,8 @@ public class ClienteServiceImpl implements ClienteService {
         Optional<Cliente> cliente = clienteRepository.findById(id);
         if(!cliente.isPresent()){
             throw  new NotFoundClienteException("Cliente não encontrado");
-        }
-
+        }  
+        
         return cliente;
     }
 
