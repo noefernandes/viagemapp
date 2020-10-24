@@ -5,20 +5,15 @@ import com.spring.viagemapp.model.*;
 import com.spring.viagemapp.service.AgenciaService;
 import com.spring.viagemapp.service.AvaliacaoPerUserService;
 import com.spring.viagemapp.service.ClienteService;
-import com.spring.viagemapp.service.ViagemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Optional;
-
-import static com.spring.viagemapp.security.MD5.getMd5;
 
 
 @CrossOrigin(origins = "*")
@@ -53,23 +48,17 @@ public class AgenciaController {
     @PostMapping(value = "/{id_cliente}/avaliarAgencia/{id_agencia}")
     public ResponseEntity<?> avaliarAgencia(@PathVariable ("id_cliente") long id_cliente,
     										@PathVariable ("id_agencia") long id_agencia,@RequestBody @Valid AvaliacaoPerUser avaliacao){
-    	
-    	System.out.println("Id Cliente: " + id_cliente + " Id Agencia: " + id_agencia);
-    	
-    	System.out.println("Nota1: " + avaliacao.getAvaliacaoAtendimento()
-    					 + "\nNota2: " + avaliacao.getAvaliacaoConforto()
-    					 + "\nNota3: " + avaliacao.getAvaliacaoLimpeza()
-    					 + "\nNota4: " + avaliacao.getAvaliacaoPreco()
-    					 + "\nNota5: " + avaliacao.getAvaliacaoRapidez()
-    					 + "\nComentários: " + avaliacao.getComentarios());
        
+    	// Coleta a agência passada como parâmetro.
     	Agencia agencia = agenciaService.findById(id_agencia).get();
-    	
+    	// Coleta o cliente passado como parâmetro
         Cliente cliente = clienteService.findById(id_cliente).get();
         
+        // Associamos os clientes e agência a avaliação e vice-versa
         avaliacao.setAgencia(agencia);
         avaliacao.setCliente(cliente);
         
+        // Chamando o service de avaliação para salvar o dado
         avaliacaoService.save(avaliacao);
        
         return new ResponseEntity<Agencia>(agencia,HttpStatus.OK);

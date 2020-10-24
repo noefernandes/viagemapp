@@ -25,6 +25,7 @@ public class AvaliacaoPerUserServiceImpl implements AvaliacaoPerUserService {
 		return AvaliacaoRepository.findAll();
 	}
 
+	// TODO: Atualizar a excessão
 	@Override
 	public List<AvaliacaoPerUser> findByAgencia(Agencia agencia) {
 		if(agencia.getAvaliacoes().isEmpty()){
@@ -33,6 +34,7 @@ public class AvaliacaoPerUserServiceImpl implements AvaliacaoPerUserService {
         return agencia.getAvaliacoes();
 	}
 
+	// TODO: Atualizar a excessão
 	@Override
 	public List<AvaliacaoPerUser> findByCliente(Cliente cliente) {
 		if(cliente.getAvaliacoes().isEmpty()){

@@ -1,7 +1,6 @@
 package com.spring.viagemapp.model;
 
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -9,8 +8,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name="avaliacaoperuser")
@@ -21,10 +18,12 @@ public class AvaliacaoPerUser
     @SequenceGenerator(name="seq_avaliacao", initialValue=1, allocationSize=1)
     private long id;
 	
+	// Elemento do mapeamento com a agência
 	@ManyToOne
     @JoinColumn(name = "id_agencia")
     private Agencia agencia;
 	
+	// Elemento do mapeamento com o cliente
 	@ManyToOne
     @JoinColumn(name = "id_cliente")
     private Cliente cliente;
