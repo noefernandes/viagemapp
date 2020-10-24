@@ -2,15 +2,17 @@ package com.spring.viagemapp.service.serviceimpl;
 
 import com.spring.viagemapp.error.*;
 import com.spring.viagemapp.model.Agencia;
+import com.spring.viagemapp.model.Avaliacoes;
+import com.spring.viagemapp.model.Cliente;
 import com.spring.viagemapp.model.Usuario;
 import com.spring.viagemapp.repository.AgenciaRepository;
 import com.spring.viagemapp.service.AgenciaService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
@@ -41,6 +43,7 @@ public class AgenciaServiceImpl implements AgenciaService {
 
         return agencia;
     }
+
 
     @Override
     @Transactional(readOnly = false)
@@ -82,6 +85,45 @@ public class AgenciaServiceImpl implements AgenciaService {
     @Override
     public Optional<Agencia> findByNomeUsuario(String nomeUsuario) {
         return agenciaRepository.findByNomeUsuario(nomeUsuario);
+    }
+
+    @Override
+    public Agencia addAvaliacao(Agencia agencia, Cliente cliente, Avaliacoes avaliacoes){
+        agencia.addAvaliacaoAtendimento(avaliacoes.getAvaliacaoAtendimento());
+        agencia.addAvaliacaoConforto(avaliacoes.getAvaliacaoConforto());
+        agencia.addAvaliacaoLimpeza(avaliacoes.getAvaliacaoLimpeza());
+        agencia.addAvaliacaoPreco(avaliacoes.getAvaliacaoPreco());
+        agencia.addAvaliacaoRapidez(avaliacoes.getAvaliacaoRapidez());
+        agencia.addComentarios(avaliacoes.getComentarios());
+        agencia.addAvaliador(cliente.getNome());
+
+        return agenciaRepository.save(agencia);
+    }
+    @Override
+    public List<Double> showNotas(Agencia agencia){
+        List<Double> avaliacoes = new ArrayList<Double>();
+        avaliacoes.add(agencia.getAvaliacaoAtendimento());
+        avaliacoes.add(agencia.getAvaliacaoLimpeza());
+        avaliacoes.add(agencia.getAvaliacaoRapidez());
+        avaliacoes.add(agencia.getAvaliacaoConforto());
+        avaliacoes.add(agencia.getAvaliacaoPreco());
+        avaliacoes.add(agencia.getAvaliacaoGeral());
+        return avaliacoes;
+    }
+
+    @Override
+    public HashMap<String,String> showCometarios(Agencia agencia){
+        HashMap<String,String> comentariosAvaliador = new HashMap<String,String>();
+        List<String> comentarios = new ArrayList<String>();
+        List<String> avaliadores = new ArrayList<String>();
+
+        comentarios = agencia.getComentarios();
+        avaliadores = agencia.getAvaliadores();
+        for(int i = 0; i < comentarios.size();i++){
+            comentariosAvaliador.put(avaliadores.get(i),comentarios.get(i));
+        }
+        
+        return comentariosAvaliador;
     }
 
     @Override
