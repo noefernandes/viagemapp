@@ -22,13 +22,11 @@ public class AvaliacaoPerUser
     private long id;
 	
 	@ManyToOne
-    @JsonIgnore
-    @JoinColumn(name = "id_agencia",insertable=false, updatable=false)
+    @JoinColumn(name = "id_agencia")
     private Agencia agencia;
 	
 	@ManyToOne
-    @JsonIgnore
-    @JoinColumn(name = "id_cliente",insertable=false, updatable=false)
+    @JoinColumn(name = "id_cliente")
     private Cliente cliente;
 
     private double avaliacaoConforto;

@@ -53,6 +53,15 @@ public class AgenciaController {
     @PostMapping(value = "/{id_cliente}/avaliarAgencia/{id_agencia}")
     public ResponseEntity<?> avaliarAgencia(@PathVariable ("id_cliente") long id_cliente,
     										@PathVariable ("id_agencia") long id_agencia,@RequestBody @Valid AvaliacaoPerUser avaliacao){
+    	
+    	System.out.println("Id Cliente: " + id_cliente + " Id Agencia: " + id_agencia);
+    	
+    	System.out.println("Nota1: " + avaliacao.getAvaliacaoAtendimento()
+    					 + "\nNota2: " + avaliacao.getAvaliacaoConforto()
+    					 + "\nNota3: " + avaliacao.getAvaliacaoLimpeza()
+    					 + "\nNota4: " + avaliacao.getAvaliacaoPreco()
+    					 + "\nNota5: " + avaliacao.getAvaliacaoRapidez()
+    					 + "\nComentários: " + avaliacao.getComentarios());
        
     	Agencia agencia = agenciaService.findById(id_agencia).get();
     	
