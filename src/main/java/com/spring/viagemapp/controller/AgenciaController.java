@@ -74,6 +74,20 @@ public class AgenciaController {
        
         return new ResponseEntity<Agencia>(agencia,HttpStatus.OK);
     }
+
+    @PutMapping(value = "/updateToSortNotas/{id}")
+    public ResponseEntity<?> updateToSortNotas(@PathVariable("id") long id){
+        Agencia agencia;
+
+        try{
+            agencia = agenciaService.findById(id).get();
+            List<AvaliacaoPerUser> avaliacao = avaliacaoService.findByAgencia(agencia);
+            agenciaService.updateNota(agencia,avaliacao);
+        }catch (NotFoundAgenciaException e){
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.FORBIDDEN);
+        }
+        return new ResponseEntity<Agencia>(agencia,HttpStatus.OK);
+    }
 //Aqui será retornado uma lista de notas que serão na ordem: atendimento,limpeza,rapidez,
     //conforto,preço e nota geral
     @GetMapping(value = "/showNotas/{id_agencia}")

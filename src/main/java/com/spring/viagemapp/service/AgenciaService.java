@@ -20,4 +20,5 @@ public interface AgenciaService {
     boolean existsByNome(String nome);
     Optional<Agencia> findByNomeUsuario(String nomeUsuario);
     Agencia checkLogin(Usuario usuario);
+    void updateNota(Agencia agencia,  List<AvaliacaoPerUser> avaliacao);
 }

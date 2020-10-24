@@ -16,12 +16,19 @@ public class Agencia extends Usuario {
     private String email;
     @NotBlank
     private String cnpj;
+    @NotBlank
+    private double nota;
+
 
     @OneToMany(mappedBy = "agencia")
     private List<Viagem> viagens;
     
     @OneToMany(mappedBy = "agencia")
     private List<AvaliacaoPerUser> avaliacoes;
+
+
+    public void setNota(double nota){ this.nota = nota;}
+    public double getNota(){return nota;}
     
     public List<AvaliacaoPerUser> getAvaliacoes() {
 		return avaliacoes;
