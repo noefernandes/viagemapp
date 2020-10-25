@@ -20,8 +20,11 @@ export default function CadastroViagem(){
     const [preco, setPreco] = useState();
     const [capacidade, setCapacidade] = useState();
     const [tagString, setTags] = useState('');
+    const [idAgencia, setIdAgencia] = useState();
     
     const history = useHistory();
+
+    const idUsuario = parseInt(localStorage.getItem('idUsuario'));
 
     async function handleCadastroViagem(e){
         e.preventDefault();
@@ -34,16 +37,15 @@ export default function CadastroViagem(){
                 	horarioPartida,
                 	horarioChegada,
                 	preco,
-                	capacidade, 
+                    capacidade,
+                    idAgencia 
                 },
             		tagString
             }
 
-        const idUsuario = parseInt(localStorage.getItem('idUsuario'));
-
-
         try{
             const response = await api.post(`/${idUsuario}/cadastrarViagem`, viagem, idUsuario,tagString);
+            console.log(response.data);
             history.push('PerfilAgencia'); 
 
         }catch(err){
@@ -81,7 +83,9 @@ export default function CadastroViagem(){
                         type='text' 
                         placeholder='Local de partida' 
                         value={localPartida}
-                        onChange={e => setLocalPartida(e.target.value)}
+                        onChange={e => {setLocalPartida(e.target.value);
+                                       setIdAgencia(idUsuario)
+                        }}
                     />
                     <input
                         type='text' 

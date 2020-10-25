@@ -61,6 +61,8 @@ export default function PerfilAgencia(){
                             <p>{viagem.localPartida}</p>
                             <strong>Local de chegada</strong>
                             <p>{viagem.localChegada}</p>
+                            <strong>Data</strong>
+                            <p>{viagem.data}</p>
                             <strong>Horário de partida</strong>
                             <p>{viagem.horarioPartida}</p>
                             <strong>Horário de chegada</strong>

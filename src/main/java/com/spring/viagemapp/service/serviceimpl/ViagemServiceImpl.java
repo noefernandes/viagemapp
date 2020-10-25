@@ -37,6 +37,7 @@ public class ViagemServiceImpl implements ViagemService {
     public Viagem save(ViagemTags viagemTags) {
         List<String> tags = Arrays.asList(viagemTags.tagString/*.replace(" ", "-")*/.split(";"));
         viagemTags.viagem.setTags(tags);
+        //System.out.println("local partida: " + viagemTags.viagem.getLocalPartida());
         return viagemRepository.save(viagemTags.viagem);
     }
 

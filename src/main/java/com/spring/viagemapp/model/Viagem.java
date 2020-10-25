@@ -1,6 +1,7 @@
 package com.spring.viagemapp.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.springframework.lang.Nullable;
 
 import java.util.List;
 
@@ -31,10 +32,21 @@ public class Viagem {
     private double preco;
     private int capacidade;
 
-    @ManyToOne
     @JsonIgnore
+    @ManyToOne
     @JoinColumn(name = "agencia_id")
     private Agencia agencia;
+
+    private long idAgencia;
+
+
+    public Agencia getAgencia() {
+        return agencia;
+    }
+
+    public void setAgencia(Agencia agencia) {
+        this.agencia = agencia;
+    }
 
 
 
@@ -60,6 +72,14 @@ public class Viagem {
 
     public void setLocalChegada(String localChegada) {
         this.localChegada = localChegada;
+    }
+
+    public long getIdAgencia() {
+        return idAgencia;
+    }
+
+    public void setIdAgencia(long idAgencia) {
+        this.idAgencia = idAgencia;
     }
 
     public List<String> getTags(){ return tags;}
@@ -92,13 +112,6 @@ public class Viagem {
         this.capacidade = capacidade;
     }
 
-    public Agencia getAgencia() {
-        return agencia;
-    }
-
-    public void setAgencia(Agencia agencia) {
-        this.agencia = agencia;
-    }
 
     public String getHorarioPartida() {
         return horarioPartida;

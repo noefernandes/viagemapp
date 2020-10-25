@@ -9,6 +9,7 @@ import LoginAgencia from './pages/LoginAgencia';
 import PerfilAgencia from './pages/PerfilAgencia';
 import CadastroViagem from './pages/CadastroViagem';
 import PerfilCliente from './pages/PerfilCliente';
+import FeedCliente from './pages/FeedCliente';
 
 export default function Routes(){
     return (
@@ -22,6 +23,7 @@ export default function Routes(){
                 <Route path='/perfilAgencia' exact component={PerfilAgencia} />
                 <Route path='/cadastroViagem' exact component={CadastroViagem} />
                 <Route path='/perfilCliente' exact component={PerfilCliente}/>
+                <Route path='/feedCliente' exact component={FeedCliente}/>
             </Switch>
         </BrowserRouter>
     );
