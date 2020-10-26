@@ -14,7 +14,7 @@ public class Agencia extends Usuario {
     private String email;
     @NotBlank
     private String cnpj;
-    @NotBlank
+    
     private double nota;
 
 

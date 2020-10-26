@@ -77,40 +77,7 @@ public class AgenciaController {
         }
         return new ResponseEntity<Agencia>(agencia,HttpStatus.OK);
     }
-//Aqui será retornado uma lista de notas que serão na ordem: atendimento,limpeza,rapidez,
-    //conforto,preço e nota geral
-    @GetMapping(value = "/showNotas/{id_agencia}")
-    public ResponseEntity<?> showNotas(@PathVariable ("id_agencia") long id_agencia){
-        Agencia agencia = agenciaService.findById(id_agencia).get();
-        List<Double> notas = new ArrayList<Double>();
-        List<AvaliacaoPerUser> avaliacoes = avaliacaoService.findByAgencia(agencia);
-        
-        Double media1 = 0.0;
-        Double media2 = 0.0;
-        Double media3 = 0.0;
-        Double media4 = 0.0;
-        Double media5 = 0.0;
-        
-        for(AvaliacaoPerUser avaliacao : avaliacoes) 
-        {
-        	media1 += avaliacao.getAvaliacaoAtendimento();
-        	media2 += avaliacao.getAvaliacaoLimpeza();
-        	media3 += avaliacao.getAvaliacaoRapidez();
-        	media4 += avaliacao.getAvaliacaoConforto();
-        	media5 += avaliacao.getAvaliacaoPreco();
-        }
-        
-        Double mediaGeral = (media1+media2+media3+media4+media5) / 5;
-        
-        notas.add(media1);
-        notas.add(media2);
-        notas.add(media3);
-        notas.add(media4);
-        notas.add(media5);
-        notas.add(mediaGeral);
-        
-        return new ResponseEntity<List<Double>>(notas,HttpStatus.OK);
-    }
+
 //Aqui será retornado um hashmap, sendo a chave o nome do usuario que comentou e o valor o comentário
     @GetMapping(value = "/showComentarios/{id_agencia}")
     public ResponseEntity<?> showComentarios(@PathVariable ("id_agencia") long id_agencia){
