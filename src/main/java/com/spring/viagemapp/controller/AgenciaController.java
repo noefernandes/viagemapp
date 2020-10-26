@@ -3,21 +3,17 @@ package com.spring.viagemapp.controller;
 import com.spring.viagemapp.error.*;
 import com.spring.viagemapp.model.*;
 import com.spring.viagemapp.service.AgenciaService;
+import com.spring.viagemapp.service.AvaliacaoPerUserService;
 import com.spring.viagemapp.service.ClienteService;
-import com.spring.viagemapp.service.ViagemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Optional;
-
-import static com.spring.viagemapp.security.MD5.getMd5;
 
 
 @CrossOrigin(origins = "*")
@@ -28,6 +24,8 @@ public class AgenciaController {
     AgenciaService agenciaService;
     @Autowired
     ClienteService clienteService;
+    @Autowired
+    AvaliacaoPerUserService avaliacaoService;
 
     @PostMapping(value = "/cadastroAgencia")
     public ResponseEntity<?> cadastrarAgencia(@RequestBody @Valid Agencia agencia){
@@ -49,32 +47,53 @@ public class AgenciaController {
 
     @PostMapping(value = "/{id_cliente}/avaliarAgencia/{id_agencia}")
     public ResponseEntity<?> avaliarAgencia(@PathVariable ("id_cliente") long id_cliente,
-    										@PathVariable ("id_agencia") long id_agencia,@RequestBody @Valid Avaliacoes avaliacoes){
-        //System.out.println("Id da agência: "+id_agencia + "\nId do cliente: "+id_cliente);
+    										@PathVariable ("id_agencia") long id_agencia,@RequestBody @Valid AvaliacaoPerUser avaliacao){
+       
+    	// Coleta a agência passada como parâmetro.
     	Agencia agencia = agenciaService.findById(id_agencia).get();
-    	//System.out.println("Nome da agencia: "+agencia.getNome());
+    	// Coleta o cliente passado como parâmetro
         Cliente cliente = clienteService.findById(id_cliente).get();
-        //System.out.println("Nome do cliente: " + cliente.getNome());
         
-        agenciaService.addAvaliacao(agencia,cliente,avaliacoes);
+        // Associamos os clientes e agência a avaliação e vice-versa
+        avaliacao.setAgencia(agencia);
+        avaliacao.setCliente(cliente);
+        
+        // Chamando o service de avaliação para salvar o dado
+        avaliacaoService.save(avaliacao);
        
         return new ResponseEntity<Agencia>(agencia,HttpStatus.OK);
     }
-//Aqui será retornado uma lista de notas que serão na ordem: atendimento,limpeza,rapidez,
-    //conforto,preço e nota geral
-    @GetMapping(value = "/showNotas/{id_agencia}")
-    public ResponseEntity<?> showNotas(@PathVariable ("id_agencia") long id_agencia){
-        Agencia agencia = agenciaService.findById(id_agencia).get();
-        List<Double> notas = new ArrayList<Double>();
-        notas = agenciaService.showNotas(agencia);
-        return new ResponseEntity<List<Double>>(notas,HttpStatus.OK);
+
+    @PutMapping(value = "/updateToSortNotas/{id}")
+    public ResponseEntity<?> updateToSortNotas(@PathVariable("id") long id){
+        Agencia agencia;
+
+        try{
+            agencia = agenciaService.findById(id).get();
+            List<AvaliacaoPerUser> avaliacao = avaliacaoService.findByAgencia(agencia);
+            agenciaService.updateNota(agencia,avaliacao);
+        }catch (NotFoundAgenciaException e){
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.FORBIDDEN);
+        }
+        return new ResponseEntity<Agencia>(agencia,HttpStatus.OK);
     }
+
 //Aqui será retornado um hashmap, sendo a chave o nome do usuario que comentou e o valor o comentário
     @GetMapping(value = "/showComentarios/{id_agencia}")
     public ResponseEntity<?> showComentarios(@PathVariable ("id_agencia") long id_agencia){
         Agencia agencia = agenciaService.findById(id_agencia).get();
         HashMap<String,String> comentarios = new HashMap<String,String>();
-        comentarios = agenciaService.showCometarios(agencia);
+        
+        List<AvaliacaoPerUser> avaliacoes = avaliacaoService.findByAgencia(agencia);
+        
+        for(AvaliacaoPerUser avaliacao : avaliacoes) 
+        {
+        	String nomeUser = avaliacao.getCliente().getNome();
+        	String coment = avaliacao.getComentarios();
+        	
+        	comentarios.put(nomeUser, coment);
+        }
+        
         return new ResponseEntity<HashMap<String,String>>(comentarios,HttpStatus.OK);
     }
 
