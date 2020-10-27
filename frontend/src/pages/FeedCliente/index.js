@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useHistory } from 'react-router-dom';    //npm install react-router-dom
-import { FiPower, FiTrash2 } from 'react-icons/fi'      //npm install react-icons
+import { FiPower, FiTrash2, FiShoppingCart } from 'react-icons/fi'      //npm install react-icons
 import './styles.css';
 
 import api from '../../services/api';
@@ -27,6 +27,17 @@ export default function PerfilAgencia(){
 
     const history = useHistory();
 
+    //async function handleComprarViagem(id){
+        //try{
+            //await api.delete(`/viagens/${id}`);
+            /*Filtra a lista de incidents mantendo apenas aqueles
+            com id diferente do com id deletado*/
+            //setViagens(viagens.filter(viagem => viagem.id !== id));
+        //}catch(Err){
+            //alert('Erro ao deletar viagem.');
+        //}
+    //}
+    
     useEffect(() => {
         setLoading(true);
         api.get(`/viagensComNome/`).then(response => {
@@ -68,9 +79,12 @@ export default function PerfilAgencia(){
         <div className="container-feed-cliente">
             <header>
                 <img src={logoImg} alt="Logo ViagemApp"/>
-                <button onClick={handleLogout} type='button' className="power" style={{ borderStyle:'none' }}>
-                    <FiPower size={50} />
-                </button>
+                <div style={{display:"flex", alignItems: "center", justifyContent: "center", flexDirection: "row"}}>
+                <Link className='button-minhas-viagens' to='perfilCliente'>Minhas viagens</Link>
+                    <button onClick={handleLogout} type='button' className="power" style={{ borderStyle:'none' }}>
+                        <FiPower size={50} />
+                    </button>
+                </div>
             </header>
            
             <div className="filtro">
@@ -148,11 +162,11 @@ export default function PerfilAgencia(){
                             </ul>
 
                             <button 
-                                //onClick()
+                                //onClick={() => handleComprarViagem(viagem.id)}
                                 type='button' 
-                                className='trash' 
+                                className='buy'
                             >
-                                <FiTrash2 />
+                                <FiShoppingCart/>
                             </button>
                         </li>
                         ))}

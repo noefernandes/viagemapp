@@ -1,6 +1,8 @@
 package com.spring.viagemapp.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.springframework.lang.Nullable;
 
 import java.util.List;
@@ -14,7 +16,7 @@ public class Viagem {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_viagem")
     @SequenceGenerator(name="seq_viagem", initialValue=1, allocationSize=1)
-    private Long id;
+    private Long idv;
     @NotBlank
     private String localPartida;
     @NotBlank
@@ -30,14 +32,22 @@ public class Viagem {
     private List<String> tags;
 
     private double preco;
+
+    //private int qtdPassageiros;
     private int capacidade;
 
-    @JsonIgnore
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "agencia_id")
     private Agencia agencia;
 
+    @JsonManagedReference("cliente_viagem-viagem")
+    @OneToMany(mappedBy = "viagem", cascade = CascadeType.ALL)
+    private List<ClienteViagem> clienteViagem;
+
     private long idAgencia;
+
+    //private ClienteViagem clienteViagem;
 
 
     public Agencia getAgencia() {
@@ -50,12 +60,12 @@ public class Viagem {
 
 
 
-    public Long getId() {
-        return id;
+    public Long getIdv() {
+        return idv;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setIdv(Long idv) {
+        this.idv = idv;
     }
 
     public String getLocalPartida() {
@@ -127,5 +137,21 @@ public class Viagem {
 
     public void setHorarioChegada(String horarioChegada) {
         this.horarioChegada = horarioChegada;
+    }
+
+    /*public int getQtdPassageiros() {
+        return qtdPassageiros;
+    }
+
+    public void setQtdPassageiros(int qtdPassageiros) {
+        this.qtdPassageiros = qtdPassageiros;
+    }*/
+
+    public List<ClienteViagem> getClienteViagem() {
+        return clienteViagem;
+    }
+
+    public void setClienteViagem(List<ClienteViagem> clienteViagem) {
+        this.clienteViagem = clienteViagem;
     }
 }

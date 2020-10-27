@@ -1,6 +1,9 @@
 package com.spring.viagemapp.model;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import java.util.List;
 
 import javax.persistence.*;
@@ -16,12 +19,17 @@ public class ClienteViagem {
 
 	private double avaliacaoViagem;
 
+	private long idViagem;
+	private long idCliente;
+
+	@JsonBackReference("cliente-cliente_viagem")
 	@ManyToOne(cascade={CascadeType.ALL})
-	@JoinColumn(name = "id_cliente")
+	@JoinColumn(name = "cliente_id")
 	private Cliente cliente;
 
+	@JsonBackReference("cliente_viagem-viagem")
 	@ManyToOne(cascade={CascadeType.ALL})
-	@JoinColumn(name = "id_viagem")
+	@JoinColumn(name = "viagem_id")
 	private Viagem viagem;
 
 	public long getId() {
@@ -54,5 +62,21 @@ public class ClienteViagem {
 
 	public void setAvaliacaoViagem(double avaliacaoViagem) {
 		this.avaliacaoViagem = avaliacaoViagem;
+	}
+
+	public long getIdViagem() {
+		return idViagem;
+	}
+
+	public void setIdViagem(long idViagem) {
+		this.idViagem = idViagem;
+	}
+
+	public long getIdCliente() {
+		return idCliente;
+	}
+
+	public void setIdCliente(long idCliente) {
+		this.idCliente = idCliente;
 	}
 }

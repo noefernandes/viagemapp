@@ -55,4 +55,8 @@ public class ViagemServiceImpl implements ViagemService {
         return false;
 
     }
+
+    public List<String> getTagsViagem(long idViagem){
+        return viagemRepository.getTagsViagem(idViagem);
+    }
 }

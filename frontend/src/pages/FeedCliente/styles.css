@@ -130,3 +130,31 @@
 .filtro .part2 input{
     width: 600px;
 }
+
+.button-minhas-viagens{
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 16px;
+    width: 130px;
+    text-align: center;
+
+    
+    margin-left: auto;
+    margin-right: 20px;
+
+    display: block;
+    padding: 15px 40px;
+    border: 0;
+    border-style: none;
+    border-radius: 8px;
+    box-shadow: 0px 8px 16px rgba(255, 94, 0, 0.301);
+
+    background-color: #FF8C00;
+    color: #030330;
+
+    transition: filter 0.2s;
+}
+
+.button-minhas-viagens:hover{
+    filter: brightness(90%);
+}
