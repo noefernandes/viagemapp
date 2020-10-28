@@ -16,8 +16,10 @@ export default function PerfilCliente(){
     const history = useHistory();
 
 useEffect(() => {
-        api.get(`/agencias/${idUsuario}`).then(response => {
-            setViagens(response.data.viagens);
+        //Pegando viagens do cliente
+        api.get(`/viagensCliente/${idUsuario}`).then(response => {
+            setViagens(response.data);
+            console.log(response.data)
         })
     }, [idUsuario]);
 
@@ -69,13 +71,23 @@ useEffect(() => {
                                   <strong>Capacidade</strong>
                                   <p>{viagem.capacidade}</p>
 
-                                  <button
-                                      onClick={() => handleDeleteViagem(viagem.id)}
-                                      type='button'
-                                      className='trash'
-                                  >
-                                      <FiTrash2 />
-                                  </button>
+                                  <div>
+                                    <button
+                                        onClick={() => handleDeleteViagem(viagem.id)}
+                                        type='button'
+                                        className='trash'
+                                    >
+                                        <FiTrash2 />
+                                    </button>
+
+                                    <button
+                                        //onClick={() => handleDeleteViagem(viagem.id)}
+                                        type='button'
+                                        
+                                    >
+                                        
+                                    </button>
+                                    </div>
                               </li>
                               ))}
                           </ul>

@@ -9,6 +9,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
 @Table(name="avaliacaoperuser")
 public class AvaliacaoPerUser 
@@ -20,11 +22,13 @@ public class AvaliacaoPerUser
 	
 	// Elemento do mapeamento com a agência
 	@ManyToOne
+	@JsonBackReference("Avaliacao-agencia-reference")
     @JoinColumn(name = "id_agencia")
     private Agencia agencia;
 	
 	// Elemento do mapeamento com o cliente
 	@ManyToOne
+	@JsonBackReference("Avaliacao-cliente-reference")
     @JoinColumn(name = "id_cliente")
     private Cliente cliente;
 

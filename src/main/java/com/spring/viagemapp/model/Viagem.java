@@ -36,7 +36,7 @@ public class Viagem {
     //private int qtdPassageiros;
     private int capacidade;
 
-    @JsonBackReference
+    @JsonBackReference("agencia_viagem-viagem")
     @ManyToOne
     @JoinColumn(name = "agencia_id")
     private Agencia agencia;

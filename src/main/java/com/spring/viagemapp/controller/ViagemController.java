@@ -8,7 +8,6 @@ import com.spring.viagemapp.service.ClienteService;
 import com.spring.viagemapp.service.ViagemService;
 import com.spring.viagemapp.utils.ViagemComNome;
 import com.spring.viagemapp.utils.ViagemTags;
-import javafx.util.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -43,9 +42,9 @@ public class ViagemController {
     @GetMapping("/viagensComNome")
     public ResponseEntity<?> getViagensComNomeDeAgencia(){
         List<Viagem> listaViagens = viagemService.findAll();
-        if(listaViagens.isEmpty()){
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+        //if(listaViagens.isEmpty()){
+         //   return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        //}
 
         ArrayList<ViagemComNome> viagensComNome = new ArrayList<ViagemComNome>();
         for(Viagem viagem: listaViagens){
