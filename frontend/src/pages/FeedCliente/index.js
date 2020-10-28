@@ -28,7 +28,6 @@ export default function PerfilAgencia(){
     const history = useHistory();
 
     async function handleComprarViagem(idv){
-        console.log("PASSA PORRA: " + idv);
         try{
             const response = await api.post(`/${idUsuario}/comprarViagem/${idv}`, idUsuario);
             /*Filtra a lista de incidents mantendo apenas aqueles
@@ -44,7 +43,7 @@ export default function PerfilAgencia(){
         setLoading(true);
         api.get(`/viagensComNome/`).then(response => {
             setViagensComNome(response.data);
-            console.log(response.data);
+            //console.log(response.data);
             setLoading(false);
         })
     }, [idUsuario]);
