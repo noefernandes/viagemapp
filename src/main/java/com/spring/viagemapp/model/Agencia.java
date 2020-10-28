@@ -19,6 +19,7 @@ public class Agencia extends Usuario {
     
     private double nota;
 
+
     @JsonManagedReference("agencia_viagem-viagem")
     @OneToMany(mappedBy = "agencia")
     private List<Viagem> viagens;
