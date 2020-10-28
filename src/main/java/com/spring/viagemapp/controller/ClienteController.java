@@ -63,8 +63,9 @@ public class ClienteController {
         return new ResponseEntity<Cliente>(temp, HttpStatus.CREATED);
     }
 
-    @PostMapping(value="{idCliente}/comprarViagem/{idViagem}")
+    @PostMapping(value="/{idCliente}/comprarViagem/{idViagem}")
     public ResponseEntity<?> comprarViagem(@PathVariable long idCliente, @PathVariable long idViagem){
+        System.out.println("Ta passando");
         Cliente cliente = clienteService.findById(idCliente).get();
         Viagem viagem = viagemService.findById(idViagem).get();
         ClienteViagem clienteViagem = new ClienteViagem();
@@ -78,7 +79,7 @@ public class ClienteController {
         return new ResponseEntity<>(clienteService.resave(cliente), HttpStatus.OK);
     }
 
-    @GetMapping(value = "/cliente/{idCliente}")
+    @GetMapping(value = "/viagensCliente/{idCliente}")
     public ResponseEntity<?> getViagensDoCliente(@PathVariable long idCliente){
         List<Object[]> viagensObj = clienteService.getViagensDoCliente(idCliente);
         List<Viagem> viagens = new ArrayList<Viagem>();
@@ -110,38 +111,6 @@ public class ClienteController {
         return new ResponseEntity<> (viagens, HttpStatus.OK);
     }
 
-    /*@PostMapping(value = "/loginCliente")
-    public ResponseEntity<?> realizarLogin(@RequestBody @Valid Usuario usuario){
-        Optional<Cliente> clienteOp = clienteService.findByNomeUsuario(usuario.getNomeUsuario());
-
-        if(!clienteOp.isPresent()){
-            return new ResponseEntity<>("O usuário não existe", HttpStatus.NOT_FOUND);
-        }else if(!clienteOp.get().getSenha().equals(getMd5(usuario.getSenha()))){
-            return new ResponseEntity<>("Senha incorreta", HttpStatus.UNAUTHORIZED);
-        }
-
-        return new ResponseEntity<Cliente>(clienteOp.get(), HttpStatus.OK);
-    }
-
-    @RequestMapping(value = "/clientes", method = RequestMethod.GET)
-    public ResponseEntity<?> getClientes(){
-        List<Cliente> clientes =  clienteService.findAll();
-        if(clientes.isEmpty()){
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-
-        return new ResponseEntity<List<Cliente>>(clientes, HttpStatus.OK);
-    }
-
-    @RequestMapping(value="/clientes/{id}", method=RequestMethod.GET)
-    public ResponseEntity<?> getPostClienteDetails(@PathVariable("id") long id){
-       Optional<Cliente> cliente = clienteService.findById(id);
-       if(!cliente.isPresent()){
-           return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-       }
-
-       return new ResponseEntity<Cliente>(cliente.get(),HttpStatus.OK);
-    }*/
 
     @PostMapping(value = "/loginCliente")
     public ResponseEntity<?> realizarLogin(@RequestBody @Valid Usuario usuario){

@@ -27,16 +27,18 @@ export default function PerfilAgencia(){
 
     const history = useHistory();
 
-    //async function handleComprarViagem(id){
-        //try{
-            //await api.delete(`/viagens/${id}`);
+    async function handleComprarViagem(idv){
+        console.log("PASSA PORRA: " + idv);
+        try{
+            const response = await api.post(`/${idUsuario}/comprarViagem/${idv}`, idUsuario);
             /*Filtra a lista de incidents mantendo apenas aqueles
             com id diferente do com id deletado*/
-            //setViagens(viagens.filter(viagem => viagem.id !== id));
-        //}catch(Err){
-            //alert('Erro ao deletar viagem.');
-        //}
-    //}
+            console.log(response.data.nome);
+            setViagensComNome(viagensComNome.filter(viagemComNome => viagemComNome.viagem.idv !== idv));
+        }catch(Err){
+            alert('Erro ao comprar viagem.');
+        }
+    }
     
     useEffect(() => {
         setLoading(true);
@@ -162,7 +164,7 @@ export default function PerfilAgencia(){
                             </ul>
 
                             <button 
-                                //onClick={() => handleComprarViagem(viagem.id)}
+                                onClick={() => handleComprarViagem(viagemComNome.viagem.idv)}
                                 type='button' 
                                 className='buy'
                             >
@@ -175,4 +177,4 @@ export default function PerfilAgencia(){
             </div>
         </div>
     );
-} 
+}
