@@ -8,6 +8,7 @@ import com.spring.viagemapp.repository.ClienteRepository;
 import com.spring.viagemapp.service.ClienteService;
 import com.spring.viagemapp.utils.ClienteTags;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -59,6 +60,11 @@ public class ClienteServiceImpl implements ClienteService {
 
         if(clienteTags.tagString != "") {
             List<String> tags = Arrays.asList(clienteTags.tagString.split(";"));
+            for(int i = 0; i < tags.size(); i++) {
+                System.out.println("Tag Cliente (Antes):" + tags.get(i));
+                tags.set(i, StringUtils.stripAccents(tags.get(i)).trim().toLowerCase());
+                System.out.println("Tag Cliente (Depois):" + tags.get(i));
+            }
             clienteTags.cliente.setTags(tags);
         }
         
@@ -123,6 +129,10 @@ public class ClienteServiceImpl implements ClienteService {
     public boolean addNewTags(long id, ClienteTags clienteTags){
         if(findById(id).isPresent()) {
             List<String> tags = Arrays.asList(clienteTags.tagString.split(";"));
+            for(String str: tags){
+                str = StringUtils.stripAccents(str);
+                str = str.trim();
+            }
             clienteTags.cliente.addTags(tags);
             return true;
         }
