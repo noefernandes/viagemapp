@@ -17,7 +17,6 @@ public class ClienteViagem {
 	@SequenceGenerator(name="seq_cliente_viagem", initialValue=1, allocationSize=1)
 	private long id;
 
-	private double avaliacaoViagem;
 
 	private long idViagem;
 	private long idCliente;
@@ -56,13 +55,9 @@ public class ClienteViagem {
 		this.viagem = viagem;
 	}
 
-	public double getAvaliacaoViagem() {
-		return avaliacaoViagem;
-	}
 
-	public void setAvaliacaoViagem(double avaliacaoViagem) {
-		this.avaliacaoViagem = avaliacaoViagem;
-	}
+
+
 
 	public long getIdViagem() {
 		return idViagem;
@@ -79,4 +74,5 @@ public class ClienteViagem {
 	public void setIdCliente(long idCliente) {
 		this.idCliente = idCliente;
 	}
+
 }

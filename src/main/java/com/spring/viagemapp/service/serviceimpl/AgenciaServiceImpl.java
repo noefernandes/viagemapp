@@ -2,15 +2,17 @@ package com.spring.viagemapp.service.serviceimpl;
 
 import com.spring.viagemapp.error.*;
 import com.spring.viagemapp.model.Agencia;
+import com.spring.viagemapp.model.AvaliacaoPerUser;
+import com.spring.viagemapp.model.Cliente;
 import com.spring.viagemapp.model.Usuario;
 import com.spring.viagemapp.repository.AgenciaRepository;
 import com.spring.viagemapp.service.AgenciaService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
@@ -42,6 +44,7 @@ public class AgenciaServiceImpl implements AgenciaService {
         return agencia;
     }
 
+
     @Override
     @Transactional(readOnly = false)
     public Agencia save(Agencia agencia) {
@@ -67,6 +70,27 @@ public class AgenciaServiceImpl implements AgenciaService {
     @Override
     public boolean existsByEmail(String email) {
         return agenciaRepository.existsByEmail(email);
+    }
+    @Override
+    public void updateNota(Agencia agencia, List<AvaliacaoPerUser> avaliacao){
+        Double media1 = 0.0;
+        Double media2 = 0.0;
+        Double media3 = 0.0;
+        Double media4 = 0.0;
+        Double media5 = 0.0;
+
+        for(AvaliacaoPerUser nota : avaliacao)
+        {
+            media1 += nota.getAvaliacaoAtendimento();
+            media2 += nota.getAvaliacaoLimpeza();
+            media3 += nota.getAvaliacaoRapidez();
+            media4 += nota.getAvaliacaoConforto();
+            media5 += nota.getAvaliacaoPreco();
+        }
+
+        Double mediaGeral = (media1+media2+media3+media4+media5) / 5;
+        agencia.setNota(mediaGeral);
+        agenciaRepository.save(agencia);
     }
 
     @Override

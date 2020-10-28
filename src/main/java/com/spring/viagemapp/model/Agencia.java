@@ -16,14 +16,30 @@ public class Agencia extends Usuario {
     private String email;
     @NotBlank
     private String cnpj;
+    
     private double nota;
+
 
     @JsonManagedReference
     @OneToMany(mappedBy = "agencia")
     private List<Viagem> viagens;
+    
+    @OneToMany(mappedBy = "agencia")
+    private List<AvaliacaoPerUser> avaliacoes;
 
 
-    public String getNome() {
+    public void setNota(double nota){ this.nota = nota;}
+    public double getNota(){return nota;}
+    
+    public List<AvaliacaoPerUser> getAvaliacoes() {
+		return avaliacoes;
+	}
+
+	public void setAvaliacoes(List<AvaliacaoPerUser> avaliacoes) {
+		this.avaliacoes = avaliacoes;
+	}
+
+	public String getNome() {
         return nome;
     }
 
@@ -41,14 +57,6 @@ public class Agencia extends Usuario {
 
     public void setCnpj(String cnpj) {
         this.cnpj = cnpj;
-    }
-
-    public double getNota() {
-        return nota;
-    }
-
-    public void setNota(double nota) {
-        this.nota = nota;
     }
 
     public List<Viagem> getViagens() {

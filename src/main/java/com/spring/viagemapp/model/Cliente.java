@@ -27,8 +27,19 @@ public class Cliente extends Usuario{
     @JsonManagedReference("cliente-cliente_viagem")
     @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL)
     private List<ClienteViagem> clienteViagem;
+    
+    @OneToMany(mappedBy = "cliente")
+    private List<AvaliacaoPerUser> avaliacoes;
+    
+    public List<AvaliacaoPerUser> getAvaliacoes() {
+		return avaliacoes;
+	}
 
-    public String getNome() {
+	public void setAvaliacoes(List<AvaliacaoPerUser> avaliacoes) {
+		this.avaliacoes = avaliacoes;
+	}
+
+	public String getNome() {
         return nome;
     }
 

@@ -2,10 +2,12 @@ package com.spring.viagemapp.controller;
 
 import com.spring.viagemapp.error.*;
 import com.spring.viagemapp.model.*;
+import com.spring.viagemapp.service.AgenciaService;
 import com.spring.viagemapp.service.ClienteService;
 import com.spring.viagemapp.service.ViagemService;
 import com.spring.viagemapp.utils.ClienteTags;
 
+import com.spring.viagemapp.utils.ViagemComNome;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,23 +29,9 @@ public class ClienteController {
     ClienteService clienteService;
     @Autowired
     ViagemService viagemService;
+    @Autowired
+    AgenciaService agenciaService;
 
-   /* @PostMapping(value = "/cadastrarCliente")
-    public ResponseEntity<?> cadastrarCliente(@RequestBody @Valid ClienteTags clienteTags){
-        if(clienteService.existsByNome(clienteTags.cliente.getNome())){
-            return new ResponseEntity<>("O nome já existe", HttpStatus.FORBIDDEN);
-        }else if(clienteService.existsByCpf(clienteTags.cliente.getCpf())) {
-            return new ResponseEntity<>("O CPF já existe", HttpStatus.FORBIDDEN);
-        }else if(clienteService.existsByEmail(clienteTags.cliente.getEmail())){
-            return new ResponseEntity<>("O E-mail já existe", HttpStatus.FORBIDDEN);
-        }else if(clienteService.existsByNomeUsuario(clienteTags.cliente.getNomeUsuario())){
-            return new ResponseEntity<>("O nome de usuário já existe", HttpStatus.FORBIDDEN);
-        }
-
-
-        clienteTags.cliente.setSenha(getMd5(clienteTags.cliente.getSenha()));
-        return new ResponseEntity<Cliente>(clienteService.save(clienteTags), HttpStatus.CREATED);
-    }*/
 
     @PostMapping(value = "/cadastroCliente")
     public ResponseEntity<?> cadastrarCliente(@RequestBody @Valid ClienteTags clienteTags){
@@ -108,7 +96,16 @@ public class ClienteController {
             viagens.add(viagem);
         }
 
-        return new ResponseEntity<> (viagens, HttpStatus.OK);
+        ArrayList<ViagemComNome> viagensComNome = new ArrayList<ViagemComNome>();
+        for(Viagem viagem: viagens){
+            ViagemComNome viagemComNome = new ViagemComNome();
+            viagemComNome.viagem = viagem;
+            Agencia agencia = agenciaService.findById(viagem.getIdAgencia()).get();
+            viagemComNome.nomeAgencia = agencia.getNome();
+            viagensComNome.add(viagemComNome);
+        }
+
+        return new ResponseEntity<>(viagensComNome, HttpStatus.OK);
     }
 
 

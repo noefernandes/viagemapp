@@ -1,10 +1,8 @@
 package com.spring.viagemapp.service;
 
 
-import com.spring.viagemapp.model.Agencia;
 import com.spring.viagemapp.model.Cliente;
 import com.spring.viagemapp.model.Usuario;
-import com.spring.viagemapp.model.Viagem;
 import com.spring.viagemapp.utils.ClienteTags;
 
 import java.util.List;
