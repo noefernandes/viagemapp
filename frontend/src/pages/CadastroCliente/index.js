@@ -35,7 +35,7 @@ export default function CadastroCliente(){
 	
         try{
             //Manda a requisição
-            const response = await api.post('cadastrarCliente', data);
+            const response = await api.post('cadastroCliente', data);
 
             if(response.status === 200){
                 alert('Usuario cadastrado com sucesso!');

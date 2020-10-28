@@ -3,6 +3,8 @@ package com.spring.viagemapp.model;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.spring.viagemapp.model.Usuario;
 
 @Entity
@@ -17,10 +19,11 @@ public class Agencia extends Usuario {
     
     private double nota;
 
-
+    @JsonManagedReference
     @OneToMany(mappedBy = "agencia")
     private List<Viagem> viagens;
     
+    @JsonManagedReference
     @OneToMany(mappedBy = "agencia")
     private List<AvaliacaoPerUser> avaliacoes;
 

@@ -6,12 +6,14 @@ import com.spring.viagemapp.model.Viagem;
 import com.spring.viagemapp.service.AgenciaService;
 import com.spring.viagemapp.service.ClienteService;
 import com.spring.viagemapp.service.ViagemService;
+import com.spring.viagemapp.utils.ViagemComNome;
 import com.spring.viagemapp.utils.ViagemTags;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -37,6 +39,25 @@ public class ViagemController {
         return new ResponseEntity<List<Viagem>>(listaViagens, HttpStatus.OK);
     }
 
+    @GetMapping("/viagensComNome")
+    public ResponseEntity<?> getViagensComNomeDeAgencia(){
+        List<Viagem> listaViagens = viagemService.findAll();
+        if(listaViagens.isEmpty()){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        ArrayList<ViagemComNome> viagensComNome = new ArrayList<ViagemComNome>();
+        for(Viagem viagem: listaViagens){
+            ViagemComNome viagemComNome = new ViagemComNome();
+            viagemComNome.viagem = viagem;
+            Agencia agencia = agenciaService.findById(viagem.getIdAgencia()).get();
+            viagemComNome.nomeAgencia = agencia.getNome();
+            viagensComNome.add(viagemComNome);
+        }
+
+        return new ResponseEntity<>(viagensComNome, HttpStatus.OK);
+    }
+
     @GetMapping("/{id}/viagens")
     public ResponseEntity<?> getViagens(@PathVariable long id){
         Agencia agencia = new Agencia();
@@ -52,7 +73,7 @@ public class ViagemController {
             viagemTags.viagem.setAgencia(agencia);
             agencia.addViagem(viagemTags.viagem);
             viagemService.save(viagemTags);
-            return new ResponseEntity<Viagem>(HttpStatus.OK);
+            return new ResponseEntity<>(HttpStatus.OK);
         }
 
         return new ResponseEntity<>("A agência com ID " + id + " não existe", HttpStatus.NOT_FOUND);

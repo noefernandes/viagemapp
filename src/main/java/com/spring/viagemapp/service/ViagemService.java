@@ -19,4 +19,6 @@ public interface ViagemService {
     boolean addNewTags(long id, ViagemTags viagemTags);
 
     public List<Viagem> findAllByAgencia(Agencia agencia);
+
+    List<String> getTagsViagem(long idViagem);
 }

@@ -1,5 +1,7 @@
 package com.spring.viagemapp.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import java.util.List;
 
 import javax.persistence.*;
@@ -22,6 +24,7 @@ public class Cliente extends Usuario{
 
     //Adding in the cascade = {CascadeType.ALL} on the Parent's reference to the Child solved
     // the problem in both cases. This saved the Child and the Parent.
+    @JsonManagedReference("cliente-cliente_viagem")
     @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL)
     private List<ClienteViagem> clienteViagem;
     

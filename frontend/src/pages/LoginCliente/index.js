@@ -29,7 +29,7 @@ export default function LoginCliente(){
             localStorage.setItem('idUsuario', response.data.id);
             localStorage.setItem('nomeUsuario', response.data.nome);
             //Redireciona para a página
-            history.push('perfilCliente');
+            history.push('feedCliente');
 
         }catch(err){
             //BADREQUEST

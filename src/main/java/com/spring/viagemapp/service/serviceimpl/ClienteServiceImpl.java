@@ -3,6 +3,7 @@ package com.spring.viagemapp.service.serviceimpl;
 import com.spring.viagemapp.error.*;
 import com.spring.viagemapp.model.Cliente;
 import com.spring.viagemapp.model.Usuario;
+import com.spring.viagemapp.model.Viagem;
 import com.spring.viagemapp.repository.ClienteRepository;
 import com.spring.viagemapp.service.ClienteService;
 import com.spring.viagemapp.utils.ClienteTags;
@@ -56,11 +57,34 @@ public class ClienteServiceImpl implements ClienteService {
             throw new RepeteadUsernameException("O nome de usuário já existe");
         }
 
-        List<String> tags = Arrays.asList(clienteTags.tagString.split(";"));
-        clienteTags.cliente.setTags(tags);
+        if(clienteTags.tagString != "") {
+            List<String> tags = Arrays.asList(clienteTags.tagString.split(";"));
+            clienteTags.cliente.setTags(tags);
+        }
         
         clienteTags.cliente.setSenha(getMd5(clienteTags.cliente.getSenha()));
         return clienteRepository.save(clienteTags.cliente);
+    }
+
+    @Override
+    @Transactional(readOnly = false)
+    public Cliente resave(Cliente cliente) {
+        return clienteRepository.save(cliente);
+    }
+
+    //@Override
+    //public List<Viagem> getViagensDoCliente(long idCliente){
+       // return clienteRepository.getViagensDoCliente(idCliente);
+    //}
+
+    @Override
+    public List<Object[]> getViagensDoCliente(long idCliente){
+        return clienteRepository.getViagensDoCliente(idCliente);
+    }
+
+    @Override
+    public List<String> getTagsCliente(long idCliente){
+        return clienteRepository.getTagsCliente(idCliente);
     }
 
     @Override
