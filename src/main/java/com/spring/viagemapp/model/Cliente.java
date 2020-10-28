@@ -28,6 +28,7 @@ public class Cliente extends Usuario{
     @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL)
     private List<ClienteViagem> clienteViagem;
     
+    @JsonManagedReference("Avaliacao-cliente-reference")
     @OneToMany(mappedBy = "cliente")
     private List<AvaliacaoPerUser> avaliacoes;
     

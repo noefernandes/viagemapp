@@ -42,9 +42,9 @@ public class ViagemController {
     @GetMapping("/viagensComNome")
     public ResponseEntity<?> getViagensComNomeDeAgencia(){
         List<Viagem> listaViagens = viagemService.findAll();
-        if(listaViagens.isEmpty()){
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+        //if(listaViagens.isEmpty()){
+         //   return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        //}
 
         ArrayList<ViagemComNome> viagensComNome = new ArrayList<ViagemComNome>();
         for(Viagem viagem: listaViagens){

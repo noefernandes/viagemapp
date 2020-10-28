@@ -19,11 +19,11 @@ public class Agencia extends Usuario {
     
     private double nota;
 
-    @JsonManagedReference
+    @JsonManagedReference("agencia_viagem-viagem")
     @OneToMany(mappedBy = "agencia")
     private List<Viagem> viagens;
     
-    @JsonManagedReference
+    @JsonManagedReference("Avaliacao-agencia-reference")
     @OneToMany(mappedBy = "agencia")
     private List<AvaliacaoPerUser> avaliacoes;
 
