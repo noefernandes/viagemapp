@@ -1,10 +1,9 @@
 package com.spring.viagemapp.controller;
 
 import com.spring.viagemapp.error.*;
-import com.spring.viagemapp.model.Agencia;
-import com.spring.viagemapp.model.Cliente;
-import com.spring.viagemapp.model.Usuario;
+import com.spring.viagemapp.model.*;
 import com.spring.viagemapp.service.ClienteService;
+import com.spring.viagemapp.service.ViagemService;
 import com.spring.viagemapp.utils.ClienteTags;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -25,6 +25,8 @@ import static com.spring.viagemapp.security.MD5.getMd5;
 public class ClienteController {
     @Autowired
     ClienteService clienteService;
+    @Autowired
+    ViagemService viagemService;
 
    /* @PostMapping(value = "/cadastrarCliente")
     public ResponseEntity<?> cadastrarCliente(@RequestBody @Valid ClienteTags clienteTags){
@@ -59,6 +61,53 @@ public class ClienteController {
         }
 
         return new ResponseEntity<Cliente>(temp, HttpStatus.CREATED);
+    }
+
+    @PostMapping(value="{idCliente}/comprarViagem/{idViagem}")
+    public ResponseEntity<?> comprarViagem(@PathVariable long idCliente, @PathVariable long idViagem){
+        Cliente cliente = clienteService.findById(idCliente).get();
+        Viagem viagem = viagemService.findById(idViagem).get();
+        ClienteViagem clienteViagem = new ClienteViagem();
+        clienteViagem.setCliente(cliente);
+        clienteViagem.setIdCliente(idCliente);
+        clienteViagem.setViagem(viagem);
+        clienteViagem.setIdViagem(idViagem);
+        cliente.getClienteViagem().add(clienteViagem);
+        viagem.getClienteViagem().add(clienteViagem);
+
+        return new ResponseEntity<>(clienteService.resave(cliente), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/cliente/{idCliente}")
+    public ResponseEntity<?> getViagensDoCliente(@PathVariable long idCliente){
+        List<Object[]> viagensObj = clienteService.getViagensDoCliente(idCliente);
+        List<Viagem> viagens = new ArrayList<Viagem>();
+
+
+        for(Object[] obj : viagensObj) {
+            Viagem viagem = new Viagem();
+
+            String bigString = (obj[0].toString());
+            BigInteger bi = new BigInteger(bigString);
+            Long idViagem = bi.longValue();
+            viagem.setIdv(idViagem);
+
+            List<String> tags = viagemService.getTagsViagem(viagem.getIdv());
+            viagem.setTags(tags);
+
+            viagem.setCapacidade((Integer) obj[1]);
+            viagem.setData((String) obj[2]);
+            viagem.setHorarioChegada((String) obj[3]);
+            viagem.setHorarioPartida((String) obj[4]);
+            viagem.setIdAgencia((Long.parseLong(obj[5].toString())));
+            viagem.setLocalChegada((String) obj[6]);
+            viagem.setLocalPartida((String) obj[7]);
+            viagem.setPreco((double) obj[8]);
+
+            viagens.add(viagem);
+        }
+
+        return new ResponseEntity<> (viagens, HttpStatus.OK);
     }
 
     /*@PostMapping(value = "/loginCliente")
@@ -113,6 +162,7 @@ public class ClienteController {
         List<Cliente> clientes =  new ArrayList<Cliente>();
         try{
             clientes = clienteService.findAll();
+            System.out.println(clientes.get(0).getNome());
         }catch(NotFoundClienteException e){
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }

@@ -21,6 +21,8 @@ public interface ClienteService {
 
     Optional<Cliente> findByNomeUsuario(String nomeUsuario);
     Cliente checkLogin(Usuario usuario);
+    public Cliente resave(Cliente cliente);
 
-
+    List<Object[]> getViagensDoCliente(long idCliente);
+    List<String> getTagsCliente(long idCliente);
     }

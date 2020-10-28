@@ -41,14 +41,16 @@ useEffect(() => {
     return(
        <div className="container-perfil-cliente">
                   <header>
-                      <img src={logoImg} alt="Logo ViagemApp"/>
-                      <span>Bem-vindo(a), {nomeUsuario}!</span>
-                      <button onClick={handleLogout} type='button' className="power" style={{ borderStyle:'none' }}>
-                          <FiPower size={50} />
-                      </button>
+                    <img src={logoImg} alt="Logo ViagemApp"/>
+
+                    <div style={{display:"flex", alignItems: "center", justifyContent: "center", flexDirection: "row"}}>
+                    <Link className='button-minhas-viagens' to='perfilCliente'>Feed</Link>
+                        <button onClick={handleLogout} type='button' className="power" style={{ borderStyle:'none' }}>
+                            <FiPower size={50} />
+                        </button>
+                    </div>
                   </header>
                   <div className='container-viagens-cliente'>
-                      <Link className='button-cadastro-viagem' to='cadastroViagem'>Cadastrar viagem</Link>
                       <h1>Minhas viagens</h1>
                       <div className="lista-viagens">
                           <ul>

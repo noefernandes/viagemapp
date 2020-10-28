@@ -19,28 +19,33 @@ export default function CadastroViagem(){
     const [data, setData] = useState('');
     const [preco, setPreco] = useState();
     const [capacidade, setCapacidade] = useState();
-    const [tags, setTags] = useState('');
+    const [tagString, setTags] = useState('');
+    const [idAgencia, setIdAgencia] = useState();
     
     const history = useHistory();
+
+    const idUsuario = parseInt(localStorage.getItem('idUsuario'));
 
     async function handleCadastroViagem(e){
         e.preventDefault();
 
          const viagem = {
-                localPartida,
-                localChegada,
-                data,
-                horarioPartida,
-                horarioChegada,
-                preco,
-                capacidade
-            };
-
-        const idUsuario = localStorage.getItem('idUsuario');
-
+         		viagem:{
+                	localPartida,
+                	localChegada,
+                	data,
+                	horarioPartida,
+                	horarioChegada,
+                	preco,
+                    capacidade,
+                    idAgencia 
+                },
+            		tagString
+            }
 
         try{
-            const response = await api.post(`/viagens/${idUsuario}`, [viagem,tags], idUsuario,tags);
+            const response = await api.post(`/${idUsuario}/cadastrarViagem`, viagem, idUsuario,tagString);
+            console.log(response.data);
             history.push('PerfilAgencia'); 
 
         }catch(err){
@@ -78,7 +83,9 @@ export default function CadastroViagem(){
                         type='text' 
                         placeholder='Local de partida' 
                         value={localPartida}
-                        onChange={e => setLocalPartida(e.target.value)}
+                        onChange={e => {setLocalPartida(e.target.value);
+                                       setIdAgencia(idUsuario)
+                        }}
                     />
                     <input
                         type='text' 
@@ -132,7 +139,7 @@ export default function CadastroViagem(){
                     <input 
                         type='text'
                         placeholder='Tags' 
-                        value={tags}
+                        value={tagString}
                         onChange={e => setTags(e.target.value)}
                     />
                 </div>

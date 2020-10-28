@@ -61,6 +61,8 @@ export default function PerfilAgencia(){
                             <p>{viagem.localPartida}</p>
                             <strong>Local de chegada</strong>
                             <p>{viagem.localChegada}</p>
+                            <strong>Data</strong>
+                            <p>{viagem.data}</p>
                             <strong>Horário de partida</strong>
                             <p>{viagem.horarioPartida}</p>
                             <strong>Horário de chegada</strong>
@@ -69,6 +71,14 @@ export default function PerfilAgencia(){
                             <p>{Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(viagem.preco)}</p>
                             <strong>Capacidade</strong>
                             <p>{viagem.capacidade}</p>
+                            <strong>Tags: </strong>
+                            <ul className="listaTags">
+                                {viagem.tags.map(tag => (
+                                    <li>
+                                        <p>{tag}</p>
+                                    </li>
+                                ))}
+                            </ul>
 
                             <button 
                                 onClick={() => handleDeleteViagem(viagem.id)}

@@ -1,17 +1,17 @@
-.container-perfil-agencia{
+.container-feed-cliente{
     width: 100%;
     max-width: 1120px;
     height: 100vh;
     margin: 0 auto;
 }
 
-.container-perfil-agencia header{
+.container-feed-cliente header{
     display: flex;
     align-items: center;
     justify-content: space-between;
 }
 
-.container-perfil-agencia header span{
+.container-feed-cliente header span{
     margin-right: 150px;
     font-size: 25px;
     font-weight: bold;
@@ -45,12 +45,12 @@
     filter: brightness(90%);
 }
 
-.container-viagens-agencia{
+.container-viagens-feed{
     margin: 0 auto;
     padding: 0 30px;
 }
 
-.container-viagens-agencia h1{
+.container-viagens-feed h1{
     color: #030330;
     margin-top: 30px;
 
@@ -97,4 +97,64 @@
 
 .listaTags li{
     padding: 0px !important;
+}
+
+.filtro{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.filtro input{
+    height: 50px;
+
+    border-radius: 8px;
+    border-style: none;
+
+    margin-bottom: 32px;
+    padding-left: 32px;
+}
+
+.filtro .part1{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    gap: 20px;
+}
+
+.filtro .part1 input{
+    width: 250px;
+}
+
+.filtro .part2 input{
+    width: 600px;
+}
+
+.button-minhas-viagens{
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 16px;
+    width: 130px;
+    text-align: center;
+
+    
+    margin-left: auto;
+    margin-right: 20px;
+
+    display: block;
+    padding: 15px 40px;
+    border: 0;
+    border-style: none;
+    border-radius: 8px;
+    box-shadow: 0px 8px 16px rgba(255, 94, 0, 0.301);
+
+    background-color: #FF8C00;
+    color: #030330;
+
+    transition: filter 0.2s;
+}
+
+.button-minhas-viagens:hover{
+    filter: brightness(90%);
 }

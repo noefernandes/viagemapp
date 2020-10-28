@@ -64,3 +64,12 @@ button:hover{
     width: 30px;
     height: 30px;
 }
+
+.buy{
+    background-color: #FFF;
+    cursor: pointer;
+    color: green;
+
+    width: 50px;
+    height: 50px;
+}
