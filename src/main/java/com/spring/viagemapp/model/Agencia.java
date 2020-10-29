@@ -17,7 +17,7 @@ public class Agencia extends Usuario {
     @NotBlank
     private String cnpj;
     
-    private double nota;
+    private double nota = 0;
 
 
     @JsonManagedReference("agencia_viagem-viagem")

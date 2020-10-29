@@ -3,12 +3,16 @@ import com.spring.viagemapp.error.*;
 import com.spring.viagemapp.model.Agencia;
 import com.spring.viagemapp.model.Viagem;
 import com.spring.viagemapp.repository.ViagemRepository;
+import com.spring.viagemapp.service.AgenciaService;
+import com.spring.viagemapp.service.ClienteService;
 import com.spring.viagemapp.service.ViagemService;
+import com.spring.viagemapp.utils.ViagemComNome;
 import com.spring.viagemapp.utils.ViagemTags;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -19,9 +23,59 @@ public class ViagemServiceImpl implements ViagemService {
     @Autowired
     ViagemRepository viagemRepository;
 
+    @Autowired
+    AgenciaService agenciaService;
+
+    @Autowired
+    ClienteService clienteService;
+
     @Override
     public List<Viagem> findAll() {
-        return viagemRepository.findAll();
+        List<Viagem> viagens = viagemRepository.findAll();
+        if(viagens.isEmpty()){
+            throw new NotFoundAgenciaException("Viagens não encontradas");
+        }
+
+        return viagens;
+    }
+
+    public List<ViagemComNome> findAllSort(long idCliente){
+        List<Viagem> viagens = viagemRepository.findAll();
+        if(viagens.isEmpty()){
+            throw new NotFoundException("Viagens não encontradas");
+        }
+
+        List<Viagem> listaViagens = findAll();
+
+        List<ViagemComNome> viagensCliente = clienteService.convert(clienteService.getViagensDoCliente(idCliente));
+        List<Long> indices = new ArrayList<Long>();
+
+        for(int i = 0; i < viagensCliente.size(); i++){
+            indices.add(viagensCliente.get(i).viagem.getIdv());
+        }
+
+        List<ViagemComNome> viagensComNome = new ArrayList<ViagemComNome>();
+        for(int i = 0; i < listaViagens.size(); i++){
+            boolean pular = false;
+            for(int j = 0; j < indices.size(); j++){
+                if(listaViagens.get(i).getIdv() == indices.get(j)){
+                    pular = true;
+                }
+            }
+
+            if(pular){
+                continue;
+            }
+
+            ViagemComNome viagemComNome = new ViagemComNome();
+            viagemComNome.viagem = listaViagens.get(i);
+            Agencia agencia = agenciaService.findById(listaViagens.get(i).getIdAgencia()).get();
+            viagemComNome.nomeAgencia = agencia.getNome();
+            viagensComNome.add(viagemComNome);
+        }
+        Arrays.sort(viagensComNome);
+
+        return viagensComNome;
     }
     public List<Viagem> findAllByAgencia(Agencia agencia){
         if(agencia.getViagens().isEmpty()){
