@@ -45,14 +45,14 @@ public class AgenciaController {
         return new ResponseEntity<Agencia>(temp, HttpStatus.CREATED);
     }
 
-    @PostMapping(value = "/{id_cliente}/avaliarAgencia/{id_agencia}")
-    public ResponseEntity<?> avaliarAgencia(@PathVariable ("id_cliente") long id_cliente,
-    										@PathVariable ("id_agencia") long id_agencia,@RequestBody @Valid AvaliacaoPerUser avaliacao){
+    @PostMapping(value = "/{idCliente}/avaliarAgencia/{idAgencia}")
+    public ResponseEntity<?> avaliarAgencia(@PathVariable long idCliente,
+    										@PathVariable long idAgencia, @RequestBody @Valid AvaliacaoPerUser avaliacao){
        
     	// Coleta a agência passada como parâmetro.
-    	Agencia agencia = agenciaService.findById(id_agencia).get();
+    	Agencia agencia = agenciaService.findById(idAgencia).get();
     	// Coleta o cliente passado como parâmetro
-        Cliente cliente = clienteService.findById(id_cliente).get();
+        Cliente cliente = clienteService.findById(idCliente).get();
         
         // Associamos os clientes e agência a avaliação e vice-versa
         avaliacao.setAgencia(agencia);
@@ -61,7 +61,7 @@ public class AgenciaController {
         // Chamando o service de avaliação para salvar o dado
         avaliacaoService.save(avaliacao);
        
-        return new ResponseEntity<Agencia>(agencia,HttpStatus.OK);
+        return new ResponseEntity<Agencia>(agencia, HttpStatus.OK);
     }
 
     @PutMapping(value = "/updateToSortNotas/{id}")

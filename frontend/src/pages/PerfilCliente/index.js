@@ -8,7 +8,7 @@ import logoImg from '../../assets/logo.png';
 
 export default function PerfilCliente(){
 //Inicia-se com um vetor vazio como total de viagens do usuario.
-    const [viagens, setViagens] = useState([])
+    const [viagensComNome, setViagensComNome] = useState([])
  //Pega os dados anteriormente armazenados no localStorage.
     const idUsuario = localStorage.getItem('idUsuario');
     const nomeUsuario = localStorage.getItem('nomeUsuario');
@@ -18,17 +18,17 @@ export default function PerfilCliente(){
 useEffect(() => {
         //Pegando viagens do cliente
         api.get(`/viagensCliente/${idUsuario}`).then(response => {
-            setViagens(response.data);
+            setViagensComNome(response.data);
             console.log(response.data)
         })
     }, [idUsuario]);
 
-    async function handleDeleteViagem(id){
+    async function handleDeleteViagem(idv){
         try{
-            await api.delete(`/viagens/${id}`);
+            await api.delete(`/viagens/${idv}`);
             /*Filtra a lista de incidents mantendo apenas aqueles
             com id diferente do com id deletado*/
-            setViagens(viagens.filter(viagem => viagem.id !== id));
+            setViagensComNome(viagensComNome.filter(viagemComNome => viagemComNome.viagem.idv !== idv));
         }catch(Err){
             alert('Erro ao deletar viagem.');
         }
@@ -39,9 +39,11 @@ useEffect(() => {
         //Redireciona a home
         history.push('/loginCliente');
     }
-    async function handleGuardarAgencia(id){
-        localStorage.setItem('idAgencia',id);
+    
+    function handleGuardarAgencia(id){
+        localStorage.setItem('idAgencia', id);
     }
+    
     return(
        <div className="container-perfil-cliente">
                   <header>
@@ -58,24 +60,26 @@ useEffect(() => {
                       <h1>Minhas viagens</h1>
                       <div className="lista-viagens">
                           <ul>
-                              {viagens.map(viagem => (
+                              {viagensComNome.map(viagemComNome => (
                               <li>
+                                  <strong>Agência</strong>
+                                  <p>{viagemComNome.nomeAgencia}</p>
                                   <strong>Local de partida</strong>
-                                  <p>{viagem.localPartida}</p>
+                                  <p>{viagemComNome.viagem.localPartida}</p>
                                   <strong>Local de chegada</strong>
-                                  <p>{viagem.localChegada}</p>
+                                  <p>{viagemComNome.viagem.localChegada}</p>
                                   <strong>Horário de partida</strong>
-                                  <p>{viagem.horarioPartida}</p>
+                                  <p>{viagemComNome.viagem.horarioPartida}</p>
                                   <strong>Horário de chegada</strong>
-                                  <p>{viagem.horarioChegada}</p>
+                                  <p>{viagemComNome.viagem.horarioChegada}</p>
                                   <strong>Preço</strong>
-                                  <p>{Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(viagem.preco)}</p>
+                                  <p>{Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(viagemComNome.viagem.preco)}</p>
                                   <strong>Capacidade</strong>
-                                  <p>{viagem.capacidade}</p>
+                                  <p>{viagemComNome.viagem.capacidade}</p>
 
                                   <div>
                                     <button
-                                        onClick={() => handleDeleteViagem(viagem.id)}
+                                        //onClick={() => handleDeleteViagem(viagem.id)}
                                         type='button'
                                         className='trash'
                                     >
@@ -83,7 +87,7 @@ useEffect(() => {
                                     </button>
 
                                       <Link className='button-avaliar-agencia' to='avaliarAgencia'
-                                      onClick={() => handleGuardarAgencia(viagem.idAgencia)}>
+                                      onClick={() => handleGuardarAgencia(viagemComNome.viagem.idAgencia)}>
                                           Avaliar Agência
                                       </Link>
 

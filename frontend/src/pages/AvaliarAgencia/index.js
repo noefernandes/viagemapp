@@ -8,12 +8,12 @@ import api from '../../services/api';
 import logoImg from '../../assets/logo.png';
 
 export default function AvaliarAgencia(){
-    const [avaliacaoLimpeza, setLimpeza] = useState(0);
-    const [avaliacaoRapidez, setRapidez] = useState(0);
-    const [avaliacaoAtendimento, setAtendimento] = useState(0);
-    const [avaliacaoPreco, setPreco] = useState(0);
-    const [avaliacaoConforto, setConforto] = useState(0);
-    const[comentario,setComentario] = useState('');
+    const [avaliacaoLimpeza, setLimpeza] = useState();
+    const [avaliacaoRapidez, setRapidez] = useState();
+    const [avaliacaoAtendimento, setAtendimento] = useState();
+    const [avaliacaoPreco, setPreco] = useState();
+    const [avaliacaoConforto, setConforto] = useState();
+    const[comentarios,setComentarios] = useState('');
 
     const idUsuario = localStorage.getItem('idUsuario');
     const nomeUsuario = localStorage.getItem('nomeUsuario');
@@ -35,22 +35,27 @@ export default function AvaliarAgencia(){
         e.preventDefault();
 
         const data = {
-            avaliacao:{
-                avaliacaoConforto,
-                avaliacaoPreco,
-                avaliacaoAtendimento,
-                avaliacaoRapidez,
-                avaliacaoLimpeza,
-                comentario
-            }
+            avaliacaoConforto,
+            avaliacaoPreco,
+            avaliacaoAtendimento,
+            avaliacaoRapidez,
+            avaliacaoLimpeza,
+            comentarios
         }
         try{
-            const response = await api.post(`/${idUsuario}/avaliarAgencia/${idAgencia}`
-                , idUsuario,idAgencia,data);
+            console.log("id da agência: " + idAgencia);
+            console.log("id do cliente: " + idUsuario);
+            const response = await api.post(`/${idUsuario}/avaliarAgencia/${idAgencia}`, data);
             console.log(response.data.nome);
             if(response.status === 200){
-                await api.put(`/updateToSortNotas/${idAgencia}`,idAgencia);
+                console.log("Entra");
+                try{
+                    await api.put(`/updateToSortNotas/${idAgencia}`);
+                }catch(err){
+                    alert('Erro ao gravar notas.')
+                }
             }
+            history.push('PerfilCliente');
         }catch(Err){
             alert('Erro ao avaliar a agência.');
         }
@@ -60,61 +65,76 @@ export default function AvaliarAgencia(){
         <div className="container-avaliar-agencia">
             <section>
                 <img src={logoImg} width={200} alt="ViagemApp logo"/>
-                <Link className="back-link" style={{ marginLeft: 120 }} to="/perfilCliente">
+                <Link className="back-link" style={{ marginLeft: 98 }} to="/perfilCliente">
                     <FiArrowLeft/>
                     Não quero avaliar ainda
                 </Link>
             </section>
 
             <section className='form'>
+            <h1>Avalie a agência da viagem!</h1>
                 <form onSubmit={handleAvaliarAgencia}>
-                    <h1>Avalie a agência da viagem!</h1>
+                    <div className="avaliacao-parte">
+                        <div>    
+                            <strong> Conforto</strong>
+                            <input
+                                placeholder = '1-5'
+                                type="number" min="1" max="5"
+                                value={avaliacaoConforto}
+                                onChange = {e => setConforto(e.target.value)}
+                            />
+                        </div>
+                        <div>
+                            <strong> Preço</strong>
+                            <input
+                                placeholder = '1-5'
+                                type="number" min="1" max="5"
+                                value={avaliacaoPreco}
+                                onChange = {e => setPreco(e.target.value)}
+                            />
+                        </div>
 
-                    <label> Conforto</label>
-                    <input
-                        placeholder = '1-5'
-                        type="number" min="1" max="5"
-                        value={avaliacaoConforto}
-                        onChange = {e => setConforto((e.target.value))}
-                    />
+                        <div>
 
-                    <label> Preço</label>
-                    <input
-                        placeholder = '1-5'
-                        type="number" min="1" max="5"
-                        value={avaliacaoPreco}
-                        onChange = {e => setPreco((e.target.value))}
-                    />
+                            <strong> Atendimento</strong>
+                            <input
+                                placeholder = '1-5'
+                                type="number" min="1" max="5"
+                                value={avaliacaoAtendimento}
+                                onChange = {e => setAtendimento(e.target.value)}
+                            />
+                        </div>
 
-                    <label> Atendimento</label>
-                    <input
-                        placeholder = '1-5'
-                        type="number" min="1" max="5"
-                        value={avaliacaoAtendimento}
-                        onChange = {e => setAtendimento((e.target.value))}
-                    />
+                        <div>
+                            <strong> Rapidez</strong>
+                            <input
+                                placeholder = '1-5'
+                                type="number" min="1" max="5"
+                                value={avaliacaoRapidez}
+                                onChange = {e => setRapidez(e.target.value)}
+                            />
+                        </div>
 
-                    <label> Rapidez</label>
-                    <input
-                        placeholder = '1-5'
-                        type="number" min="1" max="5"
-                        value={avaliacaoRapidez}
-                        onChange = {e => setRapidez((e.target.value))}
-                    />
+                        <div>
+                            <strong> Limpeza</strong>
+                            <input
+                                placeholder = '1-5'
+                                type="number" min="1" max="5"
+                                value={avaliacaoLimpeza}
+                                onChange = {e => setLimpeza(e.target.value)}
+                            />
+                        </div>
+                    </div>
 
-                    <label> Limpeza</label>
-                    <input
-                        placeholder = '1-5'
-                        type="number" min="1" max="5"
-                        value={avaliacaoLimpeza}
-                        onChange = {e => setLimpeza((e.target.value))}
-                    />
-                    <label> Comentário</label>
-                    <input
+                    <div>
+                        <strong> Comentário</strong>
+                        <textarea
 
-                        value={comentario}
-                        onChange = {e => setComentario((e.target.value))}
-                    />
+                            value={comentarios}
+                            onChange = {e => setComentarios((e.target.value))}
+                        />
+                    </div>
+                    <button type='submit'>Cadastrar avaliação</button>
                 </form>
             </section>
         </div>
