@@ -39,7 +39,9 @@ useEffect(() => {
         //Redireciona a home
         history.push('/loginCliente');
     }
-
+    async function handleGuardarAgencia(id){
+        localStorage.setItem('idAgencia',id);
+    }
     return(
        <div className="container-perfil-cliente">
                   <header>
@@ -82,14 +84,12 @@ useEffect(() => {
                                         <FiTrash2 />
                                     </button>
 
-                                    <button
-                                        //onClick={() => handleDeleteViagem(viagem.id)}
-                                        type='button'
-                                        
-                                    >
-                                        
-                                    </button>
-                                    </div>
+                                      <Link className='button-avaliar-agencia' to='avaliarAgencia'
+                                      onClick={() => handleGuardarAgencia(viagem.idAgencia)}>
+                                          Avaliar Agência
+                                      </Link>
+
+                                  </div>
                               </li>
                               ))}
                           </ul>
