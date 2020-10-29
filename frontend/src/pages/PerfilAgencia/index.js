@@ -22,12 +22,13 @@ export default function PerfilAgencia(){
         })
     }, [idUsuario]);
 
-    async function handleDeleteViagem(id){
+    async function handleDeleteViagem(idv){
         try{
-            await api.delete(`/viagens/${id}`);
+            console.log("Valor do id:" + idv);
+            await api.delete(`/viagens/${idv}`);
             /*Filtra a lista de incidents mantendo apenas aqueles
             com id diferente do com id deletado*/
-            setViagens(viagens.filter(viagem => viagem.id !== id));
+            setViagens(viagens.filter(viagem => viagem.idv !== idv));
         }catch(Err){
             alert('Erro ao deletar viagem.');
         }
@@ -81,7 +82,7 @@ export default function PerfilAgencia(){
                             </ul>
 
                             <button 
-                                onClick={() => handleDeleteViagem(viagem.id)}
+                                onClick={() => handleDeleteViagem(viagem.idv)}
                                 type='button' 
                                 className='trash' 
                             >
