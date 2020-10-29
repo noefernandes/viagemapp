@@ -41,9 +41,10 @@ export default function PerfilAgencia(){
     
     useEffect(() => {
         setLoading(true);
-        api.get(`/viagensComNome/`).then(response => {
+        //
+        api.get(`${idUsuario}/viagensComNome/`).then(response => {
             setViagensComNome(response.data);
-            //console.log(response.data);
+            console.log(response.data);
             setLoading(false);
         })
     }, [idUsuario]);
