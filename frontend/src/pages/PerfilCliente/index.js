@@ -39,9 +39,11 @@ useEffect(() => {
         //Redireciona a home
         history.push('/loginCliente');
     }
-    async function handleGuardarAgencia(id){
-        localStorage.setItem('idAgencia',id);
+    
+    function handleGuardarAgencia(id){
+        localStorage.setItem('idAgencia', id);
     }
+    
     return(
        <div className="container-perfil-cliente">
                   <header>
@@ -85,7 +87,7 @@ useEffect(() => {
                                     </button>
 
                                       <Link className='button-avaliar-agencia' to='avaliarAgencia'
-                                      onClick={() => handleGuardarAgencia(viagem.idAgencia)}>
+                                      onClick={() => handleGuardarAgencia(viagemComNome.viagem.idAgencia)}>
                                           Avaliar Agência
                                       </Link>
 
