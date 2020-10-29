@@ -22,4 +22,5 @@ public interface AgenciaService {
     Agencia checkLogin(Usuario usuario);
     void updateNota(Agencia agencia,  List<AvaliacaoPerUser> avaliacao);
     List<Double> showNotas(Agencia agencia);
+    HashMap<String,String> showComentarios(Agencia agencia);
 }

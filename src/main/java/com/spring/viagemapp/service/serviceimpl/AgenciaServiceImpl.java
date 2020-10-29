@@ -100,13 +100,38 @@ public class AgenciaServiceImpl implements AgenciaService {
         agenciaRepository.save(agencia);
     }
 
+    
+    @Override
+	public HashMap<String,String> showComentarios(Agencia agencia)
+	{
+		HashMap<String,String> comentarios = new HashMap<String, String>();
+
+		List<AvaliacaoPerUser> avaliacoes = agencia.getAvaliacoes();
+		
+		if(avaliacoes.isEmpty()) 
+		{
+			throw new NotFoundAvaliacaoException("A agência fornecida não possui avaliações");
+		}
+		
+		for(AvaliacaoPerUser avaliacao : avaliacoes) 
+		{
+			String nomeUser = avaliacao.getCliente().getNome();
+			String coment = avaliacao.getComentarios();
+	
+			comentarios.put(nomeUser, coment);
+		}
+		
+		return comentarios;
+	}
+    
     @Override
     public List<Double> showNotas(Agencia agencia){
-        List<AvaliacaoPerUser> avaliacao = findByAgencia(agencia);
-
+        List<AvaliacaoPerUser> avaliacao = agencia.getAvaliacoes();
+    	
         if(avaliacao.isEmpty()){
             throw new NotFoundAgenciaException("Agencia não encontrada");
         }
+        
         Double media1 = 0.0;
         Double media2 = 0.0;
         Double media3 = 0.0;

@@ -67,7 +67,6 @@ public class AgenciaController {
     @PutMapping(value = "/updateToSortNotas/{id}")
     public ResponseEntity<?> updateToSortNotas(@PathVariable("id") long id){
         Agencia agencia;
-
         try{
             agencia = agenciaService.findById(id).get();
             List<AvaliacaoPerUser> avaliacao = avaliacaoService.findByAgencia(agencia);
@@ -82,20 +81,16 @@ public class AgenciaController {
     @GetMapping(value = "/showComentarios/{id_agencia}")
     public ResponseEntity<?> showComentarios(@PathVariable ("id_agencia") long id_agencia){
         Agencia agencia = new Agencia();
-        HashMap<String,String> comentarios = new HashMap<String,String>();
+        HashMap<String,String> comentarios;
         try{
             agencia = agenciaService.findById(id_agencia).get();
             try{
-                List<AvaliacaoPerUser> avaliacoes = avaliacaoService.findByAgencia(agencia);
-                for(AvaliacaoPerUser avaliacao : avaliacoes) 
-                {
-        	        String nomeUser = avaliacao.getCliente().getNome();
-        	        String coment = avaliacao.getComentarios();
-        	
-        	        comentarios.put(nomeUser, coment);
-                }
+            	comentarios = agenciaService.showComentarios(agencia);
             }catch(NotFoundAgenciaException e){
                 return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND); 
+            }catch(NotFoundAvaliacaoException e) 
+            {
+            	return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
             }
 
         }catch(NotFoundAgenciaException e){
@@ -110,10 +105,11 @@ public class AgenciaController {
 
     @GetMapping(value = "/showNotas/{id_agencia}")
     public ResponseEntity<?> showNotas(@PathVariable ("id_agencia") long id_agencia){
-        Agencia agencia = new Agencia();
+        Agencia agencia;
+        List<Double> avaliacao;
         try{
             agencia = agenciaService.findById(id_agencia).get();
-            List<AvaliacaoPerUser> avaliacao = showNotas(agencia);
+            avaliacao = agenciaService.showNotas(agencia);
         }catch(NotFoundException e){
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }catch(NotFoundAgenciaException e){
