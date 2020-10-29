@@ -1,18 +1,26 @@
 package com.spring.viagemapp.service.serviceimpl;
 
 import com.spring.viagemapp.error.*;
+import com.spring.viagemapp.model.Agencia;
 import com.spring.viagemapp.model.Cliente;
 import com.spring.viagemapp.model.Usuario;
 import com.spring.viagemapp.model.Viagem;
+import com.spring.viagemapp.repository.AgenciaRepository;
 import com.spring.viagemapp.repository.ClienteRepository;
+import com.spring.viagemapp.repository.ViagemRepository;
+import com.spring.viagemapp.service.AgenciaService;
 import com.spring.viagemapp.service.ClienteService;
+import com.spring.viagemapp.service.ViagemService;
 import com.spring.viagemapp.utils.ClienteTags;
 
+import com.spring.viagemapp.utils.ViagemComNome;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -25,6 +33,10 @@ public class ClienteServiceImpl implements ClienteService {
 
     @Autowired
     ClienteRepository clienteRepository;
+    @Autowired
+    ViagemService viagemService;
+    @Autowired
+    AgenciaService agenciaService;
 
     @Override
     public List<Cliente> findAll() {
@@ -61,9 +73,9 @@ public class ClienteServiceImpl implements ClienteService {
         if(clienteTags.tagString != "") {
             List<String> tags = Arrays.asList(clienteTags.tagString.split(";"));
             for(int i = 0; i < tags.size(); i++) {
-                System.out.println("Tag Cliente (Antes):" + tags.get(i));
+                //System.out.println("Tag Cliente (Antes):" + tags.get(i));
                 tags.set(i, StringUtils.stripAccents(tags.get(i)).trim().toLowerCase());
-                System.out.println("Tag Cliente (Depois):" + tags.get(i));
+                //System.out.println("Tag Cliente (Depois):" + tags.get(i));
             }
             clienteTags.cliente.setTags(tags);
         }
@@ -82,6 +94,44 @@ public class ClienteServiceImpl implements ClienteService {
     //public List<Viagem> getViagensDoCliente(long idCliente){
        // return clienteRepository.getViagensDoCliente(idCliente);
     //}
+
+    public List<ViagemComNome> convert(List<Object[]> viagensObj){
+        List<Viagem> viagens = new ArrayList<Viagem>();
+
+        for(Object[] obj : viagensObj) {
+            Viagem viagem = new Viagem();
+
+            String bigString = (obj[0].toString());
+            BigInteger bi = new BigInteger(bigString);
+            Long idViagem = bi.longValue();
+            viagem.setIdv(idViagem);
+
+            List<String> tags = viagemService.getTagsViagem(viagem.getIdv());
+            viagem.setTags(tags);
+
+            viagem.setCapacidade((Integer) obj[1]);
+            viagem.setData((String) obj[2]);
+            viagem.setHorarioChegada((String) obj[3]);
+            viagem.setHorarioPartida((String) obj[4]);
+            viagem.setIdAgencia((Long.parseLong(obj[5].toString())));
+            viagem.setLocalChegada((String) obj[6]);
+            viagem.setLocalPartida((String) obj[7]);
+            viagem.setPreco((double) obj[8]);
+
+            viagens.add(viagem);
+        }
+
+        ArrayList<ViagemComNome> viagensComNome = new ArrayList<ViagemComNome>();
+        for(Viagem viagem: viagens){
+            ViagemComNome viagemComNome = new ViagemComNome();
+            viagemComNome.viagem = viagem;
+            Agencia agencia = agenciaService.findById(viagem.getIdAgencia()).get();
+            viagemComNome.nomeAgencia = agencia.getNome();
+            viagensComNome.add(viagemComNome);
+        }
+
+        return viagensComNome;
+    }
 
     @Override
     public List<Object[]> getViagensDoCliente(long idCliente){

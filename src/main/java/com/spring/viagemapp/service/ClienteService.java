@@ -4,6 +4,7 @@ package com.spring.viagemapp.service;
 import com.spring.viagemapp.model.Cliente;
 import com.spring.viagemapp.model.Usuario;
 import com.spring.viagemapp.utils.ClienteTags;
+import com.spring.viagemapp.utils.ViagemComNome;
 
 import java.util.List;
 import java.util.Optional;
@@ -25,4 +26,5 @@ public interface ClienteService {
 
     List<Object[]> getViagensDoCliente(long idCliente);
     List<String> getTagsCliente(long idCliente);
-    }
+    List<ViagemComNome> convert(List<Object[]> viagensObj);
+}

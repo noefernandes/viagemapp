@@ -25,7 +25,6 @@ public class ViagemController {
     ViagemService viagemService;
     @Autowired
     ClienteService clienteService;
-
     @Autowired
     AgenciaService agenciaService;
 
@@ -39,18 +38,45 @@ public class ViagemController {
         return new ResponseEntity<List<Viagem>>(listaViagens, HttpStatus.OK);
     }
 
-    @GetMapping("/viagensComNome")
-    public ResponseEntity<?> getViagensComNomeDeAgencia(){
+    @GetMapping("/{idCliente}/viagensComNome")
+    public ResponseEntity<?> getViagensComNomeDeAgencia(@PathVariable long idCliente){
         List<Viagem> listaViagens = viagemService.findAll();
         //if(listaViagens.isEmpty()){
          //   return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         //}
+        List<ViagemComNome> viagensCliente = clienteService.convert(clienteService.getViagensDoCliente(idCliente));
+        List<Long> indices = new ArrayList<Long>();
 
-        ArrayList<ViagemComNome> viagensComNome = new ArrayList<ViagemComNome>();
-        for(Viagem viagem: listaViagens){
+        for(int i = 0; i < viagensCliente.size(); i++){
+            System.out.println(viagensCliente.get(i).viagem.getIdv() + " ");
+            indices.add(viagensCliente.get(i).viagem.getIdv());
+        }
+
+
+        /*for(Viagem viagem: listaViagens){
             ViagemComNome viagemComNome = new ViagemComNome();
             viagemComNome.viagem = viagem;
             Agencia agencia = agenciaService.findById(viagem.getIdAgencia()).get();
+            viagemComNome.nomeAgencia = agencia.getNome();
+            viagensComNome.add(viagemComNome);
+        }*/
+
+        List<ViagemComNome> viagensComNome = new ArrayList<ViagemComNome>();
+        for(int i = 0; i < listaViagens.size(); i++){
+            boolean pular = false;
+            for(int j = 0; j < indices.size(); j++){
+                if(listaViagens.get(i).getIdv() == indices.get(j)){
+                    pular = true;
+                }
+            }
+
+            if(pular){
+                continue;
+            }
+
+            ViagemComNome viagemComNome = new ViagemComNome();
+            viagemComNome.viagem = listaViagens.get(i);
+            Agencia agencia = agenciaService.findById(listaViagens.get(i).getIdAgencia()).get();
             viagemComNome.nomeAgencia = agencia.getNome();
             viagensComNome.add(viagemComNome);
         }

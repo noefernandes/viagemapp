@@ -67,7 +67,7 @@ public class ClienteController {
         return new ResponseEntity<>(clienteService.resave(cliente), HttpStatus.OK);
     }
 
-    @GetMapping(value = "/viagensCliente/{idCliente}")
+    /*@GetMapping(value = "/viagensCliente/{idCliente}")
     public ResponseEntity<?> getViagensDoCliente(@PathVariable long idCliente){
         List<Object[]> viagensObj = clienteService.getViagensDoCliente(idCliente);
         List<Viagem> viagens = new ArrayList<Viagem>();
@@ -106,8 +106,16 @@ public class ClienteController {
         }
 
         return new ResponseEntity<>(viagensComNome, HttpStatus.OK);
-    }
+    }*/
 
+    @GetMapping(value = "/viagensCliente/{idCliente}")
+    public ResponseEntity<?> getViagensDoCliente(@PathVariable long idCliente){
+        List<Object[]> viagensObj = clienteService.getViagensDoCliente(idCliente);
+
+        List<ViagemComNome> viagensComNome = clienteService.convert(viagensObj);
+
+        return new ResponseEntity<>(viagensComNome, HttpStatus.OK);
+    }
 
     @PostMapping(value = "/loginCliente")
     public ResponseEntity<?> realizarLogin(@RequestBody @Valid Usuario usuario){
