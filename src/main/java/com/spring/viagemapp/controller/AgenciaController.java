@@ -5,6 +5,7 @@ import com.spring.viagemapp.model.*;
 import com.spring.viagemapp.service.AgenciaService;
 import com.spring.viagemapp.service.AvaliacaoPerUserService;
 import com.spring.viagemapp.service.ClienteService;
+import com.spring.viagemapp.utils.ComentarioComNome;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -82,12 +83,12 @@ public class AgenciaController {
     }
 
 //Aqui será retornado um hashmap, sendo a chave o nome do usuario que comentou e o valor o comentário
-    @GetMapping(value = "/showComentarios/{id_agencia}")
-    public ResponseEntity<?> showComentarios(@PathVariable ("id_agencia") long id_agencia){
+    @GetMapping(value = "/showComentarios/{idAgencia}")
+    public ResponseEntity<?> showComentarios(@PathVariable long idAgencia){
         Agencia agencia = new Agencia();
-        HashMap<String,String> comentarios;
+        List<ComentarioComNome> comentarios;
         try{
-            agencia = agenciaService.findById(id_agencia).get();
+            agencia = agenciaService.findById(idAgencia).get();
             try{
             	comentarios = agenciaService.showComentarios(agencia);
             }catch(NotFoundAgenciaException e){
@@ -104,7 +105,7 @@ public class AgenciaController {
         
         
         
-        return new ResponseEntity<HashMap<String,String>>(comentarios,HttpStatus.OK);
+        return new ResponseEntity<>(comentarios, HttpStatus.OK);
     }
 
     @GetMapping(value = "/showNotas/{id_agencia}")

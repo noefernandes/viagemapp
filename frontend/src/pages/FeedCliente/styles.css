@@ -158,3 +158,13 @@
 .button-minhas-viagens:hover{
     filter: brightness(90%);
 }
+
+.button-avaliar-agencia{
+    display: block;
+    font-size: 18px;
+    text-decoration: none;
+    color: blue;
+    margin-top: 5px;
+    margin-bottom: 15px;
+    font-weight: 400;
+}

@@ -77,11 +77,13 @@ export default function PerfilAgencia(){
         //Limpa o localStorage
         localStorage.clear();
         //Redireciona a home
-        history.push('/loginAgencia');
+        history.push('/loginCliente');
     }
 
-    function handleGuardarAgencia(id){
+    function handleGuardarAgencia(id, nomeAgencia){
         localStorage.setItem('idAgencia', id);
+        localStorage.setItem('nomeAgencia', nomeAgencia);
+        console.log('Primeiro:' + nomeAgencia);
     }
 
     if (loading) {
@@ -149,12 +151,12 @@ export default function PerfilAgencia(){
                     <ul>
                         {filteredViagensComNome.map(viagemComNome => (
                         <li>
-                             
-                            <Link className='button-avaliar-agencia' to='avaliarAgencia'
-                                      onClick={() => handleGuardarAgencia(viagemComNome.viagem.idAgencia)}>
-                                Agência
+                            <strong>Agência</strong>
+                            <Link className='button-avaliar-agencia' to='showAvaliacoes'
+                                      onClick={() => handleGuardarAgencia(viagemComNome.viagem.idAgencia, 
+                                                                    viagemComNome.nomeAgencia)}>
+                                {viagemComNome.nomeAgencia}
                             </Link>
-                            <p>{viagemComNome.nomeAgencia}</p>
                             <strong>Nota</strong>
                             <p>{viagemComNome.nota}</p>
                             <strong>Local de partida</strong>

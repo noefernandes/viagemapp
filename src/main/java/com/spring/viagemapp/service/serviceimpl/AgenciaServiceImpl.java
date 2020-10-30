@@ -3,16 +3,15 @@ package com.spring.viagemapp.service.serviceimpl;
 import com.spring.viagemapp.error.*;
 import com.spring.viagemapp.model.Agencia;
 import com.spring.viagemapp.model.AvaliacaoPerUser;
-import com.spring.viagemapp.model.Cliente;
 import com.spring.viagemapp.model.Usuario;
 import com.spring.viagemapp.repository.AgenciaRepository;
 import com.spring.viagemapp.service.AgenciaService;
+import com.spring.viagemapp.utils.ComentarioComNome;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
@@ -105,9 +104,9 @@ public class AgenciaServiceImpl implements AgenciaService {
 
     
     @Override
-	public HashMap<String,String> showComentarios(Agencia agencia)
+	public List<ComentarioComNome> showComentarios(Agencia agencia)
 	{
-		HashMap<String,String> comentarios = new HashMap<String, String>();
+		//HashMap<String, String> comentarios = new HashMap<String, String>();
 
 		List<AvaliacaoPerUser> avaliacoes = agencia.getAvaliacoes();
 		
@@ -115,16 +114,19 @@ public class AgenciaServiceImpl implements AgenciaService {
 		{
 			throw new NotFoundAvaliacaoException("A agência fornecida não possui avaliações");
 		}
-		
+
+		List<ComentarioComNome> comentariosComNome = new ArrayList<ComentarioComNome>();
+
 		for(AvaliacaoPerUser avaliacao : avaliacoes) 
 		{
-			String nomeUser = avaliacao.getCliente().getNome();
-			String coment = avaliacao.getComentarios();
+		    ComentarioComNome comentarioComNome = new ComentarioComNome();
+		    comentarioComNome.nomeCliente = avaliacao.getCliente().getNome();
+			comentarioComNome.comentario = avaliacao.getComentarios();
 	
-			comentarios.put(nomeUser, coment);
+			comentariosComNome.add(comentarioComNome);
 		}
 		
-		return comentarios;
+		return comentariosComNome;
 	}
     
     @Override

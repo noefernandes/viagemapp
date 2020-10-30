@@ -2,10 +2,9 @@ package com.spring.viagemapp.service;
 
 import com.spring.viagemapp.model.Agencia;
 import com.spring.viagemapp.model.AvaliacaoPerUser;
-import com.spring.viagemapp.model.Cliente;
 import com.spring.viagemapp.model.Usuario;
+import com.spring.viagemapp.utils.ComentarioComNome;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,5 +21,5 @@ public interface AgenciaService {
     Agencia checkLogin(Usuario usuario);
     void updateNota(Agencia agencia,  List<AvaliacaoPerUser> avaliacao);
     List<Double> showNotas(Agencia agencia);
-    HashMap<String,String> showComentarios(Agencia agencia);
+    List<ComentarioComNome> showComentarios(Agencia agencia);
 }
