@@ -119,18 +119,7 @@ public class AgenciaController {
         return new ResponseEntity<List<Double>>(avaliacao,HttpStatus.OK);
     }
 
-    /*@PostMapping(value = "/loginAgencia")
-    public ResponseEntity<?> realizarLogin(@RequestBody @Valid Usuario usuario){
-        Optional<Agencia> agenciaOp = agenciaService.findByNomeUsuario(usuario.getNomeUsuario());
 
-        if(!agenciaOp.isPresent()){
-            return new ResponseEntity<>("O usuário não existe", HttpStatus.NOT_FOUND);
-        }else if(!agenciaOp.get().getSenha().equals(getMd5(usuario.getSenha()))){
-            return new ResponseEntity<>("Senha incorreta", HttpStatus.UNAUTHORIZED);
-        }
-
-        return new ResponseEntity<Agencia>(agenciaOp.get(), HttpStatus.OK);
-    }*/
 
     @PostMapping(value = "/loginAgencia")
     public ResponseEntity<?> realizarLogin(@RequestBody @Valid Usuario usuario){

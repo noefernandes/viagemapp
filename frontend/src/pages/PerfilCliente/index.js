@@ -64,6 +64,8 @@ useEffect(() => {
                               <li>
                                   <strong>Agência</strong>
                                   <p>{viagemComNome.nomeAgencia}</p>
+                                  <strong>Nota</strong>
+                                  <p>{viagemComNome.nota}</p>
                                   <strong>Local de partida</strong>
                                   <p>{viagemComNome.viagem.localPartida}</p>
                                   <strong>Local de chegada</strong>

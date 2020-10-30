@@ -13,7 +13,7 @@ export default function AvaliarAgencia(){
     const [avaliacaoAtendimento, setAtendimento] = useState();
     const [avaliacaoPreco, setPreco] = useState();
     const [avaliacaoConforto, setConforto] = useState();
-    const[comentarios,setComentarios] = useState('');
+    const [comentarios,setComentarios] = useState('');
 
     const idUsuario = localStorage.getItem('idUsuario');
     const nomeUsuario = localStorage.getItem('nomeUsuario');

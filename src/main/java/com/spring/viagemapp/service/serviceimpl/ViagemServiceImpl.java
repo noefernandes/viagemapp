@@ -71,6 +71,7 @@ public class ViagemServiceImpl implements ViagemService {
             viagemComNome.viagem = listaViagens.get(i);
             Agencia agencia = agenciaService.findById(listaViagens.get(i).getIdAgencia()).get();
             viagemComNome.nomeAgencia = agencia.getNome();
+            viagemComNome.nota = agencia.getNota();
             viagensComNome.add(viagemComNome);
         }
         
