@@ -29,7 +29,7 @@ public class AvaliacaoPerUserServiceImpl implements AvaliacaoPerUserService {
 	@Override
 	public List<AvaliacaoPerUser> findByAgencia(Agencia agencia) {
 		if(agencia.getAvaliacoes().isEmpty()){
-            throw new NotFoundViagensException("Esta agência não avaliações");
+            throw new NotFoundAgenciaException("Esta agência não tem avaliações");
         }
         return agencia.getAvaliacoes();
 	}

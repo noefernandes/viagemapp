@@ -11,6 +11,7 @@ import CadastroViagem from './pages/CadastroViagem';
 import PerfilCliente from './pages/PerfilCliente';
 import FeedCliente from './pages/FeedCliente';
 import AvaliarAgencia from './pages/AvaliarAgencia';
+import ShowAvaliacoes from './pages/ShowAvaliacoes';
 
 export default function Routes(){
     return (
@@ -26,6 +27,7 @@ export default function Routes(){
                 <Route path='/perfilCliente' exact component={PerfilCliente}/>
                 <Route path='/feedCliente' exact component={FeedCliente}/>
                 <Route path='/avaliarAgencia' exact component={AvaliarAgencia}/>
+                <Route path='/showAvaliacoes' exact component={ShowAvaliacoes}/>
             </Switch>
         </BrowserRouter>
     );

@@ -21,4 +21,5 @@ public interface AgenciaService {
     Optional<Agencia> findByNomeUsuario(String nomeUsuario);
     Agencia checkLogin(Usuario usuario);
     void updateNota(Agencia agencia,  List<AvaliacaoPerUser> avaliacao);
+    List<Double> showNotas(Agencia agencia);
 }

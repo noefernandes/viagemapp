@@ -78,6 +78,7 @@ public class AgenciaServiceImpl implements AgenciaService {
         Double media3 = 0.0;
         Double media4 = 0.0;
         Double media5 = 0.0;
+        
 
         for(AvaliacaoPerUser nota : avaliacao)
         {
@@ -88,9 +89,56 @@ public class AgenciaServiceImpl implements AgenciaService {
             media5 += nota.getAvaliacaoPreco();
         }
 
+        media1 /= avaliacao.size();
+        media2 /= avaliacao.size();
+        media3 /= avaliacao.size();
+        media4 /= avaliacao.size();
+        media5 /= avaliacao.size();
+
         Double mediaGeral = (media1+media2+media3+media4+media5) / 5;
         agencia.setNota(mediaGeral);
         agenciaRepository.save(agencia);
+    }
+
+    @Override
+    public List<Double> showNotas(Agencia agencia){
+        List<AvaliacaoPerUser> avaliacao = findByAgencia(agencia);
+
+        if(avaliacao.isEmpty()){
+            throw new NotFoundAgenciaException("Agencia não encontrada");
+        }
+        Double media1 = 0.0;
+        Double media2 = 0.0;
+        Double media3 = 0.0;
+        Double media4 = 0.0;
+        Double media5 = 0.0;
+        List<Double> notas = new ArrayList<>();
+
+        for(AvaliacaoPerUser nota : avaliacao)
+        {
+            media1 += nota.getAvaliacaoAtendimento();
+            media2 += nota.getAvaliacaoLimpeza();
+            media3 += nota.getAvaliacaoRapidez();
+            media4 += nota.getAvaliacaoConforto();
+            media5 += nota.getAvaliacaoPreco();
+        }
+
+        if(avaliacao.isEmpty()){
+            throw new NotFoundException("Não há avaliações ainda!");
+        }
+
+        media1 /= avaliacao.size();
+        media2 /= avaliacao.size();
+        media3 /= avaliacao.size();
+        media4 /= avaliacao.size();
+        media5 /= avaliacao.size();
+
+        notas.add(media1);
+        notas.add(media2);
+        notas.add(media3);
+        notas.add(media4);
+        notas.add(media5);
+        return notas;
     }
 
     @Override

@@ -81,20 +81,46 @@ public class AgenciaController {
 //Aqui será retornado um hashmap, sendo a chave o nome do usuario que comentou e o valor o comentário
     @GetMapping(value = "/showComentarios/{id_agencia}")
     public ResponseEntity<?> showComentarios(@PathVariable ("id_agencia") long id_agencia){
-        Agencia agencia = agenciaService.findById(id_agencia).get();
+        Agencia agencia = new Agencia();
         HashMap<String,String> comentarios = new HashMap<String,String>();
-        
-        List<AvaliacaoPerUser> avaliacoes = avaliacaoService.findByAgencia(agencia);
-        
-        for(AvaliacaoPerUser avaliacao : avaliacoes) 
-        {
-        	String nomeUser = avaliacao.getCliente().getNome();
-        	String coment = avaliacao.getComentarios();
+        try{
+            agencia = agenciaService.findById(id_agencia).get();
+            try{
+                List<AvaliacaoPerUser> avaliacoes = avaliacaoService.findByAgencia(agencia);
+                for(AvaliacaoPerUser avaliacao : avaliacoes) 
+                {
+        	        String nomeUser = avaliacao.getCliente().getNome();
+        	        String coment = avaliacao.getComentarios();
         	
-        	comentarios.put(nomeUser, coment);
+        	        comentarios.put(nomeUser, coment);
+                }
+            }catch(NotFoundAgenciaException e){
+                return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND); 
+            }
+
+        }catch(NotFoundAgenciaException e){
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND); 
         }
         
+        
+        
+        
         return new ResponseEntity<HashMap<String,String>>(comentarios,HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/showNotas/{id_agencia}")
+    public ResponseEntity<?> showNotas(@PathVariable ("id_agencia") long id_agencia){
+        Agencia agencia = new Agencia();
+        try{
+            agencia = agenciaService.findById(id_agencia).get();
+            List<AvaliacaoPerUser> avaliacao = showNotas(agencia);
+        }catch(NotFoundException e){
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        }catch(NotFoundAgenciaException e){
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<List<Double>>(avaliacao,HttpStatus.OK);
     }
 
     /*@PostMapping(value = "/loginAgencia")

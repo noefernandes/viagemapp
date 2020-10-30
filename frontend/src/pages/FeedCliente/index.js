@@ -73,6 +73,10 @@ export default function PerfilAgencia(){
         history.push('/loginAgencia');
     }
 
+    function handleGuardarAgencia(id){
+        localStorage.setItem('idAgencia', id);
+    }
+
     if (loading) {
         return <p>Carregando Viagens...</p>;
     }
@@ -138,7 +142,11 @@ export default function PerfilAgencia(){
                     <ul>
                         {filteredViagensComNome.map(viagemComNome => (
                         <li>
-                             <strong>Agência</strong>
+                             
+                            <Link className='button-avaliar-agencia' to='avaliarAgencia'
+                                      onClick={() => handleGuardarAgencia(viagemComNome.viagem.idAgencia)}>
+                                Agência
+                            </Link>
                             <p>{viagemComNome.nomeAgencia}</p>
                             <strong>Local de partida</strong>
                             <p>{viagemComNome.viagem.localPartida}</p>
