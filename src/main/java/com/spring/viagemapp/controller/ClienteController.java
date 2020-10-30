@@ -31,6 +31,8 @@ public class ClienteController {
     ViagemService viagemService;
     @Autowired
     AgenciaService agenciaService;
+    @Autowired
+    ClienteViagemService clienteViagemService;
 
 
     @PostMapping(value = "/cadastroCliente")
@@ -53,7 +55,6 @@ public class ClienteController {
 
     @PostMapping(value="/{idCliente}/comprarViagem/{idViagem}")
     public ResponseEntity<?> comprarViagem(@PathVariable long idCliente, @PathVariable long idViagem){
-        System.out.println("Ta passando");
         Cliente cliente = clienteService.findById(idCliente).get();
         Viagem viagem = viagemService.findById(idViagem).get();
         ClienteViagem clienteViagem = new ClienteViagem();
@@ -66,48 +67,24 @@ public class ClienteController {
 
         return new ResponseEntity<>(clienteService.resave(cliente), HttpStatus.OK);
     }
-
-    /*@GetMapping(value = "/viagensCliente/{idCliente}")
-    public ResponseEntity<?> getViagensDoCliente(@PathVariable long idCliente){
-        List<Object[]> viagensObj = clienteService.getViagensDoCliente(idCliente);
-        List<Viagem> viagens = new ArrayList<Viagem>();
-
-
-        for(Object[] obj : viagensObj) {
-            Viagem viagem = new Viagem();
-
-            String bigString = (obj[0].toString());
-            BigInteger bi = new BigInteger(bigString);
-            Long idViagem = bi.longValue();
-            viagem.setIdv(idViagem);
-
-            List<String> tags = viagemService.getTagsViagem(viagem.getIdv());
-            viagem.setTags(tags);
-
-            viagem.setCapacidade((Integer) obj[1]);
-            viagem.setData((String) obj[2]);
-            viagem.setHorarioChegada((String) obj[3]);
-            viagem.setHorarioPartida((String) obj[4]);
-            viagem.setIdAgencia((Long.parseLong(obj[5].toString())));
-            viagem.setLocalChegada((String) obj[6]);
-            viagem.setLocalPartida((String) obj[7]);
-            viagem.setPreco((double) obj[8]);
-
-            viagens.add(viagem);
+    
+    @DeleteMapping(value="/{idCliente}/deletarViagemDoCliente/{idViagem}")
+    public ResponseEntity<?> deletarViagemDoCliente(@PathVariable long idCliente, @PathVariable long idViagem){
+        Cliente cliente;
+        Viagem viagem;
+        try{
+            cliente = clienteService.findById(idCliente).get();
+            viagem = viagemService.findById(idViagem).get();
+            clienteViagemService.deleteViagem(idCliente,idViagem);            
+        }catch(NotFoundClienteException e){
+            return new ResponseEntity<>(e.getMessage(),HttpStatus.NOT_FOUND);
+        }catch(NotFoundViagensException e){
+            return new ResponseEntity<>(e.getMessage(),HttpStatus.NOT_FOUND);
         }
+        return new ResponseEntity<>(HttpStatus.OK);
+    }  
 
-        ArrayList<ViagemComNome> viagensComNome = new ArrayList<ViagemComNome>();
-        for(Viagem viagem: viagens){
-            ViagemComNome viagemComNome = new ViagemComNome();
-            viagemComNome.viagem = viagem;
-            Agencia agencia = agenciaService.findById(viagem.getIdAgencia()).get();
-            viagemComNome.nomeAgencia = agencia.getNome();
-            viagensComNome.add(viagemComNome);
-        }
-
-        return new ResponseEntity<>(viagensComNome, HttpStatus.OK);
-    }*/
-
+    
     @GetMapping(value = "/viagensCliente/{idCliente}")
     public ResponseEntity<?> getViagensDoCliente(@PathVariable long idCliente){
         List<Object[]> viagensObj = clienteService.getViagensDoCliente(idCliente);

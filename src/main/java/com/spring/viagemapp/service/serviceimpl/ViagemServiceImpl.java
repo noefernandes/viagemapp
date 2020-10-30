@@ -100,7 +100,12 @@ public class ViagemServiceImpl implements ViagemService {
 
     @Override
     public Optional<Viagem> findById(long id) {
-        return viagemRepository.findById(id);
+        Optional<Viagem> viagem;
+        viagem = viagemRepository.findById(id);
+        if(!viagem.isPresent()){
+            throw new NotFoundViagensException("Viagem não encontrada");
+        }
+        return viagem;
     }
 
     public Viagem save(ViagemTags viagemTags) {

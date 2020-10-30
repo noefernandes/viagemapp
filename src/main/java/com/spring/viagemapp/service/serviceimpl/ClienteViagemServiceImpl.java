@@ -15,6 +15,12 @@ public class ClienteViagemServiceImpl implements ClienteViagemService {
     @Autowired
     ClienteViagemRepository clienteViagemRepository;
 
+    @Autowired
+    ClienteRepository clienteRepository;
+
+    @Autowired
+    ViagemRepository viagemRepository;
+
 
     @Override
     public List<ClienteViagem> findAll() {
@@ -34,5 +40,13 @@ public class ClienteViagemServiceImpl implements ClienteViagemService {
     @Override
     public void deleteById(long id) {
         clienteViagemRepository.deleteById(id);
+    }
+
+    @Override
+    public void deleteViagem(long idCliente, long idViagem){
+    
+        ClienteViagem clienteViagem;
+
+        clienteViagemRepository.deleteClienteViagem(idCliente,idViagem);
     }
 }

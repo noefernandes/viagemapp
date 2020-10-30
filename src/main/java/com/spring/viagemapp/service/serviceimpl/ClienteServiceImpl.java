@@ -139,6 +139,8 @@ public class ClienteServiceImpl implements ClienteService {
         return clienteRepository.getViagensDoCliente(idCliente);
     }
 
+    
+
     @Override
     public List<String> getTagsCliente(long idCliente){
         return clienteRepository.getTagsCliente(idCliente);

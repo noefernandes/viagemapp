@@ -42,7 +42,7 @@ public class Viagem {
     private Agencia agencia;
 
     @JsonManagedReference("cliente_viagem-viagem")
-    @OneToMany(mappedBy = "viagem", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "viagem")
     private List<ClienteViagem> clienteViagem;
 
     private long idAgencia;

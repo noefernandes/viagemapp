@@ -10,4 +10,5 @@ public interface ClienteViagemService {
     ClienteViagem findById(long id);
     ClienteViagem save(ClienteViagem clienteViagem);
     void deleteById(long id);
+    void deleteViagem(long idCliente, long idViagem);
 }

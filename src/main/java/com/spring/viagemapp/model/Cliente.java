@@ -25,7 +25,7 @@ public class Cliente extends Usuario{
     //Adding in the cascade = {CascadeType.ALL} on the Parent's reference to the Child solved
     // the problem in both cases. This saved the Child and the Parent.
     @JsonManagedReference("cliente-cliente_viagem")
-    @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "cliente")
     private List<ClienteViagem> clienteViagem;
     
     @JsonManagedReference("Avaliacao-cliente-reference")
