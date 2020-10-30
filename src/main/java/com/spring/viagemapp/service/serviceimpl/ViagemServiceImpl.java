@@ -79,14 +79,14 @@ public class ViagemServiceImpl implements ViagemService {
         {
         	if(rhs.nota < lhs.nota) 
         	{
-        		return -1;
+        		return 1;
         	}
         	else if(rhs.nota == lhs.nota) 
         	{
         		return 0;
         	}
         	
-        	return 1;
+        	return -1;
         });
 
         return viagensComNome;

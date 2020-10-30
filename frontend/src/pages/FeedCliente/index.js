@@ -18,6 +18,7 @@ export default function PerfilAgencia(){
     const [tags, setTags] = useState([]);
     const [loading, setLoading] = useState(false);
     const [filteredViagensComNome, setFilteredViagensComNome] = useState([]);
+    const [aux, setAux] = useState([]);
 
     //Para pegar valor do nome da agencia
     const [temp, setTemp] = useState('');
@@ -38,22 +39,28 @@ export default function PerfilAgencia(){
             alert('Erro ao comprar viagem.');
         }
     }
-    
+
     useEffect(() => {
         setLoading(true);
         //
         api.get(`${idUsuario}/viagensComNome/`).then(response => {
             setViagensComNome(response.data);
             console.log(response.data);
+            setAux(response.data);
             setLoading(false);
         })
     }, [idUsuario]);
 
 
     useEffect(() => {
+
         setFilteredViagensComNome(
           viagensComNome.filter((viagemComNome) =>{
-            
+            if(tags[0] === "")
+            {
+                console.log(aux);
+                return aux;
+            }
             return (
                viagemComNome.nomeAgencia.toLowerCase().includes(nomeAgencia.toLowerCase())
             && viagemComNome.viagem.localPartida.toLowerCase().includes(localPartida.toLowerCase())
