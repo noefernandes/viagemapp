@@ -17,6 +17,8 @@ export default function ShowAvaliacoes(){
 
     const idAgencia = localStorage.getItem('idAgencia');
 
+    const history = useHistory();
+
     useEffect(() => {
         //Pegando viagens do cliente
         api.get(`/showNotas/${idAgencia}`).then(response => {
@@ -56,7 +58,7 @@ export default function ShowAvaliacoes(){
                                    <strong>Conforto</strong>
                                    <p>{avaliacoes[0]}</p>
                                    
-                    
+                               </li>
                            </ul>
                        </div>
                    </div>

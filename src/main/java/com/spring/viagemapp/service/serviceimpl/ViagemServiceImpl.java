@@ -73,7 +73,20 @@ public class ViagemServiceImpl implements ViagemService {
             viagemComNome.nomeAgencia = agencia.getNome();
             viagensComNome.add(viagemComNome);
         }
-        Arrays.sort(viagensComNome);
+        
+        viagensComNome.sort((ViagemComNome rhs, ViagemComNome lhs) -> 
+        {
+        	if(rhs.nota < lhs.nota) 
+        	{
+        		return -1;
+        	}
+        	else if(rhs.nota == lhs.nota) 
+        	{
+        		return 0;
+        	}
+        	
+        	return 1;
+        });
 
         return viagensComNome;
     }

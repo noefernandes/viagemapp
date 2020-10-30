@@ -41,9 +41,9 @@ public class ViagemController {
 
     @GetMapping("/{idCliente}/viagensComNome")
     public ResponseEntity<?> getViagensComNomeDeAgencia(@PathVariable long idCliente){
-        List<ViagemComNome> viagensComNome = new ArrayList<>();
+        List<ViagemComNome> viagensComNome;
         try{
-             = viagemService.findAllSort(idCliente);
+        	viagensComNome  = viagemService.findAllSort(idCliente);
         }catch (NotFoundException e){
             return new ResponseEntity<>(e.getMessage(), HttpStatus.FORBIDDEN);
         }

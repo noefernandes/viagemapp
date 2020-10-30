@@ -50,7 +50,7 @@ useEffect(() => {
                     <img src={logoImg} alt="Logo ViagemApp"/>
 
                     <div style={{display:"flex", alignItems: "center", justifyContent: "center", flexDirection: "row"}}>
-                    <Link className='button-minhas-viagens' to='perfilCliente'>Feed</Link>
+                    <Link className='button-minhas-viagens' to='feedCliente'>Feed</Link>
                         <button onClick={handleLogout} type='button' className="power" style={{ borderStyle:'none' }}>
                             <FiPower size={50} />
                         </button>
