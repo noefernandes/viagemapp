@@ -127,6 +127,7 @@ public class ClienteServiceImpl implements ClienteService {
             viagemComNome.viagem = viagem;
             Agencia agencia = agenciaService.findById(viagem.getIdAgencia()).get();
             viagemComNome.nomeAgencia = agencia.getNome();
+            viagemComNome.nota = agencia.getNota();
             viagensComNome.add(viagemComNome);
         }
 
