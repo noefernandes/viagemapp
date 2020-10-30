@@ -1,6 +1,7 @@
 package com.spring.viagemapp.model;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -20,16 +21,19 @@ public class AvaliacaoPerUser
     @SequenceGenerator(name="seq_avaliacao", initialValue=1, allocationSize=1)
     private long id;
 	
+	private long idAgencia;
+	private long idCliente;
+	
 	// Elemento do mapeamento com a agência
 	@ManyToOne
 	@JsonBackReference("Avaliacao-agencia-reference")
-    @JoinColumn(name = "id_agencia")
+    @JoinColumn(name = "agencia_id")
     private Agencia agencia;
 	
 	// Elemento do mapeamento com o cliente
 	@ManyToOne
 	@JsonBackReference("Avaliacao-cliente-reference")
-    @JoinColumn(name = "id_cliente")
+    @JoinColumn(name = "cliente_id")
     private Cliente cliente;
 
     private double avaliacaoConforto;
@@ -43,6 +47,24 @@ public class AvaliacaoPerUser
     private double avaliacaoLimpeza;
     
     private String comentarios;
+
+    
+    
+	public long getIdAgencia() {
+		return idAgencia;
+	}
+
+	public void setIdAgencia(long idAgencia) {
+		this.idAgencia = idAgencia;
+	}
+
+	public long getIdCliente() {
+		return idCliente;
+	}
+
+	public void setIdCliente(long idCliente) {
+		this.idCliente = idCliente;
+	}
 
 	public long getId() {
 		return id;

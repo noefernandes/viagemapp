@@ -37,7 +37,7 @@ public class Viagem {
     private int capacidade;
 
     @JsonBackReference("agencia_viagem-viagem")
-    @ManyToOne
+    @ManyToOne(fetch=FetchType.EAGER)
     @JoinColumn(name = "agencia_id")
     private Agencia agencia;
 

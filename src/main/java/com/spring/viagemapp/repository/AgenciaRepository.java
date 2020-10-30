@@ -2,6 +2,9 @@ package com.spring.viagemapp.repository;
 
 import com.spring.viagemapp.model.Agencia;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.util.Optional;
 
@@ -12,7 +15,6 @@ public interface AgenciaRepository extends JpaRepository<Agencia, Long> {
     boolean existsByEmail(String email);
     boolean existsByNomeUsuario(String nomeUsuario);
     boolean existsByNome(String nome);
-
 
     Optional<Agencia> findByNomeUsuario(String nomeUsuario);
 }

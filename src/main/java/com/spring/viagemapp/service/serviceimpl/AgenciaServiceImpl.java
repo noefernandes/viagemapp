@@ -97,6 +97,9 @@ public class AgenciaServiceImpl implements AgenciaService {
 
         Double mediaGeral = (media1+media2+media3+media4+media5) / 5;
         agencia.setNota(mediaGeral);
+        System.out.print(agencia.getNota());
+        
+        
         agenciaRepository.save(agencia);
     }
 

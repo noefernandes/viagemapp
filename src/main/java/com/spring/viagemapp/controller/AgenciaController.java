@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.transaction.Transactional;
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -56,6 +57,8 @@ public class AgenciaController {
         
         // Associamos os clientes e agência a avaliação e vice-versa
         avaliacao.setAgencia(agencia);
+        avaliacao.setIdAgencia(agencia.getId());
+        avaliacao.setIdCliente(cliente.getId());
         avaliacao.setCliente(cliente);
         
         // Chamando o service de avaliação para salvar o dado
@@ -64,6 +67,7 @@ public class AgenciaController {
         return new ResponseEntity<Agencia>(agencia, HttpStatus.OK);
     }
 
+    @Transactional
     @PutMapping(value = "/updateToSortNotas/{id}")
     public ResponseEntity<?> updateToSortNotas(@PathVariable("id") long id){
         Agencia agencia;
