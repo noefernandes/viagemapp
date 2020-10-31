@@ -101,15 +101,7 @@ export default function CadastroCliente(){
                         />
                     </div>
 
-                    <h2 style={{marginBottom: 30}}>Insira suas preferências para viagem (separe com ";")</h2>
-                    <div className="tags">
-                        <input 
-                            type='text'
-                            placeholder='Tags' 
-                            value={tagString}
-                            onChange={e => setTags(e.target.value)}
-                        />
-                    </div>
+                    
 
                     <button type='submit'>Cadastrar</button>
 

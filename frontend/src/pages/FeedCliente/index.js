@@ -33,10 +33,13 @@ export default function PerfilAgencia(){
             const response = await api.post(`/${idUsuario}/comprarViagem/${idv}`, idUsuario);
             /*Filtra a lista de incidents mantendo apenas aqueles
             com id diferente do com id deletado*/
-            console.log(response.data.nome);
             setViagensComNome(viagensComNome.filter(viagemComNome => viagemComNome.viagem.idv !== idv));
-        }catch(Err){
-            alert('Erro ao comprar viagem.');
+        }catch(err){
+            if(err.response.status === 403){
+                alert(err.response.data);
+            }else{
+                alert('Erro ao comprar viagem.');
+            }
         }
     }
 
@@ -172,7 +175,7 @@ export default function PerfilAgencia(){
                             <strong>Preço</strong>
                             <p>{Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(viagemComNome.viagem.preco)}</p>
                             <strong>Capacidade</strong>
-                            <p>{viagemComNome.viagem.capacidade}</p>
+                            <p>{viagemComNome.viagem.qtdPassageiros}/{viagemComNome.viagem.capacidade}</p>
                             <strong>Tags: </strong>
                             <ul className="listaTags">
                                 {viagemComNome.viagem.tags.map(tag => (

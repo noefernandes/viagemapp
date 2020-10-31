@@ -24,5 +24,9 @@ public interface ClienteRepository extends JpaRepository<Cliente, Long> {
 
     @Query(value="select ct.tags from cliente_tags ct where ct.cliente_id = ?1", nativeQuery = true)
     List<String> getTagsCliente(long idCliente);
+
+    @Query(value = "select count(*) from cliente_viagem cv, cliente c where" +
+            " cv.id_viagem = ?1 and cv.id_cliente = c.id", nativeQuery = true)
+    int quantidadeDeClientes(long idViagem);
 }
 

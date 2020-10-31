@@ -77,7 +77,7 @@ useEffect(() => {
                                   <strong>Preço</strong>
                                   <p>{Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(viagemComNome.viagem.preco)}</p>
                                   <strong>Capacidade</strong>
-                                  <p>{viagemComNome.viagem.capacidade}</p>
+                                  <p>{viagemComNome.viagem.qtdPassageiros}/{viagemComNome.viagem.capacidade}</p>
 
                                   <div>
                                     <button

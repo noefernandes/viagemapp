@@ -19,6 +19,7 @@ export default function PerfilAgencia(){
     useEffect(() => {
         api.get(`/agencias/${idUsuario}`).then(response => {
             setViagens(response.data.viagens);
+            console.log(response.data.viagens);
         })
     }, [idUsuario]);
 
@@ -71,7 +72,7 @@ export default function PerfilAgencia(){
                             <strong>Preço</strong>
                             <p>{Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(viagem.preco)}</p>
                             <strong>Capacidade</strong>
-                            <p>{viagem.capacidade}</p>
+                            <p>{viagem.qtdPassageiros}/{viagem.capacidade}</p>
                             <strong>Tags: </strong>
                             <ul className="listaTags">
                                 {viagem.tags.map(tag => (

@@ -25,8 +25,10 @@ public class Viagem {
     private String horarioPartida;
     @NotBlank
     private String horarioChegada;
+
     @NotBlank
     private String data;
+    private int qtdPassageiros;
 
     @ElementCollection
     private List<String> tags;
@@ -57,7 +59,6 @@ public class Viagem {
     public void setAgencia(Agencia agencia) {
         this.agencia = agencia;
     }
-
 
 
     public Long getIdv() {
@@ -139,13 +140,13 @@ public class Viagem {
         this.horarioChegada = horarioChegada;
     }
 
-    /*public int getQtdPassageiros() {
+    public int getQtdPassageiros() {
         return qtdPassageiros;
     }
 
     public void setQtdPassageiros(int qtdPassageiros) {
         this.qtdPassageiros = qtdPassageiros;
-    }*/
+    }
 
     public List<ClienteViagem> getClienteViagem() {
         return clienteViagem;

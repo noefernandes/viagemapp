@@ -64,15 +64,24 @@ public class ClienteController {
         clienteViagem.setViagem(viagem);
         clienteViagem.setIdViagem(idViagem);
         cliente.getClienteViagem().add(clienteViagem);
-        viagem.getClienteViagem().add(clienteViagem);*/
-
-
-        ClienteViagem clienteViagem = new ClienteViagem();
-        clienteViagem.setIdCliente(idCliente);
-        clienteViagem.setIdViagem(idViagem);
-
+        viagem.getClienteViagem().add(clienteViagem);
         //return new ResponseEntity<>(clienteService.resave(cliente), HttpStatus.OK);
-        return new ResponseEntity<>(clienteViagemService.save(clienteViagem), HttpStatus.OK);
+        */
+
+        int qtdClientes = clienteService.quantidadeDeClientes(idViagem);
+        Viagem viagem = viagemService.findById(idViagem).get();
+
+        if(qtdClientes < viagem.getCapacidade()) {
+            ClienteViagem clienteViagem = new ClienteViagem();
+            clienteViagem.setIdCliente(idCliente);
+            clienteViagem.setIdViagem(idViagem);
+
+            viagem.setQtdPassageiros(qtdClientes + 1);
+
+            return new ResponseEntity<>(clienteViagemService.save(clienteViagem), HttpStatus.OK);
+        }else{
+            return  new ResponseEntity<>("Viagem cheia", HttpStatus.FORBIDDEN);
+        }
     }
     
     @DeleteMapping(value="/{idCliente}/deletarViagemDoCliente/{idViagem}")
@@ -82,6 +91,11 @@ public class ClienteController {
         try{
             cliente = clienteService.findById(idCliente).get();
             viagem = viagemService.findById(idViagem).get();
+
+
+            int qtdClientes = clienteService.quantidadeDeClientes(idViagem);
+            viagem.setQtdPassageiros(qtdClientes - 1);
+
             clienteViagemService.deleteViagem(idCliente,idViagem);            
         }catch(NotFoundClienteException e){
             return new ResponseEntity<>(e.getMessage(),HttpStatus.NOT_FOUND);
@@ -128,7 +142,12 @@ public class ClienteController {
         return new ResponseEntity<>(clientes, HttpStatus.OK);
     }
 
-    @RequestMapping(value="/clientes/{id}", method=RequestMethod.GET)
+    @GetMapping(value = "/{idViagem}/quantidadeDeClientes")
+    public ResponseEntity<?> quantidadeDeClientes(@PathVariable long idViagem){
+        return new ResponseEntity<>(clienteService.quantidadeDeClientes(idViagem), HttpStatus.OK);
+    }
+
+    /*@RequestMapping(value="/clientes/{id}", method=RequestMethod.GET)
     public ResponseEntity<?> getPostClienteDetails(@PathVariable("id") long id){
         Optional<Cliente> cliente;
         try{
@@ -138,16 +157,8 @@ public class ClienteController {
         }
 
         return new ResponseEntity<>(cliente.get(),HttpStatus.OK);
-    }
-    
-    /*@PostMapping("clientes/{id}/tag")
-    public ResponseEntity<?> cadastrarTags(@RequestBody ClienteTags clienteTags, @PathVariable long id){
-        if(clienteService.addNewTags(id,clienteTags)){
-            return new ResponseEntity<Agencia>(HttpStatus.OK);
-        }
-        return new ResponseEntity<>("O cliente com ID" + id + "não existe",HttpStatus.NOT_FOUND);
-    }
-     */
+    }*/
+
 
 
 
