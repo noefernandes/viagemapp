@@ -58,7 +58,7 @@ public class ClienteServiceImpl implements ClienteService {
     }
 
     @Override
-    @Transactional(readOnly = false)
+    //@Transactional(readOnly = false)
     public Cliente save(ClienteTags clienteTags) {
         if(clienteRepository.existsByNome(clienteTags.cliente.getNome())){
             throw new RepeatedNameException("O nome já existe");
@@ -85,7 +85,7 @@ public class ClienteServiceImpl implements ClienteService {
     }
 
     @Override
-    @Transactional(readOnly = false)
+    //@Transactional(readOnly = false)
     public Cliente resave(Cliente cliente) {
         return clienteRepository.save(cliente);
     }
@@ -164,7 +164,7 @@ public class ClienteServiceImpl implements ClienteService {
     }
 
 	@Override
-    @Transactional(readOnly = false)
+    //@Transactional(readOnly = false)
     public void deleteById(long id) { clienteRepository.deleteById(id); }
 
     @Override

@@ -56,7 +56,7 @@ public class ClienteController {
 
     @PostMapping(value="/{idCliente}/comprarViagem/{idViagem}")
     public ResponseEntity<?> comprarViagem(@PathVariable long idCliente, @PathVariable long idViagem){
-        Cliente cliente = clienteService.findById(idCliente).get();
+        /*Cliente cliente = clienteService.findById(idCliente).get();
         Viagem viagem = viagemService.findById(idViagem).get();
         ClienteViagem clienteViagem = new ClienteViagem();
         clienteViagem.setCliente(cliente);
@@ -64,9 +64,15 @@ public class ClienteController {
         clienteViagem.setViagem(viagem);
         clienteViagem.setIdViagem(idViagem);
         cliente.getClienteViagem().add(clienteViagem);
-        viagem.getClienteViagem().add(clienteViagem);
+        viagem.getClienteViagem().add(clienteViagem);*/
 
-        return new ResponseEntity<>(clienteService.resave(cliente), HttpStatus.OK);
+
+        ClienteViagem clienteViagem = new ClienteViagem();
+        clienteViagem.setIdCliente(idCliente);
+        clienteViagem.setIdViagem(idViagem);
+
+        //return new ResponseEntity<>(clienteService.resave(cliente), HttpStatus.OK);
+        return new ResponseEntity<>(clienteViagemService.save(clienteViagem), HttpStatus.OK);
     }
     
     @DeleteMapping(value="/{idCliente}/deletarViagemDoCliente/{idViagem}")

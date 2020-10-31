@@ -22,12 +22,12 @@ public class ClienteViagem {
 	private long idCliente;
 
 	@JsonBackReference("cliente-cliente_viagem")
-	@ManyToOne(cascade={CascadeType.REFRESH})
+	@ManyToOne(cascade={CascadeType.ALL})
 	@JoinColumn(name = "cliente_id")
 	private Cliente cliente;
 
 	@JsonBackReference("cliente_viagem-viagem")
-	@ManyToOne(cascade={CascadeType.REFRESH})
+	@ManyToOne(cascade={CascadeType.ALL})
 	@JoinColumn(name = "viagem_id")
 	private Viagem viagem;
 
