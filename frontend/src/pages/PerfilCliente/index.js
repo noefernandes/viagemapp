@@ -23,7 +23,7 @@ useEffect(() => {
         })
     }, [idUsuario]);
 
-    async function handleDeleteViagem(idv){
+    async function handleDeleteViagemDoCliente(idv){
         try{
             await api.delete(`/${idUsuario}/deletarViagemDoCliente/${idv}`);
             /*Filtra a lista de incidents mantendo apenas aqueles
@@ -81,7 +81,7 @@ useEffect(() => {
 
                                   <div>
                                     <button
-                                        onClick={() => handleDeleteViagem(viagem.id)}
+                                        onClick={() => handleDeleteViagemDoCliente(viagemComNome.viagem.idv)}
                                         type='button'
                                         className='trash'
                                     >

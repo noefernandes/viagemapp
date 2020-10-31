@@ -4,6 +4,7 @@ import com.spring.viagemapp.error.*;
 import com.spring.viagemapp.model.*;
 import com.spring.viagemapp.service.AgenciaService;
 import com.spring.viagemapp.service.ClienteService;
+import com.spring.viagemapp.service.ClienteViagemService;
 import com.spring.viagemapp.service.ViagemService;
 import com.spring.viagemapp.utils.ClienteTags;
 
