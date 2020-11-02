@@ -10,7 +10,10 @@ import com.spring.viagemapp.utils.ViagemComNome;
 import com.spring.viagemapp.utils.ViagemTags;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -28,6 +31,8 @@ public class ViagemServiceImpl implements ViagemService {
 
     @Autowired
     ClienteService clienteService;
+
+
 
     @Override
     public List<Viagem> findAll() {
@@ -91,11 +96,27 @@ public class ViagemServiceImpl implements ViagemService {
 
         return viagensComNome;
     }
+
+
     public List<Viagem> findAllByAgencia(Agencia agencia){
         if(agencia.getViagens().isEmpty()){
             throw new NotFoundViagensException("Esta agência não tem viagens");
         }
         return agencia.getViagens();
+    }
+
+    @Override
+    public List<Viagem> getViagens(long id){
+
+        Optional<Agencia> agenciaOp = agenciaService.findById(id);
+
+        if(!agenciaOp.isPresent()){
+            throw new NotFoundAgenciaException("Agência de ID " + id + " não identificada. Não será possível" +
+                    " encontrar suas viagens.");
+        }
+
+        List<Viagem> viagens = findAllByAgencia(agenciaOp.get());
+        return viagens;
     }
 
     @Override
@@ -108,6 +129,7 @@ public class ViagemServiceImpl implements ViagemService {
         return viagem;
     }
 
+    @Override
     public Viagem save(ViagemTags viagemTags) {
         List<String> tags = Arrays.asList(viagemTags.tagString.split(";"));
         for(int i = 0; i < tags.size(); i++) {
@@ -120,10 +142,35 @@ public class ViagemServiceImpl implements ViagemService {
         return viagemRepository.save(viagemTags.viagem);
     }
 
+    @Override
+    public void cadastrarViagem(ViagemTags viagemTags, long id){
+        Optional<Agencia> agenciaOp = agenciaService.findById(id);
+        if(!agenciaOp.isPresent()) {
+            throw new NotFoundAgenciaException("Agência de ID " + id + " não encontrada. " +
+                    "O cadastro da viagem não será possível.");
+        }
+
+        Agencia agencia = agenciaOp.get();
+        viagemTags.viagem.setAgencia(agencia);
+        agencia.addViagem(viagemTags.viagem);
+        save(viagemTags);
+    }
+
 	@Override
 	public void delete(Viagem viagem) {
 		viagemRepository.delete(viagem);
 	}
+
+	@Override
+    public void deletarViagem(long id){
+        Optional<Viagem> viagem = viagemRepository.findById(id);
+        if(!viagem.isPresent()){
+            throw new NotFoundViagensException("Viagem de ID " + id + " não encontrada. " +
+                    "A deleção não poderá ocorrer.");
+        }
+
+        viagemRepository.delete(viagem.get());
+    }
 
 	public boolean addNewTags(long id, ViagemTags viagemtags){
         if(findById(id).isPresent()) {

@@ -1,7 +1,7 @@
 package com.spring.viagemapp.service;
 
-import com.spring.viagemapp.model.Agencia;
 import com.spring.viagemapp.model.ClienteViagem;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 
@@ -10,5 +10,6 @@ public interface ClienteViagemService {
     ClienteViagem findById(long id);
     ClienteViagem save(ClienteViagem clienteViagem);
     void deleteById(long id);
-    void deleteViagem(long idCliente, long idViagem);
+    void deleteClienteViagem(long idCliente, long idViagem);
+    public ClienteViagem comprarViagem(long idCliente, long idViagem);
 }

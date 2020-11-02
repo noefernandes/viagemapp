@@ -16,8 +16,11 @@ import com.spring.viagemapp.utils.ClienteTags;
 import com.spring.viagemapp.utils.ViagemComNome;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -145,7 +148,12 @@ public class ClienteServiceImpl implements ClienteService {
         return clienteRepository.getViagensDoCliente(idCliente);
     }
 
-    
+    @Override
+    public List<ViagemComNome> getViagensDoClienteComNome(long idCliente){
+        List<Object[]> viagensObj = clienteRepository.getViagensDoCliente(idCliente);
+        List<ViagemComNome> viagensComNome = convert(viagensObj);
+        return viagensComNome;
+    }
 
     @Override
     public List<String> getTagsCliente(long idCliente){

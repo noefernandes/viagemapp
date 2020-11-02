@@ -12,6 +12,7 @@ import PerfilCliente from './pages/PerfilCliente';
 import FeedCliente from './pages/FeedCliente';
 import AvaliarAgencia from './pages/AvaliarAgencia';
 import ShowAvaliacoes from './pages/ShowAvaliacoes';
+import ShowAvaliacoesAgencia from './pages/ShowAvaliacoesAgencia';
 
 export default function Routes(){
     return (
@@ -28,6 +29,7 @@ export default function Routes(){
                 <Route path='/feedCliente' exact component={FeedCliente}/>
                 <Route path='/avaliarAgencia' exact component={AvaliarAgencia}/>
                 <Route path='/showAvaliacoes' exact component={ShowAvaliacoes}/>
+                <Route path='/showAvaliacoesAgencia' exact component={ShowAvaliacoesAgencia}/>
             </Switch>
         </BrowserRouter>
     );

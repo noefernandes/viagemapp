@@ -50,22 +50,16 @@ public class AgenciaController {
     @PostMapping(value = "/{idCliente}/avaliarAgencia/{idAgencia}")
     public ResponseEntity<?> avaliarAgencia(@PathVariable long idCliente,
     										@PathVariable long idAgencia, @RequestBody @Valid AvaliacaoPerUser avaliacao){
+        Agencia agencia;
+    	try{
+            agencia = agenciaService.avaliarAgencia(idCliente, idAgencia, avaliacao);
+        }catch(NotFoundAgenciaException e){
+    	    return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        }catch (NotFoundClienteException e){
+    	    return  new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        }
        
-    	// Coleta a agência passada como parâmetro.
-    	Agencia agencia = agenciaService.findById(idAgencia).get();
-    	// Coleta o cliente passado como parâmetro
-        Cliente cliente = clienteService.findById(idCliente).get();
-        
-        // Associamos os clientes e agência a avaliação e vice-versa
-        avaliacao.setAgencia(agencia);
-        avaliacao.setIdAgencia(agencia.getId());
-        avaliacao.setIdCliente(cliente.getId());
-        avaliacao.setCliente(cliente);
-        
-        // Chamando o service de avaliação para salvar o dado
-        avaliacaoService.save(avaliacao);
-       
-        return new ResponseEntity<Agencia>(agencia, HttpStatus.OK);
+        return new ResponseEntity<>(agencia, HttpStatus.OK);
     }
 
     @Transactional
@@ -92,8 +86,8 @@ public class AgenciaController {
             try{
             	comentarios = agenciaService.showComentarios(agencia);
             }catch(NotFoundAgenciaException e){
-                return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND); 
-            }catch(NotFoundAvaliacaoException e) 
+                return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+            }catch(NotFoundAvaliacaoException e)
             {
             	return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
             }
@@ -163,27 +157,5 @@ public class AgenciaController {
 
         return new ResponseEntity<Agencia>(agenciaOp, HttpStatus.OK);
     }
-
-
-   /* @GetMapping("/agencias")
-    public ResponseEntity<?> getAgencias(){
-        List<Agencia> listaAgencias = agenciaService.findAll();
-        if(listaAgencias.isEmpty()){
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-
-        return new ResponseEntity<List<Agencia>>(listaAgencias, HttpStatus.OK);
-    }
-
-    @GetMapping("/agencias/{id}")
-    public ResponseEntity<?> getOneAgencia(@PathVariable("id") long id){
-        Optional<Agencia> agenciaOp = agenciaService.findById(id);
-        if(!agenciaOp.isPresent()){
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-
-        return new ResponseEntity<Agencia>(agenciaOp.get(), HttpStatus.OK);
-    }*/
-
     
 }

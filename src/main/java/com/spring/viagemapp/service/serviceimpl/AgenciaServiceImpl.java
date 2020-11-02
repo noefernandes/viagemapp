@@ -3,14 +3,21 @@ package com.spring.viagemapp.service.serviceimpl;
 import com.spring.viagemapp.error.*;
 import com.spring.viagemapp.model.Agencia;
 import com.spring.viagemapp.model.AvaliacaoPerUser;
+import com.spring.viagemapp.model.Cliente;
 import com.spring.viagemapp.model.Usuario;
 import com.spring.viagemapp.repository.AgenciaRepository;
+import com.spring.viagemapp.repository.AvaliacaoPerUserRepository;
+import com.spring.viagemapp.repository.ClienteRepository;
 import com.spring.viagemapp.service.AgenciaService;
 import com.spring.viagemapp.utils.ComentarioComNome;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -23,6 +30,10 @@ public class AgenciaServiceImpl implements AgenciaService {
 
     @Autowired
     AgenciaRepository agenciaRepository;
+    @Autowired
+    ClienteRepository clienteRepository;
+    @Autowired
+    AvaliacaoPerUserRepository avaliacaoPerUserRepository;
 
     @Override
     public List<Agencia> findAll() {
@@ -70,7 +81,9 @@ public class AgenciaServiceImpl implements AgenciaService {
     public boolean existsByEmail(String email) {
         return agenciaRepository.existsByEmail(email);
     }
+
     @Override
+    @Transactional(readOnly = false)
     public void updateNota(Agencia agencia, List<AvaliacaoPerUser> avaliacao){
         Double media1 = 0.0;
         Double media2 = 0.0;
@@ -96,7 +109,6 @@ public class AgenciaServiceImpl implements AgenciaService {
 
         Double mediaGeral = (media1+media2+media3+media4+media5) / 5;
         agencia.setNota(mediaGeral);
-        System.out.print(agencia.getNota());
         
         
         agenciaRepository.save(agencia);
@@ -106,8 +118,6 @@ public class AgenciaServiceImpl implements AgenciaService {
     @Override
 	public List<ComentarioComNome> showComentarios(Agencia agencia)
 	{
-		//HashMap<String, String> comentarios = new HashMap<String, String>();
-
 		List<AvaliacaoPerUser> avaliacoes = agencia.getAvaliacoes();
 		
 		if(avaliacoes.isEmpty()) 
@@ -169,6 +179,36 @@ public class AgenciaServiceImpl implements AgenciaService {
         notas.add(media4);
         notas.add(media5);
         return notas;
+    }
+
+    @Override
+    @Transactional(readOnly = false)
+    public Agencia avaliarAgencia(@PathVariable long idCliente,
+                                            @PathVariable long idAgencia, @RequestBody @Valid AvaliacaoPerUser avaliacao){
+        // Coleta a agência passada como parâmetro.
+        Optional<Agencia> agencia = agenciaRepository.findById(idAgencia);
+        // Coleta o cliente passado como parâmetro
+        Optional<Cliente> cliente = clienteRepository.findById(idCliente);
+
+        if(!agencia.isPresent()){
+            throw new NotFoundAgenciaException("Agência com ID " + idAgencia + " não encontrada ao avaliar!");
+        }
+
+        if(!agencia.isPresent()){
+            throw new NotFoundClienteException("Cliente com ID " + idCliente + " não encontrado ao avaliar!");
+        }
+
+        // Associamos os clientes e agência a avaliação e vice-versa
+
+        avaliacao.setAgencia(agencia.get());
+        avaliacao.setCliente(cliente.get());
+        avaliacao.setIdAgencia(agencia.get().getId());
+        avaliacao.setIdCliente(cliente.get().getId());
+
+
+        // Chamando o service de avaliação para salvar o dado
+        avaliacaoPerUserRepository.save(avaliacao);
+        return agencia.get();
     }
 
     @Override

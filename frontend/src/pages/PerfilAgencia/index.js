@@ -43,6 +43,12 @@ export default function PerfilAgencia(){
         history.push('/loginAgencia');
     }
 
+    function handleGuardarAgencia(id, nomeAgencia){
+        localStorage.setItem('idAgencia', id);
+        localStorage.setItem('nomeAgencia', nomeAgencia);
+        console.log('Primeiro:' + nomeAgencia);
+    }
+
     return (
         <div className="container-perfil-agencia">
             <header>
@@ -54,6 +60,10 @@ export default function PerfilAgencia(){
             </header>
             <div className='container-viagens-agencia'>
                 <Link className='button-cadastro-viagem' to='cadastroViagem'>Cadastrar viagem</Link>
+                <Link className='button-avaliar-agencia' to='showAvaliacoesAgencia'
+                                      onClick={() => handleGuardarAgencia(idUsuario, 
+                                                                    nomeUsuario)}>Minhas avaliações</Link>
+                        
                 <h1>Minhas viagens</h1>
                 <div className="lista-viagens">
                     <ul>

@@ -4,7 +4,10 @@ import com.spring.viagemapp.model.Agencia;
 import com.spring.viagemapp.model.AvaliacaoPerUser;
 import com.spring.viagemapp.model.Usuario;
 import com.spring.viagemapp.utils.ComentarioComNome;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,4 +25,6 @@ public interface AgenciaService {
     void updateNota(Agencia agencia,  List<AvaliacaoPerUser> avaliacao);
     List<Double> showNotas(Agencia agencia);
     List<ComentarioComNome> showComentarios(Agencia agencia);
+    public Agencia avaliarAgencia(@PathVariable long idCliente,
+                                  @PathVariable long idAgencia, @RequestBody @Valid AvaliacaoPerUser avaliacao);
 }

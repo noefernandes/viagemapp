@@ -2,6 +2,7 @@ package com.spring.viagemapp.controller;
 
 import com.spring.viagemapp.error.NotFoundAgenciaException;
 import com.spring.viagemapp.error.NotFoundException;
+import com.spring.viagemapp.error.NotFoundViagensException;
 import com.spring.viagemapp.model.Agencia;
 import com.spring.viagemapp.model.Viagem;
 import com.spring.viagemapp.service.AgenciaService;
@@ -29,15 +30,6 @@ public class ViagemController {
     @Autowired
     AgenciaService agenciaService;
 
-    @GetMapping("/viagens")
-    public ResponseEntity<?> getViagens(){
-        List<Viagem> listaViagens = viagemService.findAll();
-        if(listaViagens.isEmpty()){
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-
-        return new ResponseEntity<List<Viagem>>(listaViagens, HttpStatus.OK);
-    }
 
     @GetMapping("/{idCliente}/viagensComNome")
     public ResponseEntity<?> getViagensComNomeDeAgencia(@PathVariable long idCliente){
@@ -45,7 +37,7 @@ public class ViagemController {
         try{
         	viagensComNome  = viagemService.findAllSort(idCliente);
         }catch (NotFoundException e){
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.FORBIDDEN);
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }
 
         return new ResponseEntity<>(viagensComNome, HttpStatus.OK);
@@ -53,63 +45,40 @@ public class ViagemController {
 
     @GetMapping("/{id}/viagens")
     public ResponseEntity<?> getViagens(@PathVariable long id){
-        Agencia agencia = new Agencia();
-        agencia = agenciaService.findById(id).get();
-        List<Viagem> viagens = viagemService.findAllByAgencia(agencia);
-        return new ResponseEntity<List<Viagem>>(viagens, HttpStatus.OK);
+        List<Viagem> viagens;
+
+        try{
+            viagens = viagemService.getViagens(id);
+        }catch(NotFoundViagensException e){
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<>(viagens, HttpStatus.OK);
     }
 
     @PostMapping("/{id}/cadastrarViagem")
     public ResponseEntity<?> cadastrarViagem(@RequestBody ViagemTags viagemTags, @PathVariable long id){
-        if(agenciaService.findById(id).isPresent()) {
-            Agencia agencia = agenciaService.findById(id).get();
-            viagemTags.viagem.setAgencia(agencia);
-            agencia.addViagem(viagemTags.viagem);
-            viagemService.save(viagemTags);
-            return new ResponseEntity<>(HttpStatus.OK);
-        }
-
-        return new ResponseEntity<>("A agência com ID " + id + " não existe", HttpStatus.NOT_FOUND);
-
-        /*
-
         try{
-            viagemService.cadastrarViagem()
-        }*/
-
-    }
-
-   /* @PostMapping("viagens/{id}/tag")
-    public ResponseEntity<?> cadastrarTags(@RequestBody ViagemTags viagemtags, @PathVariable long id){
-        if(viagemService.addNewTags(id,viagemtags)){
-            return new ResponseEntity<Agencia>(HttpStatus.OK);
+            viagemService.cadastrarViagem(viagemTags, id);
+        }catch(NotFoundAgenciaException e){
+            System.out.println("Entrou");
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<>("A viagem com ID" + id + "não existe",HttpStatus.NOT_FOUND);
+
+        return new ResponseEntity<>(HttpStatus.OK);
+
     }
-    */
 
     @DeleteMapping("/viagens/{id}")
     public ResponseEntity<?> deletarViagem(@PathVariable long id){
-        Optional<Viagem> viagem = viagemService.findById(id);
-        if(viagem.isPresent()){
-            viagemService.delete(viagem.get());
-            return new ResponseEntity<Agencia>(HttpStatus.OK);
+        try{
+            viagemService.deletarViagem(id);
+        }catch(NotFoundViagensException e){
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }
 
-        return new ResponseEntity<>("A viagem com ID " + id + " não existe", HttpStatus.NOT_FOUND);
+        return new ResponseEntity<Agencia>(HttpStatus.OK);
     }
 
-    /*
-    @PutMapping("/viagens/{id}")
-    public ResponseEntity<?> cadastrarViagem(@RequestBody Viagem viagem, @PathVariable long id){
-        Cliente cliente = clienteService.findById(id);
-    }
 
-    @RequestMapping(value="/viagens/{id}", method=RequestMethod.GET)
-    public ModelAndView getPostViagemDetails2(@PathVariable("id") long id){
-        ModelAndView mv = new ModelAndView("viagemDetails2");
-        Viagem viagens = viagemService.findById(id);
-        mv.addObject("viagem", viagens);
-        return mv;
-    }*/
 }

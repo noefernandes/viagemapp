@@ -4,6 +4,8 @@ import com.spring.viagemapp.model.Agencia;
 import com.spring.viagemapp.model.Viagem;
 import com.spring.viagemapp.utils.ViagemComNome;
 import com.spring.viagemapp.utils.ViagemTags;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 import java.util.Optional;
@@ -20,8 +22,14 @@ public interface ViagemService {
 
     boolean addNewTags(long id, ViagemTags viagemTags);
 
-    public List<Viagem> findAllByAgencia(Agencia agencia);
+    List<Viagem> findAllByAgencia(Agencia agencia);
 
     List<String> getTagsViagem(long idViagem);
+
+    List<Viagem> getViagens(long id);
+
+    void cadastrarViagem(ViagemTags viagemTags, long id);
+
+    void deletarViagem(long id);
 
 }

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';    //npm install react-router-dom 
-import { FiArrowRight } from 'react-icons/fi'           //npm install react-icons
+import { FiArrowRight, FiArrowLeft } from 'react-icons/fi'           //npm install react-icons
 
 import './styles.css';
 
@@ -75,6 +75,9 @@ export default function LoginAgencia(){
             </form>
             <Link className = "back-link" to="/cadastroAgencia">
                 <FiArrowRight/> Não tenho cadastro
+            </Link>
+            <Link className = "back-link" to="/">
+                <FiArrowLeft/> Voltar ao início
             </Link>   
         </div>
     );
