@@ -41,7 +41,7 @@ public class Viagem {
     @JsonBackReference("agencia_viagem-viagem")
     @ManyToOne(fetch=FetchType.EAGER)
     @JoinColumn(name = "agencia_id")
-    private Agencia agencia;
+    private PrestadorDeServico agencia;
 
     @JsonManagedReference("cliente_viagem-viagem")
     @OneToMany(mappedBy = "viagem")
@@ -52,11 +52,11 @@ public class Viagem {
     //private ClienteViagem clienteViagem;
 
 
-    public Agencia getAgencia() {
+    public PrestadorDeServico getAgencia() {
         return agencia;
     }
 
-    public void setAgencia(Agencia agencia) {
+    public void setAgencia(PrestadorDeServico agencia) {
         this.agencia = agencia;
     }
 

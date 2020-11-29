@@ -28,7 +28,7 @@ public class AvaliacaoPerUser
 	@ManyToOne
 	@JsonBackReference("Avaliacao-agencia-reference")
     @JoinColumn(name = "agencia_id")
-    private Agencia agencia;
+    private PrestadorDeServico agencia;
 	
 	// Elemento do mapeamento com o cliente
 	@ManyToOne
@@ -74,11 +74,11 @@ public class AvaliacaoPerUser
 		this.id = id;
 	}
 
-	public Agencia getAgencia() {
+	public PrestadorDeServico getAgencia() {
 		return agencia;
 	}
 
-	public void setAgencia(Agencia agencia) {
+	public void setAgencia(PrestadorDeServico agencia) {
 		this.agencia = agencia;
 	}
 

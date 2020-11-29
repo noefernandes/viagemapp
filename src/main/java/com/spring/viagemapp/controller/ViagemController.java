@@ -61,7 +61,7 @@ public class ViagemController {
         try{
             viagemService.cadastrarViagem(viagemTags, id);
         }catch(NotFoundAgenciaException e){
-            System.out.println("Entrou");
+            //System.out.println("Entrou");
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }
 
