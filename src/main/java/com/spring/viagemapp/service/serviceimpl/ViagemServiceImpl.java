@@ -1,6 +1,7 @@
 package com.spring.viagemapp.service.serviceimpl;
 import com.spring.viagemapp.error.*;
 import com.spring.viagemapp.model.Agencia;
+import com.spring.viagemapp.model.PrestadorDeServico;
 import com.spring.viagemapp.model.Viagem;
 import com.spring.viagemapp.repository.ViagemRepository;
 import com.spring.viagemapp.service.AgenciaService;
@@ -74,7 +75,7 @@ public class ViagemServiceImpl implements ViagemService {
 
             ViagemComNome viagemComNome = new ViagemComNome();
             viagemComNome.viagem = listaViagens.get(i);
-            Agencia agencia = agenciaService.findById(listaViagens.get(i).getIdAgencia()).get();
+            Agencia agencia = (Agencia) agenciaService.findById(listaViagens.get(i).getIdAgencia()).get();
             viagemComNome.nomeAgencia = agencia.getNome();
             viagemComNome.nota = agencia.getNota();
             viagensComNome.add(viagemComNome);
@@ -114,8 +115,9 @@ public class ViagemServiceImpl implements ViagemService {
             throw new NotFoundAgenciaException("Agência de ID " + id + " não identificada. Não será possível" +
                     " encontrar suas viagens.");
         }
-
-        List<Viagem> viagens = findAllByAgencia(agenciaOp.get());
+        Agencia agencia = new Agencia(agenciaOp.get());
+        
+        List<Viagem> viagens = findAllByAgencia(agencia);
         return viagens;
     }
 
@@ -150,7 +152,7 @@ public class ViagemServiceImpl implements ViagemService {
                     "O cadastro da viagem não será possível.");
         }
 
-        Agencia agencia = agenciaOp.get();
+        Agencia agencia = new Agencia(agenciaOp.get());
         viagemTags.viagem.setAgencia(agencia);
         agencia.addViagem(viagemTags.viagem);
         save(viagemTags);

@@ -33,7 +33,7 @@ public class AgenciaController {
     public ResponseEntity<?> cadastrarAgencia(@RequestBody @Valid Agencia agencia){
         Agencia temp = new Agencia();
         try{
-        temp = agenciaService.save(agencia);
+        temp = (Agencia) agenciaService.save(agencia);
         }catch(RepeatedNameException e){
             return new ResponseEntity<>(e.getMessage(), HttpStatus.FORBIDDEN);
         }catch(RepeatedCnpjException e){
@@ -67,7 +67,7 @@ public class AgenciaController {
     public ResponseEntity<?> updateToSortNotas(@PathVariable("id") long id){
         Agencia agencia;
         try{
-            agencia = agenciaService.findById(id).get();
+            agencia = (Agencia) agenciaService.findById(id).get();
             List<AvaliacaoPerUser> avaliacao = avaliacaoService.findByAgencia(agencia);
             agenciaService.updateNota(agencia,avaliacao);
         }catch (NotFoundAgenciaException e){
@@ -82,7 +82,7 @@ public class AgenciaController {
         Agencia agencia = new Agencia();
         List<ComentarioComNome> comentarios;
         try{
-            agencia = agenciaService.findById(idAgencia).get();
+            agencia = (Agencia) agenciaService.findById(idAgencia).get();
             try{
             	comentarios = agenciaService.showComentarios(agencia);
             }catch(NotFoundAgenciaException e){
@@ -107,7 +107,7 @@ public class AgenciaController {
         Agencia agencia;
         List<Double> avaliacao;
         try{
-            agencia = agenciaService.findById(id_agencia).get();
+            agencia = (Agencia) agenciaService.findById(id_agencia).get();
             avaliacao = agenciaService.showNotas(agencia);
         }catch(NotFoundException e){
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
@@ -125,7 +125,7 @@ public class AgenciaController {
         Agencia temp = new Agencia();
 
         try{
-            temp = agenciaService.checkLogin(usuario);
+            temp = (Agencia) agenciaService.checkLogin(usuario);
         }catch(NotFoundLoginException e){
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }catch(WrongPasswordException e) {
@@ -150,7 +150,7 @@ public class AgenciaController {
     public ResponseEntity<?> getOneAgencia(@PathVariable("id") long id){
         Agencia agenciaOp;
         try{
-            agenciaOp = agenciaService.findById(id).get();
+            agenciaOp = (Agencia) agenciaService.findById(id).get();
         }catch (NotFoundAgenciaException e){
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }

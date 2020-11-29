@@ -9,15 +9,15 @@ import com.spring.viagemapp.model.Usuario;
 
 @Entity
 @Table(name="agencia")
-public class Agencia extends Usuario {
-    @NotBlank
-    private String nome;
-    @NotBlank
-    private String email;
-    @NotBlank
-    private String cnpj;
+public class Agencia extends PrestadorDeServico {
+    //@NotBlank
+    //private String nome;
+    //@NotBlank
+    //private String email;
+    //@NotBlank
+    //private String cnpj;
     
-    private double nota = 0;
+    //private double nota = 0;
 
 
     @JsonManagedReference("agencia_viagem-viagem")
@@ -29,8 +29,21 @@ public class Agencia extends Usuario {
     private List<AvaliacaoPerUser> avaliacoes;
 
 
-    public void setNota(double nota){ this.nota = nota;}
-    public double getNota(){return nota;}
+    //public void setNota(double nota){ this.nota = nota;}
+    //public double getNota(){return nota;}
+    
+    public Agencia(){}
+    
+    public Agencia(PrestadorDeServico prestador) 
+    {
+    	this.id = prestador.getId();
+        this.nomeUsuario = prestador.getNomeUsuario();
+        this.senha = prestador.getSenha();
+    	this.nome = prestador.getNome();
+    	this.email = prestador.getEmail();
+    	this.cnpj = prestador.getCnpj();
+    	this.nota = prestador.getNota();
+    }
     
     public List<AvaliacaoPerUser> getAvaliacoes() {
 		return avaliacoes;
@@ -40,25 +53,25 @@ public class Agencia extends Usuario {
 		this.avaliacoes = avaliacoes;
 	}
 
-	public String getNome() {
-        return nome;
-    }
+	//public String getNome() {
+    //    return nome;
+    //}
 
-    public String getEmail() { return email; }
+    //public String getEmail() { return email; }
 
-    public void setEmail(String email) { this.email = email; }
+    //public void setEmail(String email) { this.email = email; }
 
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
+    //public void setNome(String nome) {
+    //    this.nome = nome;
+    //}
 
-    public String getCnpj() {
-        return cnpj;
-    }
+    //public String getCnpj() {
+    //    return cnpj;
+    //}
 
-    public void setCnpj(String cnpj) {
-        this.cnpj = cnpj;
-    }
+    //public void setCnpj(String cnpj) {
+    //    this.cnpj = cnpj;
+    //}
 
     public List<Viagem> getViagens() {
         return viagens;

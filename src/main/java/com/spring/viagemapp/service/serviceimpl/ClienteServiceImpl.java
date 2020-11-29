@@ -129,7 +129,7 @@ public class ClienteServiceImpl implements ClienteService {
         for(Viagem viagem: viagens){
             ViagemComNome viagemComNome = new ViagemComNome();
             viagemComNome.viagem = viagem;
-            Agencia agencia = agenciaService.findById(viagem.getIdAgencia()).get();
+            Agencia agencia = (Agencia) agenciaService.findById(viagem.getIdAgencia()).get();
             viagemComNome.nomeAgencia = agencia.getNome();
             viagemComNome.nota = agencia.getNota();
             viagensComNome.add(viagemComNome);

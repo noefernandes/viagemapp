@@ -9,11 +9,11 @@ public class Usuario{
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_usuario")
     @SequenceGenerator(name="seq_usuario", initialValue=1, allocationSize=1)
-    private long id;
+    protected long id;
     @NotBlank
-    private String nomeUsuario;
+    protected String nomeUsuario;
     @NotBlank
-    private String senha;
+    protected String senha;
 
     public String getNomeUsuario() {
         return nomeUsuario;

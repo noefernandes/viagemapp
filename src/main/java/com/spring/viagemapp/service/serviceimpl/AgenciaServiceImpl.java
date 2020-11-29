@@ -4,6 +4,7 @@ import com.spring.viagemapp.error.*;
 import com.spring.viagemapp.model.Agencia;
 import com.spring.viagemapp.model.AvaliacaoPerUser;
 import com.spring.viagemapp.model.Cliente;
+import com.spring.viagemapp.model.PrestadorDeServico;
 import com.spring.viagemapp.model.Usuario;
 import com.spring.viagemapp.repository.AgenciaRepository;
 import com.spring.viagemapp.repository.AvaliacaoPerUserRepository;
@@ -26,10 +27,11 @@ import static com.spring.viagemapp.security.MD5.getMd5;
 
 @Service
 @Transactional(readOnly = true)
-public class AgenciaServiceImpl implements AgenciaService {
+public class AgenciaServiceImpl implements AgenciaService{
 
     @Autowired
     AgenciaRepository agenciaRepository;
+	
     @Autowired
     ClienteRepository clienteRepository;
     @Autowired
@@ -37,9 +39,17 @@ public class AgenciaServiceImpl implements AgenciaService {
 
     @Override
     public List<Agencia> findAll() {
-        List<Agencia> agencias = agenciaRepository.findAll();
-        if(agencias.isEmpty()){
+        List<Agencia> agenciasTemp = agenciaRepository.findAll();
+        if(agenciasTemp.isEmpty()){
             throw new NotFoundAgenciaException("Agências não encontradas");
+        }
+        
+        List<Agencia> agencias = new ArrayList<Agencia>();
+        
+        for(PrestadorDeServico e : agenciasTemp) 
+        {
+        	Agencia agencia = new Agencia(e);
+        	agencias.add(agencia);
         }
         return agencias;
     }
@@ -51,6 +61,8 @@ public class AgenciaServiceImpl implements AgenciaService {
             throw new NotFoundAgenciaException("Agência não encontrada");
         }
 
+        //Optional<Agencia> agencia = Optional.of(new Agencia(agenciaTemp.get()));
+        
         return agencia;
     }
 
@@ -79,7 +91,7 @@ public class AgenciaServiceImpl implements AgenciaService {
 
     @Override
     public boolean existsByEmail(String email) {
-        return agenciaRepository.existsByEmail(email);
+       return agenciaRepository.existsByEmail(email);
     }
 
     @Override
@@ -115,7 +127,7 @@ public class AgenciaServiceImpl implements AgenciaService {
     }
 
     
-    @Override
+    //@Override
 	public List<ComentarioComNome> showComentarios(Agencia agencia)
 	{
 		List<AvaliacaoPerUser> avaliacoes = agencia.getAvaliacoes();
@@ -181,7 +193,7 @@ public class AgenciaServiceImpl implements AgenciaService {
         return notas;
     }
 
-    @Override
+    //@Override
     @Transactional(readOnly = false)
     public Agencia avaliarAgencia(@PathVariable long idCliente,
                                             @PathVariable long idAgencia, @RequestBody @Valid AvaliacaoPerUser avaliacao){
@@ -194,10 +206,12 @@ public class AgenciaServiceImpl implements AgenciaService {
             throw new NotFoundAgenciaException("Agência com ID " + idAgencia + " não encontrada ao avaliar!");
         }
 
-        if(!agencia.isPresent()){
+        if(!cliente.isPresent()){
             throw new NotFoundClienteException("Cliente com ID " + idCliente + " não encontrado ao avaliar!");
         }
 
+        //Agencia agencia = new Agencia(agenciaTemp.get());
+        
         // Associamos os clientes e agência a avaliação e vice-versa
 
         avaliacao.setAgencia(agencia.get());
@@ -223,24 +237,25 @@ public class AgenciaServiceImpl implements AgenciaService {
 
     @Override
     public Optional<Agencia> findByNomeUsuario(String nomeUsuario) {
-        return agenciaRepository.findByNomeUsuario(nomeUsuario);
+        Agencia agencia = new Agencia(agenciaRepository.findByNomeUsuario(nomeUsuario).get());
+    	return Optional.of(agencia);
     }
 
     @Override
     public Agencia checkLogin(Usuario usuario) {
-        Optional<Agencia> agenciaOp = agenciaRepository.findByNomeUsuario(usuario.getNomeUsuario());
+        Optional<PrestadorDeServico> agenciaOp = agenciaRepository.findByNomeUsuario(usuario.getNomeUsuario());
 
         if (!agenciaOp.isPresent()) {
             throw  new NotFoundLoginException("O usuário não existe");
         } else if (!agenciaOp.get().getSenha().equals(getMd5(usuario.getSenha()))) {
             throw new WrongPasswordException("Senha incorreta");
         }
-        return agenciaOp.get();
+        return new Agencia(agenciaOp.get());
     }
 
     @Override
     @Transactional(readOnly = false)
 	public void deleteById(long id) {
-		 agenciaRepository.deleteById(id);
+    	agenciaRepository.deleteById(id);
 	}
 }
