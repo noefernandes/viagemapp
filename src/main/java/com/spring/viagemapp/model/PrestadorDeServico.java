@@ -1,10 +1,12 @@
 package com.spring.viagemapp.model;
 
-import javax.persistence.MappedSuperclass;
+import javax.persistence.Entity;
+import javax.persistence.Inheritance;
 import javax.validation.constraints.NotBlank;
 
-@MappedSuperclass
-public class PrestadorDeServico extends Usuario
+@Entity
+@Inheritance
+public abstract class PrestadorDeServico extends Usuario
 {
 	@NotBlank
 	protected String nome;

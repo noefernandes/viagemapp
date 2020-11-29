@@ -115,9 +115,9 @@ public class ViagemServiceImpl implements ViagemService {
             throw new NotFoundAgenciaException("Agência de ID " + id + " não identificada. Não será possível" +
                     " encontrar suas viagens.");
         }
-        Agencia agencia = new Agencia(agenciaOp.get());
+
         
-        List<Viagem> viagens = findAllByAgencia(agencia);
+        List<Viagem> viagens = findAllByAgencia(agenciaOp.get());
         return viagens;
     }
 
@@ -152,9 +152,8 @@ public class ViagemServiceImpl implements ViagemService {
                     "O cadastro da viagem não será possível.");
         }
 
-        Agencia agencia = new Agencia(agenciaOp.get());
-        viagemTags.viagem.setAgencia(agencia);
-        agencia.addViagem(viagemTags.viagem);
+        viagemTags.viagem.setAgencia(agenciaOp.get());
+        agenciaOp.get().addViagem(viagemTags.viagem);
         save(viagemTags);
     }
 

@@ -10,13 +10,13 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.Optional;
 
-public interface AgenciaRepository extends JpaRepository<Agencia, Long> {
+public interface AgenciaRepository extends PrestadorDeServicoRepository<Agencia> {
     //Anotando o criando o método com este nome o spring implementa
     //o método por default
-    boolean existsByCnpj(String cnpj);
-    boolean existsByEmail(String email);
-    boolean existsByNomeUsuario(String nomeUsuario);
-    boolean existsByNome(String nome);
+    //boolean existsByCnpj(String cnpj);
+    //boolean existsByEmail(String email);
+    //boolean existsByNomeUsuario(String nomeUsuario);
+    //boolean existsByNome(String nome);
 
-    Optional<PrestadorDeServico> findByNomeUsuario(String nomeUsuario);
+    //Optional<PrestadorDeServico> findByNomeUsuario(String nomeUsuario);
 }

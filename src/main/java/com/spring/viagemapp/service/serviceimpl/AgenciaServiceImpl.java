@@ -27,7 +27,7 @@ import static com.spring.viagemapp.security.MD5.getMd5;
 
 @Service
 @Transactional(readOnly = true)
-public class AgenciaServiceImpl implements AgenciaService{
+public class AgenciaServiceImpl extends PrestadorDeServicoServiceImpl<Agencia> implements AgenciaService{
 
     @Autowired
     AgenciaRepository agenciaRepository;
@@ -37,62 +37,62 @@ public class AgenciaServiceImpl implements AgenciaService{
     @Autowired
     AvaliacaoPerUserRepository avaliacaoPerUserRepository;
 
-    @Override
-    public List<Agencia> findAll() {
-        List<Agencia> agenciasTemp = agenciaRepository.findAll();
-        if(agenciasTemp.isEmpty()){
-            throw new NotFoundAgenciaException("Agências não encontradas");
-        }
+    //@Override
+    //public List<Agencia> findAll() {
+    //    List<Agencia> agenciasTemp = agenciaRepository.findAll();
+    //    if(agenciasTemp.isEmpty()){
+    //        throw new NotFoundAgenciaException("Agências não encontradas");
+    //    }
         
-        List<Agencia> agencias = new ArrayList<Agencia>();
+    //    List<Agencia> agencias = new ArrayList<Agencia>();
         
-        for(PrestadorDeServico e : agenciasTemp) 
-        {
-        	Agencia agencia = new Agencia(e);
-        	agencias.add(agencia);
-        }
-        return agencias;
-    }
+    //    for(PrestadorDeServico e : agenciasTemp) 
+    //    {
+    //    	Agencia agencia = new Agencia(e);
+    //    	agencias.add(agencia);
+    //    }
+    //    return agencias;
+    //}
 
-    @Override
-    public Optional<Agencia> findById(long id) {
-        Optional<Agencia> agencia = agenciaRepository.findById(id);
-        if(!agencia.isPresent()){
-            throw new NotFoundAgenciaException("Agência não encontrada");
-        }
+    //@Override
+    //public Optional<Agencia> findById(long id) {
+    //    Optional<Agencia> agencia = agenciaRepository.findById(id);
+    //    if(!agencia.isPresent()){
+    //        throw new NotFoundAgenciaException("Agência não encontrada");
+    //    }
 
         //Optional<Agencia> agencia = Optional.of(new Agencia(agenciaTemp.get()));
         
-        return agencia;
-    }
+    //    return agencia;
+    //}
 
 
-    @Override
-    @Transactional(readOnly = false)
-    public Agencia save(Agencia agencia) {
-        if(agenciaRepository.existsByNome(agencia.getNome())){
-            throw new RepeatedNameException("O nome já existe");
-        }else if(agenciaRepository.existsByCnpj(agencia.getCnpj())) {
-            throw new RepeatedCpfException("O CPF já existe");
-        }else if(agenciaRepository.existsByEmail(agencia.getEmail())){
-            throw new RepeatedEmailException("O E-mail já existe");
-        }else if(agenciaRepository.existsByNomeUsuario(agencia.getNomeUsuario())){
-            throw new RepeteadUsernameException("O nome de usuário já existe");
-        }
+    //@Override
+    //@Transactional(readOnly = false)
+    //public Agencia save(Agencia agencia) {
+    //    if(agenciaRepository.existsByNome(agencia.getNome())){
+    //        throw new RepeatedNameException("O nome já existe");
+    //    }else if(agenciaRepository.existsByCnpj(agencia.getCnpj())) {
+    //        throw new RepeatedCpfException("O CPF já existe");
+    //    }else if(agenciaRepository.existsByEmail(agencia.getEmail())){
+    //        throw new RepeatedEmailException("O E-mail já existe");
+    //    }else if(agenciaRepository.existsByNomeUsuario(agencia.getNomeUsuario())){
+    //        throw new RepeteadUsernameException("O nome de usuário já existe");
+    //    }
 
-        agencia.setSenha(getMd5(agencia.getSenha()));
-        return agenciaRepository.save(agencia);
-    }
+    //    agencia.setSenha(getMd5(agencia.getSenha()));
+    //    return agenciaRepository.save(agencia);
+    //}
 
-    @Override
-    public boolean existsByCnpj(String cnpj) {
-        return agenciaRepository.existsByCnpj(cnpj);
-    }
+    //@Override
+    //public boolean existsByCnpj(String cnpj) {
+    //    return agenciaRepository.existsByCnpj(cnpj);
+    //}
 
-    @Override
-    public boolean existsByEmail(String email) {
-       return agenciaRepository.existsByEmail(email);
-    }
+    //@Override
+    //public boolean existsByEmail(String email) {
+    //   return agenciaRepository.existsByEmail(email);
+    //}
 
     @Override
     @Transactional(readOnly = false)
@@ -127,7 +127,7 @@ public class AgenciaServiceImpl implements AgenciaService{
     }
 
     
-    //@Override
+    @Override
 	public List<ComentarioComNome> showComentarios(Agencia agencia)
 	{
 		List<AvaliacaoPerUser> avaliacoes = agencia.getAvaliacoes();
@@ -225,37 +225,37 @@ public class AgenciaServiceImpl implements AgenciaService{
         return agencia.get();
     }
 
-    @Override
-    public boolean existsByNomeUsuario(String nomeUsuario) {
-        return agenciaRepository.existsByNomeUsuario(nomeUsuario);
-    }
+    //@Override
+    //public boolean existsByNomeUsuario(String nomeUsuario) {
+    //    return agenciaRepository.existsByNomeUsuario(nomeUsuario);
+    //}
 
-    @Override
-    public boolean existsByNome(String nome) {
-        return agenciaRepository.existsByNome(nome);
-    }
+    //@Override
+    //public boolean existsByNome(String nome) {
+    //    return agenciaRepository.existsByNome(nome);
+    //}
 
-    @Override
-    public Optional<Agencia> findByNomeUsuario(String nomeUsuario) {
-        Agencia agencia = new Agencia(agenciaRepository.findByNomeUsuario(nomeUsuario).get());
-    	return Optional.of(agencia);
-    }
+    //@Override
+    //public Optional<Agencia> findByNomeUsuario(String nomeUsuario) {
+    //    Agencia agencia = new Agencia(agenciaRepository.findByNomeUsuario(nomeUsuario).get());
+    //	return Optional.of(agencia);
+    //}
 
-    @Override
-    public Agencia checkLogin(Usuario usuario) {
-        Optional<PrestadorDeServico> agenciaOp = agenciaRepository.findByNomeUsuario(usuario.getNomeUsuario());
+    //@Override
+    //public Agencia checkLogin(Usuario usuario) {
+    //    Optional<PrestadorDeServico> agenciaOp = agenciaRepository.findByNomeUsuario(usuario.getNomeUsuario());
 
-        if (!agenciaOp.isPresent()) {
-            throw  new NotFoundLoginException("O usuário não existe");
-        } else if (!agenciaOp.get().getSenha().equals(getMd5(usuario.getSenha()))) {
-            throw new WrongPasswordException("Senha incorreta");
-        }
-        return new Agencia(agenciaOp.get());
-    }
+    //    if (!agenciaOp.isPresent()) {
+    //        throw  new NotFoundLoginException("O usuário não existe");
+    //    } else if (!agenciaOp.get().getSenha().equals(getMd5(usuario.getSenha()))) {
+    //        throw new WrongPasswordException("Senha incorreta");
+    //    }
+    //    return new Agencia(agenciaOp.get());
+    //}
 
-    @Override
-    @Transactional(readOnly = false)
-	public void deleteById(long id) {
-    	agenciaRepository.deleteById(id);
-	}
+    //@Override
+    //@Transactional(readOnly = false)
+	//public void deleteById(long id) {
+    //	agenciaRepository.deleteById(id);
+	//}
 }

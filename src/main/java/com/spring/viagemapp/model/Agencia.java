@@ -9,7 +9,7 @@ import com.spring.viagemapp.model.Usuario;
 
 @Entity
 @Table(name="agencia")
-public class Agencia extends PrestadorDeServico {
+public class Agencia extends PrestadorDeServico{
     //@NotBlank
     //private String nome;
     //@NotBlank
@@ -31,19 +31,6 @@ public class Agencia extends PrestadorDeServico {
 
     //public void setNota(double nota){ this.nota = nota;}
     //public double getNota(){return nota;}
-    
-    public Agencia(){}
-    
-    public Agencia(PrestadorDeServico prestador) 
-    {
-    	this.id = prestador.getId();
-        this.nomeUsuario = prestador.getNomeUsuario();
-        this.senha = prestador.getSenha();
-    	this.nome = prestador.getNome();
-    	this.email = prestador.getEmail();
-    	this.cnpj = prestador.getCnpj();
-    	this.nota = prestador.getNota();
-    }
     
     public List<AvaliacaoPerUser> getAvaliacoes() {
 		return avaliacoes;
