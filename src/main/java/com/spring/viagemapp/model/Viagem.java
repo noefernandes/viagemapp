@@ -12,11 +12,8 @@ import javax.validation.constraints.NotBlank;
 
 @Entity
 @Table(name="viagem")
-public class Viagem {
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_viagem")
-    @SequenceGenerator(name="seq_viagem", initialValue=1, allocationSize=1)
-    private Long idv;
+public class Viagem extends Servico{
+    
     @NotBlank
     private String localPartida;
     @NotBlank
@@ -29,28 +26,29 @@ public class Viagem {
     @NotBlank
     private String data;
     private int qtdPassageiros;
-
-    @ElementCollection
-    private List<String> tags;
-
-    private double preco;
-
-    //private int qtdPassageiros;
-    private int capacidade;
-
+    
     @JsonBackReference("agencia_viagem-viagem")
     @ManyToOne(fetch=FetchType.EAGER)
     @JoinColumn(name = "agencia_id")
     private PrestadorDeServico agencia;
+
+    //private int qtdPassageiros;
 
     @JsonManagedReference("cliente_viagem-viagem")
     @OneToMany(mappedBy = "viagem")
     private List<ClienteViagem> clienteViagem;
 
     private long idAgencia;
+    
+    public long getIdAgencia() {
+        return idAgencia;
+    }
 
+    public void setIdAgencia(long idAgencia) {
+        this.idAgencia = idAgencia;
+    }
+    
     //private ClienteViagem clienteViagem;
-
 
     public PrestadorDeServico getAgencia() {
         return agencia;
@@ -59,16 +57,7 @@ public class Viagem {
     public void setAgencia(PrestadorDeServico agencia) {
         this.agencia = agencia;
     }
-
-
-    public Long getIdv() {
-        return idv;
-    }
-
-    public void setIdv(Long idv) {
-        this.idv = idv;
-    }
-
+    
     public String getLocalPartida() {
         return localPartida;
     }
@@ -85,20 +74,6 @@ public class Viagem {
         this.localChegada = localChegada;
     }
 
-    public long getIdAgencia() {
-        return idAgencia;
-    }
-
-    public void setIdAgencia(long idAgencia) {
-        this.idAgencia = idAgencia;
-    }
-
-    public List<String> getTags(){ return tags;}
-
-    public void setTags(List<String> tags){ this.tags = tags; }
-
-    public void addTags(List<String> tags){ this.tags.addAll((tags)); }
-
     public String getData() {
         return data;
     }
@@ -106,23 +81,6 @@ public class Viagem {
     public void setData(String data) {
         this.data = data;
     }
-
-    public double getPreco() {
-        return preco;
-    }
-
-    public void setPreco(double preco) {
-        this.preco = preco;
-    }
-
-    public int getCapacidade() {
-        return capacidade;
-    }
-
-    public void setCapacidade(int capacidade) {
-        this.capacidade = capacidade;
-    }
-
 
     public String getHorarioPartida() {
         return horarioPartida;
@@ -148,11 +106,11 @@ public class Viagem {
         this.qtdPassageiros = qtdPassageiros;
     }
 
-    public List<ClienteViagem> getClienteViagem() {
-        return clienteViagem;
-    }
+    //public List<ClienteViagem> getClienteViagem() {
+    //    return clienteViagem;
+    //}
 
-    public void setClienteViagem(List<ClienteViagem> clienteViagem) {
-        this.clienteViagem = clienteViagem;
-    }
+    //public void setClienteViagem(List<ClienteViagem> clienteViagem) {
+    //    this.clienteViagem = clienteViagem;
+    //}
 }

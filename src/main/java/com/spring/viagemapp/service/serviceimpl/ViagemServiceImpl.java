@@ -7,6 +7,7 @@ import com.spring.viagemapp.repository.ViagemRepository;
 import com.spring.viagemapp.service.AgenciaService;
 import com.spring.viagemapp.service.ClienteService;
 import com.spring.viagemapp.service.ViagemService;
+import com.spring.viagemapp.utils.ServicoTags;
 import com.spring.viagemapp.utils.ViagemComNome;
 import com.spring.viagemapp.utils.ViagemTags;
 import org.apache.commons.lang3.StringUtils;
@@ -22,7 +23,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class ViagemServiceImpl implements ViagemService {
+public class ViagemServiceImpl extends ServicoServiceImpl<Viagem> implements ViagemService{
 
     @Autowired
     ViagemRepository viagemRepository;
@@ -35,15 +36,15 @@ public class ViagemServiceImpl implements ViagemService {
 
 
 
-    @Override
-    public List<Viagem> findAll() {
-        List<Viagem> viagens = viagemRepository.findAll();
-        if(viagens.isEmpty()){
-            throw new NotFoundAgenciaException("Viagens não encontradas");
-        }
+    //@Override
+    //public List<Viagem> findAll() {
+    //    List<Viagem> viagens = viagemRepository.findAll();
+    //    if(viagens.isEmpty()){
+    //        throw new NotFoundAgenciaException("Viagens não encontradas");
+    //    }
 
-        return viagens;
-    }
+    //    return viagens;
+    //}
 
     public List<ViagemComNome> findAllSort(long idCliente){
         List<Viagem> viagens = viagemRepository.findAll();
@@ -57,14 +58,14 @@ public class ViagemServiceImpl implements ViagemService {
         List<Long> indices = new ArrayList<Long>();
 
         for(int i = 0; i < viagensCliente.size(); i++){
-            indices.add(viagensCliente.get(i).viagem.getIdv());
+            indices.add(viagensCliente.get(i).viagem.getId());
         }
 
         List<ViagemComNome> viagensComNome = new ArrayList<ViagemComNome>();
         for(int i = 0; i < listaViagens.size(); i++){
             boolean pular = false;
             for(int j = 0; j < indices.size(); j++){
-                if(listaViagens.get(i).getIdv() == indices.get(j)){
+                if(listaViagens.get(i).getId() == indices.get(j)){
                     pular = true;
                 }
             }
@@ -121,28 +122,28 @@ public class ViagemServiceImpl implements ViagemService {
         return viagens;
     }
 
-    @Override
-    public Optional<Viagem> findById(long id) {
-        Optional<Viagem> viagem;
-        viagem = viagemRepository.findById(id);
-        if(!viagem.isPresent()){
-            throw new NotFoundViagensException("Viagem não encontrada");
-        }
-        return viagem;
-    }
+    //@Override
+    //public Optional<Viagem> findById(long id) {
+    //    Optional<Viagem> viagem;
+    //    viagem = viagemRepository.findById(id);
+    //    if(!viagem.isPresent()){
+    //        throw new NotFoundViagensException("Viagem não encontrada");
+    //    }
+    //    return viagem;
+    //}
 
-    @Override
-    public Viagem save(ViagemTags viagemTags) {
-        List<String> tags = Arrays.asList(viagemTags.tagString.split(";"));
-        for(int i = 0; i < tags.size(); i++) {
+    //@Override
+    //public Viagem save(ViagemTags viagemTags) {
+    //    List<String> tags = Arrays.asList(viagemTags.tagString.split(";"));
+    //    for(int i = 0; i < tags.size(); i++) {
             //System.out.println("Valor1:" + tags.get(i));
-            tags.set(i, StringUtils.stripAccents(tags.get(i)).trim().toLowerCase());
+    //        tags.set(i, StringUtils.stripAccents(tags.get(i)).trim().toLowerCase());
             //System.out.println("Valor2:" + tags.get(i));
-        }
-        viagemTags.viagem.setTags(tags);
+    //    }
+    //    viagemTags.viagem.setTags(tags);
         //System.out.println("local partida: " + viagemTags.viagem.getLocalPartida());
-        return viagemRepository.save(viagemTags.viagem);
-    }
+    //    return viagemRepository.save(viagemTags.viagem);
+    //}
 
     @Override
     public void cadastrarViagem(ViagemTags viagemTags, long id){
@@ -154,13 +155,16 @@ public class ViagemServiceImpl implements ViagemService {
 
         viagemTags.viagem.setAgencia(agenciaOp.get());
         agenciaOp.get().addViagem(viagemTags.viagem);
-        save(viagemTags);
+        ServicoTags<Viagem> servicoTags = new ServicoTags<Viagem>();
+        servicoTags.servico = viagemTags.viagem;
+        servicoTags.tagString = viagemTags.tagString;
+        save(servicoTags);
     }
 
-	@Override
-	public void delete(Viagem viagem) {
-		viagemRepository.delete(viagem);
-	}
+	//@Override
+	//public void delete(Viagem viagem) {
+	//	viagemRepository.delete(viagem);
+	//}
 
 	@Override
     public void deletarViagem(long id){
@@ -173,18 +177,7 @@ public class ViagemServiceImpl implements ViagemService {
         viagemRepository.delete(viagem.get());
     }
 
-	public boolean addNewTags(long id, ViagemTags viagemtags){
-        if(findById(id).isPresent()) {
-            List<String> tags = Arrays.asList(viagemtags.tagString.split(";"));
-
-            viagemtags.viagem.addTags(tags);
-            return true;
-        }
-        return false;
-
-    }
-
     public List<String> getTagsViagem(long idViagem){
-        return viagemRepository.getTagsViagem(idViagem);
+        return viagemRepository.getTagsServico(idViagem);
     }
 }

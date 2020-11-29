@@ -10,19 +10,19 @@ import org.springframework.web.bind.annotation.RequestBody;
 import java.util.List;
 import java.util.Optional;
 
-public interface ViagemService {
-    List<Viagem> findAll();
+public interface ViagemService extends ServicoService<Viagem>{
+    //List<Viagem> findAll();
     List<ViagemComNome> findAllSort(long idCliente);
 
-    Optional<Viagem> findById(long id);
+    //Optional<Viagem> findById(long id);
 
-    void delete(Viagem viagem);
+    //void delete(Viagem viagem);
 
-    Viagem save(ViagemTags viagemTags);
+    //Viagem save(ViagemTags viagemTags);
 
-    boolean addNewTags(long id, ViagemTags viagemTags);
+    //boolean addNewTags(long id, ViagemTags viagemTags);
 
-    List<Viagem> findAllByAgencia(Agencia agencia);
+    //List<Viagem> findAllByAgencia(Agencia agencia);
 
     List<String> getTagsViagem(long idViagem);
 

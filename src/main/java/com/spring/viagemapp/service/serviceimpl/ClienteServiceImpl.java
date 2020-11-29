@@ -107,9 +107,9 @@ public class ClienteServiceImpl implements ClienteService {
             String bigString = (obj[0].toString());
             BigInteger bi = new BigInteger(bigString);
             Long idViagem = bi.longValue();
-            viagem.setIdv(idViagem);
+            viagem.setId(idViagem);
 
-            List<String> tags = viagemService.getTagsViagem(viagem.getIdv());
+            List<String> tags = viagemService.getTagsViagem(viagem.getId());
             viagem.setTags(tags);
 
             viagem.setCapacidade((Integer) obj[1]);

@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 
-public interface ViagemRepository extends JpaRepository<Viagem, Long> {
-    @Query(value="select cv.tags from viagem_tags cv where cv.viagem_idv = ?1", nativeQuery = true)
-    List<String> getTagsViagem(long idViagem);
+public interface ViagemRepository extends ServicoRepository<Viagem> {
+    //@Query(value="select cv.tags from viagem_tags cv where cv.viagem_idv = ?1", nativeQuery = true)
+    //List<String> getTagsViagem(long idViagem);
 }
