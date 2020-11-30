@@ -29,7 +29,7 @@ public class ClienteViagem {
 	@JsonBackReference("cliente_viagem-viagem")
 	@ManyToOne(cascade={CascadeType.ALL})
 	@JoinColumn(name = "viagem_id")
-	private Viagem viagem;
+	private Servico viagem;
 
 	public long getId() {
 		return id;
@@ -47,7 +47,7 @@ public class ClienteViagem {
 		this.cliente = cliente;
 	}
 
-	public Viagem getViagem() {
+	public Servico getViagem() {
 		return viagem;
 	}
 

@@ -18,8 +18,8 @@ public interface ClienteRepository extends JpaRepository<Cliente, Long> {
     boolean existsByNome(String nome);
     Optional<Cliente> findByNomeUsuario(String nomeUsuario);
 
-    @Query(value="select v.* from cliente_viagem cv, viagem v where cv.id_cliente = ?1" +
-            " and cv.id_viagem = v.idv", nativeQuery = true)
+    @Query(value="select v.* from cliente_viagem cv, servico v where cv.id_cliente = ?1" +
+            " and cv.id_viagem = v.id", nativeQuery = true)
     List<Object[]> getViagensDoCliente(long idCliente);
 
     @Query(value="select ct.tags from cliente_tags ct where ct.cliente_id = ?1", nativeQuery = true)

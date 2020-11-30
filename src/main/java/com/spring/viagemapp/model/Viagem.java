@@ -34,9 +34,9 @@ public class Viagem extends Servico{
 
     //private int qtdPassageiros;
 
-    @JsonManagedReference("cliente_viagem-viagem")
-    @OneToMany(mappedBy = "viagem")
-    private List<ClienteViagem> clienteViagem;
+    //@JsonManagedReference("cliente_viagem-viagem")
+    //@OneToMany(mappedBy = "viagem")
+    //private List<ClienteViagem> clienteViagem;
 
     private long idAgencia;
     

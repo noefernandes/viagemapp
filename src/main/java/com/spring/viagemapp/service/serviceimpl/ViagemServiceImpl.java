@@ -2,6 +2,7 @@ package com.spring.viagemapp.service.serviceimpl;
 import com.spring.viagemapp.error.*;
 import com.spring.viagemapp.model.Agencia;
 import com.spring.viagemapp.model.PrestadorDeServico;
+import com.spring.viagemapp.model.Servico;
 import com.spring.viagemapp.model.Viagem;
 import com.spring.viagemapp.repository.ViagemRepository;
 import com.spring.viagemapp.service.AgenciaService;
@@ -104,7 +105,15 @@ public class ViagemServiceImpl extends ServicoServiceImpl<Viagem> implements Via
         if(agencia.getViagens().isEmpty()){
             throw new NotFoundViagensException("Esta agência não tem viagens");
         }
-        return agencia.getViagens();
+        
+        List<Viagem> viagens = new ArrayList<Viagem>();
+        
+        for(Servico e : agencia.getViagens())
+        {
+        	viagens.add((Viagem) e);
+        }
+        
+        return viagens;
     }
 
     @Override
