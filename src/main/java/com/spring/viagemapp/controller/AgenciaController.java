@@ -52,12 +52,16 @@ public class AgenciaController {
     										@PathVariable long idAgencia, @RequestBody @Valid AvaliacaoPerUser avaliacao){
         Agencia agencia;
     	try{
-            agencia = agenciaService.avaliarAgencia(idCliente, idAgencia, avaliacao);
+            agencia = agenciaService.avaliarPrestador(idCliente, idAgencia, avaliacao);
+            agenciaService.salvarAvaliacao(avaliacao);
         }catch(NotFoundAgenciaException e){
     	    return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }catch (NotFoundClienteException e){
     	    return  new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
-        }
+        }catch (Exception e) 
+    	{
+        	return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+    	}
        
         return new ResponseEntity<>(agencia, HttpStatus.OK);
     }

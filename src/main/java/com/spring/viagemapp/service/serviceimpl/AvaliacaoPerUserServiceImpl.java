@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.spring.viagemapp.error.NotFoundAgenciaException;
 import com.spring.viagemapp.error.NotFoundViagensException;
@@ -15,6 +16,7 @@ import com.spring.viagemapp.repository.AvaliacaoPerUserRepository;
 import com.spring.viagemapp.service.AvaliacaoPerUserService;
 
 @Service
+@Transactional(readOnly = false)
 public class AvaliacaoPerUserServiceImpl implements AvaliacaoPerUserService {
 
 	@Autowired

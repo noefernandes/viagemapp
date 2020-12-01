@@ -26,8 +26,8 @@ import java.util.Optional;
 import static com.spring.viagemapp.security.MD5.getMd5;
 
 @Service
-@Transactional(readOnly = true)
-public class AgenciaServiceImpl extends PrestadorDeServicoServiceImpl<Agencia> implements AgenciaService{
+@Transactional(readOnly = false)
+public class AgenciaServiceImpl extends PrestadorDeServicoServiceImpl<Agencia, AvaliacaoPerUser> implements AgenciaService{
 
     @Autowired
     AgenciaRepository agenciaRepository;
@@ -193,37 +193,41 @@ public class AgenciaServiceImpl extends PrestadorDeServicoServiceImpl<Agencia> i
         return notas;
     }
 
+    public void salvarAvaliacao(AvaliacaoPerUser avaliacao) 
+    {
+    	avaliacaoPerUserRepository.save(avaliacao);
+    }
     //@Override
-    @Transactional(readOnly = false)
-    public Agencia avaliarAgencia(@PathVariable long idCliente,
-                                            @PathVariable long idAgencia, @RequestBody @Valid AvaliacaoPerUser avaliacao){
+    //@Transactional(readOnly = false)
+    //public Agencia avaliarAgencia(@PathVariable long idCliente,
+    //                                        @PathVariable long idAgencia, @RequestBody @Valid AvaliacaoPerUser avaliacao){
         // Coleta a agência passada como parâmetro.
-        Optional<Agencia> agencia = agenciaRepository.findById(idAgencia);
+    //    Optional<Agencia> agencia = agenciaRepository.findById(idAgencia);
         // Coleta o cliente passado como parâmetro
-        Optional<Cliente> cliente = clienteRepository.findById(idCliente);
+    //    Optional<Cliente> cliente = clienteRepository.findById(idCliente);
 
-        if(!agencia.isPresent()){
-            throw new NotFoundAgenciaException("Agência com ID " + idAgencia + " não encontrada ao avaliar!");
-        }
+    //    if(!agencia.isPresent()){
+    //        throw new NotFoundAgenciaException("Agência com ID " + idAgencia + " não encontrada ao avaliar!");
+    //    }
 
-        if(!cliente.isPresent()){
-            throw new NotFoundClienteException("Cliente com ID " + idCliente + " não encontrado ao avaliar!");
-        }
+    //    if(!cliente.isPresent()){
+    //        throw new NotFoundClienteException("Cliente com ID " + idCliente + " não encontrado ao avaliar!");
+    //    }
 
         //Agencia agencia = new Agencia(agenciaTemp.get());
         
         // Associamos os clientes e agência a avaliação e vice-versa
 
-        avaliacao.setAgencia(agencia.get());
-        avaliacao.setCliente(cliente.get());
-        avaliacao.setIdAgencia(agencia.get().getId());
-        avaliacao.setIdCliente(cliente.get().getId());
+    //    avaliacao.setAgencia(agencia.get());
+    //    avaliacao.setCliente(cliente.get());
+    //    avaliacao.setIdAgencia(agencia.get().getId());
+    //    avaliacao.setIdCliente(cliente.get().getId());
 
 
         // Chamando o service de avaliação para salvar o dado
-        avaliacaoPerUserRepository.save(avaliacao);
-        return agencia.get();
-    }
+    //    avaliacaoPerUserRepository.save(avaliacao);
+    //    return agencia.get();
+    //}
 
     //@Override
     //public boolean existsByNomeUsuario(String nomeUsuario) {

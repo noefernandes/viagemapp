@@ -1,5 +1,8 @@
 package com.spring.viagemapp.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -14,13 +17,8 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
 @Table(name="avaliacaoperuser")
-public class AvaliacaoPerUser 
-{
-	@Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_avaliacao")
-    @SequenceGenerator(name="seq_avaliacao", initialValue=1, allocationSize=1)
-    private long id;
-	
+public class AvaliacaoPerUser extends AvaliacaoPrestadorDeServico
+{	
 	private long idAgencia;
 	private long idCliente;
 	
@@ -48,7 +46,28 @@ public class AvaliacaoPerUser
     
     private String comentarios;
 
+    public boolean avaliarPrestador(PrestadorDeServico prestador, Cliente cliente) 
+    {
+    	 setAgencia(prestador);
+         setCliente(cliente);
+         setIdAgencia(prestador.getId());
+         setIdCliente(cliente.getId());
+         
+         return true;
+    }
     
+	public List<Double> obterNotas()
+	{
+		List<Double> lista = new ArrayList<Double>();
+		
+		lista.add(avaliacaoConforto);
+		lista.add(avaliacaoPreco);
+		lista.add(avaliacaoAtendimento);
+		lista.add(avaliacaoRapidez);
+		lista.add(avaliacaoLimpeza);
+		
+		return lista;
+	}
     
 	public long getIdAgencia() {
 		return idAgencia;
@@ -64,14 +83,6 @@ public class AvaliacaoPerUser
 
 	public void setIdCliente(long idCliente) {
 		this.idCliente = idCliente;
-	}
-
-	public long getId() {
-		return id;
-	}
-
-	public void setId(long id) {
-		this.id = id;
 	}
 
 	public PrestadorDeServico getAgencia() {

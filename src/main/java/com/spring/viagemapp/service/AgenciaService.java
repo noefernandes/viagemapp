@@ -11,7 +11,7 @@ import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
-public interface AgenciaService extends PrestadorDeServicoService<Agencia>{
+public interface AgenciaService extends PrestadorDeServicoService<Agencia, AvaliacaoPerUser>{
     //List<Agencia> findAll();
     //Optional<Agencia> findById(long id);
     //Agencia save(Agencia agencia);
@@ -25,6 +25,7 @@ public interface AgenciaService extends PrestadorDeServicoService<Agencia>{
     void updateNota(Agencia agencia,  List<AvaliacaoPerUser> avaliacao);
     List<Double> showNotas(Agencia agencia);
     List<ComentarioComNome> showComentarios(Agencia agencia);
-    public Agencia avaliarAgencia(@PathVariable long idCliente,
-                                  @PathVariable long idAgencia, @RequestBody @Valid AvaliacaoPerUser avaliacao);
+    public void salvarAvaliacao(AvaliacaoPerUser avaliacao);
+    //public Agencia avaliarAgencia(@PathVariable long idCliente,
+    //                              @PathVariable long idAgencia, @RequestBody @Valid AvaliacaoPerUser avaliacao);
 }
