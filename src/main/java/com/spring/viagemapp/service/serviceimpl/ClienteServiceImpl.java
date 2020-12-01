@@ -103,8 +103,10 @@ public class ClienteServiceImpl implements ClienteService {
 
         for(Object[] obj : viagensObj) {
             Viagem viagem = new Viagem();
-
-            String bigString = (obj[0].toString());
+            
+            //System.out.print("OBJETOOOOOOOOO:: " + obj[1].toString());
+            
+            String bigString = (obj[1].toString());
             BigInteger bi = new BigInteger(bigString);
             Long idViagem = bi.longValue();
             viagem.setId(idViagem);
@@ -112,15 +114,15 @@ public class ClienteServiceImpl implements ClienteService {
             List<String> tags = viagemService.getTagsViagem(viagem.getId());
             viagem.setTags(tags);
 
-            viagem.setCapacidade((Integer) obj[1]);
-            viagem.setData((String) obj[2]);
-            viagem.setHorarioChegada((String) obj[3]);
-            viagem.setHorarioPartida((String) obj[4]);
-            viagem.setIdAgencia((Long.parseLong(obj[5].toString())));
-            viagem.setLocalChegada((String) obj[6]);
-            viagem.setLocalPartida((String) obj[7]);
-            viagem.setPreco((double) obj[8]);
-            viagem.setQtdPassageiros((int) obj[9]);
+            viagem.setCapacidade((Integer) obj[2]);
+            viagem.setData((String) obj[4]);
+            viagem.setHorarioChegada((String) obj[5]);
+            viagem.setHorarioPartida((String) obj[6]);
+            viagem.setIdAgencia((Long.parseLong(obj[7].toString())));
+            viagem.setLocalChegada((String) obj[8]);
+            viagem.setLocalPartida((String) obj[9]);
+            viagem.setPreco((double) obj[3]);
+            viagem.setQtdPassageiros((int) obj[10]);
 
             viagens.add(viagem);
         }
@@ -144,8 +146,8 @@ public class ClienteServiceImpl implements ClienteService {
     }
 
     @Override
-    public List<Object[]> getViagensDoCliente(long idCliente){
-        return clienteRepository.getViagensDoCliente(idCliente);
+    public List<Object[]> getViagensDoCliente(long idCliente){    
+    	return clienteRepository.getViagensDoCliente(idCliente);
     }
 
     @Override
