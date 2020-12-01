@@ -28,12 +28,12 @@ export default function PerfilAgencia(){
 
     const history = useHistory();
 
-    async function handleComprarViagem(idv){
+    async function handleComprarViagem(id){
         try{
-            const response = await api.post(`/${idUsuario}/comprarViagem/${idv}`, idUsuario);
+            const response = await api.post(`/${idUsuario}/comprarViagem/${id}`, idUsuario);
             /*Filtra a lista de incidents mantendo apenas aqueles
             com id diferente do com id deletado*/
-            setViagensComNome(viagensComNome.filter(viagemComNome => viagemComNome.viagem.idv !== idv));
+            setViagensComNome(viagensComNome.filter(viagemComNome => viagemComNome.viagem.id !== id));
         }catch(err){
             if(err.response.status === 403){
                 alert(err.response.data);
@@ -186,7 +186,7 @@ export default function PerfilAgencia(){
                             </ul>
 
                             <button 
-                                onClick={() => handleComprarViagem(viagemComNome.viagem.idv)}
+                                onClick={() => handleComprarViagem(viagemComNome.viagem.id)}
                                 type='button' 
                                 className='buy'
                             >

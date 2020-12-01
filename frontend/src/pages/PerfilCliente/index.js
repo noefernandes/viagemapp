@@ -23,12 +23,12 @@ useEffect(() => {
         })
     }, [idUsuario]);
 
-    async function handleDeleteViagemDoCliente(idv){
+    async function handleDeleteViagemDoCliente(id){
         try{
-            await api.delete(`/${idUsuario}/deletarViagemDoCliente/${idv}`);
+            await api.delete(`/${idUsuario}/deletarViagemDoCliente/${id}`);
             /*Filtra a lista de incidents mantendo apenas aqueles
             com id diferente do com id deletado*/
-            setViagensComNome(viagensComNome.filter(viagemComNome => viagemComNome.viagem.idv !== idv));
+            setViagensComNome(viagensComNome.filter(viagemComNome => viagemComNome.viagem.id !== id));
         }catch(Err){
             alert('Erro ao deletar viagem.');
         }
@@ -81,7 +81,7 @@ useEffect(() => {
 
                                   <div>
                                     <button
-                                        onClick={() => handleDeleteViagemDoCliente(viagemComNome.viagem.idv)}
+                                        onClick={() => handleDeleteViagemDoCliente(viagemComNome.viagem.id)}
                                         type='button'
                                         className='trash'
                                     >
