@@ -1,16 +1,16 @@
 package com.spring.viagemapp.service;
 
-import com.spring.viagemapp.model.Agencia;
-import com.spring.viagemapp.model.Viagem;
-import com.spring.viagemapp.utils.ViagemComNome;
-import com.spring.viagemapp.utils.ViagemTags;
+import com.spring.viagemapp.model.Hotel;
+import com.spring.viagemapp.model.Quarto;
+import com.spring.viagemapp.utils.QuartoComNome;
+import com.spring.viagemapp.utils.QuartoTags;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 import java.util.Optional;
 
-public interface ViagemService extends ServicoService<Viagem>{
+public interface QuartoService extends ServicoService<Quarto>{
     //List<Viagem> findAll();
     List<ViagemComNome> findAllSort(long idCliente);
 
@@ -24,12 +24,12 @@ public interface ViagemService extends ServicoService<Viagem>{
 
     //List<Viagem> findAllByAgencia(Agencia agencia);
 
-    List<String> getTagsViagem(long idViagem);
+    List<String> getTagsQuarto(long idQuarto);
 
-    List<Viagem> getViagens(long id);
+    List<Quarto> getQuartos(long id);
 
-    void cadastrarViagem(ViagemTags viagemTags, long id);
+    void cadastrarQuarto(QuartoTags quartoTags, long id);
 
-    void deletarViagem(long id);
+    void deletarQuarto(long id);
 
 }

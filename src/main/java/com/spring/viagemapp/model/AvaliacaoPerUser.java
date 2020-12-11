@@ -19,14 +19,14 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 @Table(name="avaliacaoperuser")
 public class AvaliacaoPerUser extends AvaliacaoPrestadorDeServico
 {	
-	private long idAgencia;
+	private long idHotel;
 	private long idCliente;
 	
 	// Elemento do mapeamento com a agência
 	@ManyToOne
-	@JsonBackReference("Avaliacao-agencia-reference")
-    @JoinColumn(name = "agencia_id")
-    private PrestadorDeServico agencia;
+	@JsonBackReference("Avaliacao-hotel-reference")
+    @JoinColumn(name = "hotel_id")
+    private PrestadorDeServico hotel;
 	
 	// Elemento do mapeamento com o cliente
 	@ManyToOne
@@ -40,7 +40,7 @@ public class AvaliacaoPerUser extends AvaliacaoPrestadorDeServico
     
     private double avaliacaoAtendimento;
     
-    private double avaliacaoRapidez;
+    private double avaliacaLocalidade;
     
     private double avaliacaoLimpeza;
     
@@ -48,9 +48,9 @@ public class AvaliacaoPerUser extends AvaliacaoPrestadorDeServico
 
     public boolean avaliarPrestador(PrestadorDeServico prestador, Cliente cliente) 
     {
-    	 setAgencia(prestador);
+    	 sethotel(prestador);
          setCliente(cliente);
-         setIdAgencia(prestador.getId());
+         setidHotel(prestador.getId());
          setIdCliente(cliente.getId());
          
          return true;
@@ -63,18 +63,18 @@ public class AvaliacaoPerUser extends AvaliacaoPrestadorDeServico
 		lista.add(avaliacaoConforto);
 		lista.add(avaliacaoPreco);
 		lista.add(avaliacaoAtendimento);
-		lista.add(avaliacaoRapidez);
+		lista.add(avaliacaoLocalidade);
 		lista.add(avaliacaoLimpeza);
 		
 		return lista;
 	}
     
-	public long getIdAgencia() {
-		return idAgencia;
+	public long getidHotel() {
+		return idHotel;
 	}
 
-	public void setIdAgencia(long idAgencia) {
-		this.idAgencia = idAgencia;
+	public void setidHotel(long idHotel) {
+		this.idHotel = idHotel;
 	}
 
 	public long getIdCliente() {
@@ -85,12 +85,12 @@ public class AvaliacaoPerUser extends AvaliacaoPrestadorDeServico
 		this.idCliente = idCliente;
 	}
 
-	public PrestadorDeServico getAgencia() {
-		return agencia;
+	public PrestadorDeServico gethotel() {
+		return hotel;
 	}
 
-	public void setAgencia(PrestadorDeServico agencia) {
-		this.agencia = agencia;
+	public void sethotel(PrestadorDeServico hotel) {
+		this.hotel = hotel;
 	}
 
 	public Cliente getCliente() {
@@ -125,12 +125,12 @@ public class AvaliacaoPerUser extends AvaliacaoPrestadorDeServico
 		this.avaliacaoAtendimento = avaliacaoAtendimento;
 	}
 
-	public double getAvaliacaoRapidez() {
-		return avaliacaoRapidez;
+	public double getAvaliacaoLocalidade() {
+		return avaliacaoLocalidade;
 	}
 
-	public void setAvaliacaoRapidez(double avaliacaoRapidez) {
-		this.avaliacaoRapidez = avaliacaoRapidez;
+	public void setAvaliacaoLocalidade(double avaliacaoLocalidade) {
+		this.avaliacaoLocalidade = avaliacaoLocalidade;
 	}
 
 	public double getAvaliacaoLimpeza() {

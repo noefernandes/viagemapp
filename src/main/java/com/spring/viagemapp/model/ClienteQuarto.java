@@ -1,4 +1,4 @@
-package com.spring.viagemapp.model;
+package com.spring.quartoapp.model;
 
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
@@ -10,26 +10,26 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 @Entity
-@Table(name="cliente_viagem")
-public class ClienteViagem {
+@Table(name="cliente_quarto")
+public class ClienteQuarto {
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_cliente_viagem")
-	@SequenceGenerator(name="seq_cliente_viagem", initialValue=1, allocationSize=1)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_cliente_quarto")
+	@SequenceGenerator(name="seq_cliente_quarto", initialValue=1, allocationSize=1)
 	private long id;
 
 
-	private long idViagem;
+	private long idQuarto;
 	private long idCliente;
 
-	@JsonBackReference("cliente-cliente_viagem")
+	@JsonBackReference("cliente-cliente_quarto")
 	@ManyToOne(cascade={CascadeType.ALL})
 	@JoinColumn(name = "cliente_id")
 	private Cliente cliente;
 
-	@JsonBackReference("cliente_viagem-viagem")
+	@JsonBackReference("cliente_quarto-quarto")
 	@ManyToOne(cascade={CascadeType.ALL})
-	@JoinColumn(name = "viagem_id")
-	private Servico viagem;
+	@JoinColumn(name = "quarto_id")
+	private Servico quarto;
 
 	public long getId() {
 		return id;
@@ -47,20 +47,20 @@ public class ClienteViagem {
 		this.cliente = cliente;
 	}
 
-	public Servico getViagem() {
-		return viagem;
+	public Servico getQuarto() {
+		return quarto;
 	}
 
-	public void setViagem(Viagem viagem) {
-		this.viagem = viagem;
+	public void setQuarto(Quarto quarto) {
+		this.quarto = quarto;
 	}
 
-	public long getIdViagem() {
-		return idViagem;
+	public long getIdQuarto() {
+		return idQuarto;
 	}
 
-	public void setIdViagem(long idViagem) {
-		this.idViagem = idViagem;
+	public void setIdQuarto(long idQuarto) {
+		this.idQuarto = idQuarto;
 	}
 
 	public long getIdCliente() {

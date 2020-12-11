@@ -1,8 +1,8 @@
 package com.spring.viagemapp.repository;
 
-import com.spring.viagemapp.model.Agencia;
+import com.spring.viagemapp.model.Hotel;
 import com.spring.viagemapp.model.Cliente;
-import com.spring.viagemapp.model.Viagem;
+import com.spring.viagemapp.model.Quarto;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -19,14 +19,14 @@ public interface ClienteRepository extends JpaRepository<Cliente, Long> {
     Optional<Cliente> findByNomeUsuario(String nomeUsuario);
 
     @Query(value="select v.* from cliente_viagem cv, servico v where cv.id_cliente = ?1" +
-            " and cv.id_viagem = v.id", nativeQuery = true)
-    List<Object[]> getViagensDoCliente(long idCliente);
+            " and cv.id_quarto = v.id", nativeQuery = true)
+    List<Object[]> getQuartosDoCliente(long idCliente);
 
     @Query(value="select ct.tags from cliente_tags ct where ct.cliente_id = ?1", nativeQuery = true)
     List<String> getTagsCliente(long idCliente);
 
-    @Query(value = "select count(*) from cliente_viagem cv, cliente c where" +
-            " cv.id_viagem = ?1 and cv.id_cliente = c.id", nativeQuery = true)
-    int quantidadeDeClientes(long idViagem);
+    @Query(value = "select count(*) from cliente_quarto cv, cliente c where" +
+            " cv.id_quarto = ?1 and cv.id_cliente = c.id", nativeQuery = true)
+    int quantidadeDeClientes(long idQuarto);
 }
 

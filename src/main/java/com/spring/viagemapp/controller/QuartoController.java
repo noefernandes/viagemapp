@@ -3,13 +3,13 @@ package com.spring.viagemapp.controller;
 import com.spring.viagemapp.error.NotFoundAgenciaException;
 import com.spring.viagemapp.error.NotFoundException;
 import com.spring.viagemapp.error.NotFoundViagensException;
-import com.spring.viagemapp.model.Agencia;
-import com.spring.viagemapp.model.Viagem;
-import com.spring.viagemapp.service.AgenciaService;
+import com.spring.viagemapp.model.Hotel;
+import com.spring.viagemapp.model.Quarto;
+import com.spring.viagemapp.service.HotelService;
 import com.spring.viagemapp.service.ClienteService;
-import com.spring.viagemapp.service.ViagemService;
-import com.spring.viagemapp.utils.ViagemComNome;
-import com.spring.viagemapp.utils.ViagemTags;
+import com.spring.viagemapp.service.QuartoService;
+import com.spring.viagemapp.utils.QuartoComNome;
+import com.spring.viagemapp.utils.QuartoTags;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,44 +22,44 @@ import java.util.Optional;
 @CrossOrigin(origins = "*")
 @RequestMapping(value="/")
 @RestController
-public class ViagemController {
+public class QuartoController {
     @Autowired
-    ViagemService viagemService;
+    QuartoService quartoService;
     @Autowired
     ClienteService clienteService;
     @Autowired
-    AgenciaService agenciaService;
+    Service agenciaService;
 
 
-    @GetMapping("/{idCliente}/viagensComNome")
-    public ResponseEntity<?> getViagensComNomeDeAgencia(@PathVariable long idCliente){
-        List<ViagemComNome> viagensComNome;
+    @GetMapping("/{idCliente}/quartosComNome")
+    public ResponseEntity<?> getQuartosComNomeDeHotel(@PathVariable long idCliente){
+        List<QuartoComNome> quartosComNome;
         try{
-        	viagensComNome  = viagemService.findAllSort(idCliente);
+        	quartoComNome  = quartoService.findAllSort(idCliente);
         }catch (NotFoundException e){
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }
 
-        return new ResponseEntity<>(viagensComNome, HttpStatus.OK);
+        return new ResponseEntity<>(quartosComNome, HttpStatus.OK);
     }
 
-    @GetMapping("/{id}/viagens")
-    public ResponseEntity<?> getViagens(@PathVariable long id){
-        List<Viagem> viagens;
+    @GetMapping("/{id}/quartos")
+    public ResponseEntity<?> getQuartos(@PathVariable long id){
+        List<Quarto> quartos;
 
         try{
-            viagens = viagemService.getViagens(id);
+            quartos = quartoService.getQuartos(id);
         }catch(NotFoundViagensException e){
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }
 
-        return new ResponseEntity<>(viagens, HttpStatus.OK);
+        return new ResponseEntity<>(quartos, HttpStatus.OK);
     }
 
-    @PostMapping("/{id}/cadastrarViagem")
-    public ResponseEntity<?> cadastrarViagem(@RequestBody ViagemTags viagemTags, @PathVariable long id){
+    @PostMapping("/{id}/cadastrarQuarto")
+    public ResponseEntity<?> cadastrarQuarto(@RequestBody QuartoTags quartoTags, @PathVariable long id){
         try{
-            viagemService.cadastrarViagem(viagemTags, id);
+            quartoService.cadastrarQuarto(quartoTags, id);
         }catch(NotFoundAgenciaException e){
             //System.out.println("Entrou");
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
@@ -69,15 +69,15 @@ public class ViagemController {
 
     }
 
-    @DeleteMapping("/viagens/{id}")
-    public ResponseEntity<?> deletarViagem(@PathVariable long id){
+    @DeleteMapping("/quartos/{id}")
+    public ResponseEntity<?> deletarQuarto(@PathVariable long id){
         try{
-            viagemService.deletarViagem(id);
+            quartoService.deletarViagem(id);
         }catch(NotFoundViagensException e){
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }
 
-        return new ResponseEntity<Agencia>(HttpStatus.OK);
+        return new ResponseEntity<Hotel>(HttpStatus.OK);
     }
 
 

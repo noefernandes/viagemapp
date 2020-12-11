@@ -2,7 +2,7 @@ package com.spring.viagemapp.controller;
 
 import com.spring.viagemapp.error.*;
 import com.spring.viagemapp.model.*;
-import com.spring.viagemapp.service.AgenciaService;
+import com.spring.viagemapp.service.HotelService;
 import com.spring.viagemapp.service.AvaliacaoPerUserService;
 import com.spring.viagemapp.service.ClienteService;
 import com.spring.viagemapp.utils.ComentarioComNome;
@@ -21,19 +21,19 @@ import java.util.List;
 @CrossOrigin(origins = "*")
 @RestController
 @RequestMapping(value="/")
-public class AgenciaController {
+public class HotelController {
     @Autowired
-    AgenciaService agenciaService;
+    HotelService hotelService;
     @Autowired
     ClienteService clienteService;
     @Autowired
     AvaliacaoPerUserService avaliacaoService;
 
-    @PostMapping(value = "/cadastroAgencia")
-    public ResponseEntity<?> cadastrarAgencia(@RequestBody @Valid Agencia agencia){
-        Agencia temp = new Agencia();
+    @PostMapping(value = "/cadastroHotel")
+    public ResponseEntity<?> cadastrarHotel(@RequestBody @Valid Hotel hotel){
+        Hotel temp = new Hotel();
         try{
-        temp = (Agencia) agenciaService.save(agencia);
+        temp = (Hotel) hotelService.save(hotel);
         }catch(RepeatedNameException e){
             return new ResponseEntity<>(e.getMessage(), HttpStatus.FORBIDDEN);
         }catch(RepeatedCnpjException e){
@@ -44,16 +44,16 @@ public class AgenciaController {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.FORBIDDEN);
         }
 
-        return new ResponseEntity<Agencia>(temp, HttpStatus.CREATED);
+        return new ResponseEntity<Hotel>(temp, HttpStatus.CREATED);
     }
 
-    @PostMapping(value = "/{idCliente}/avaliarAgencia/{idAgencia}")
-    public ResponseEntity<?> avaliarAgencia(@PathVariable long idCliente,
-    										@PathVariable long idAgencia, @RequestBody @Valid AvaliacaoPerUser avaliacao){
-        Agencia agencia;
+    @PostMapping(value = "/{idCliente}/avaliarHotel/{idHotel}")
+    public ResponseEntity<?> avaliarHotel(@PathVariable long idCliente,
+    										@PathVariable long idHotel, @RequestBody @Valid AvaliacaoPerUser avaliacao){
+        Hotel hotel;
     	try{
-            agencia = agenciaService.avaliarPrestador(idCliente, idAgencia, avaliacao);
-            agenciaService.salvarAvaliacao(avaliacao);
+            hotel = hotelService.avaliarPrestador(idCliente, idHotel, avaliacao);
+            hotelService.salvarAvaliacao(avaliacao);
         }catch(NotFoundAgenciaException e){
     	    return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }catch (NotFoundClienteException e){
@@ -63,32 +63,32 @@ public class AgenciaController {
         	return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
     	}
        
-        return new ResponseEntity<>(agencia, HttpStatus.OK);
+        return new ResponseEntity<>(hotel, HttpStatus.OK);
     }
 
     @Transactional
     @PutMapping(value = "/updateToSortNotas/{id}")
     public ResponseEntity<?> updateToSortNotas(@PathVariable("id") long id){
-        Agencia agencia;
+        Hotel hotel;
         try{
-            agencia = (Agencia) agenciaService.findById(id).get();
-            List<AvaliacaoPerUser> avaliacao = avaliacaoService.findByAgencia(agencia);
-            agenciaService.updateNota(agencia,avaliacao);
+            hotel = (Hotel) hotelService.findById(id).get();
+            List<AvaliacaoPerUser> avaliacao = avaliacaoService.findByHotel(hotel);
+            hotelService.updateNota(hotel,avaliacao);
         }catch (NotFoundAgenciaException e){
             return new ResponseEntity<>(e.getMessage(), HttpStatus.FORBIDDEN);
         }
-        return new ResponseEntity<Agencia>(agencia,HttpStatus.OK);
+        return new ResponseEntity<Hotel>(hotel,HttpStatus.OK);
     }
 
 //Aqui será retornado um hashmap, sendo a chave o nome do usuario que comentou e o valor o comentário
-    @GetMapping(value = "/showComentarios/{idAgencia}")
-    public ResponseEntity<?> showComentarios(@PathVariable long idAgencia){
-        Agencia agencia = new Agencia();
+    @GetMapping(value = "/showComentarios/{idHotel}")
+    public ResponseEntity<?> showComentarios(@PathVariable long idHotel){
+        Hotel hotel = new Hotel();
         List<ComentarioComNome> comentarios;
         try{
-            agencia = (Agencia) agenciaService.findById(idAgencia).get();
+            agencia = (Hotel) hotelService.findById(idHotel).get();
             try{
-            	comentarios = agenciaService.showComentarios(agencia);
+            	comentarios = hotelService.showComentarios(hotel);
             }catch(NotFoundAgenciaException e){
                 return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
             }catch(NotFoundAvaliacaoException e)
@@ -106,13 +106,13 @@ public class AgenciaController {
         return new ResponseEntity<>(comentarios, HttpStatus.OK);
     }
 
-    @GetMapping(value = "/showNotas/{id_agencia}")
-    public ResponseEntity<?> showNotas(@PathVariable ("id_agencia") long id_agencia){
-        Agencia agencia;
+    @GetMapping(value = "/showNotas/{id_hotel}")
+    public ResponseEntity<?> showNotas(@PathVariable ("id_hotel") long id_hotel){
+        Hotel hotel;
         List<Double> avaliacao;
         try{
-            agencia = (Agencia) agenciaService.findById(id_agencia).get();
-            avaliacao = agenciaService.showNotas(agencia);
+            hotel = (Hotel) hotelService.findById(id_hotel).get();
+            avaliacao = hotelService.showNotas(hotel);
         }catch(NotFoundException e){
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }catch(NotFoundAgenciaException e){
@@ -124,42 +124,42 @@ public class AgenciaController {
 
 
 
-    @PostMapping(value = "/loginAgencia")
+    @PostMapping(value = "/loginHotel")
     public ResponseEntity<?> realizarLogin(@RequestBody @Valid Usuario usuario){
-        Agencia temp = new Agencia();
+        Hotel temp = new Hotel();
 
         try{
-            temp = (Agencia) agenciaService.checkLogin(usuario);
+            temp = (Hotel) hotelService.checkLogin(usuario);
         }catch(NotFoundLoginException e){
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }catch(WrongPasswordException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.FORBIDDEN);
         }
-        return new ResponseEntity<Agencia>(temp, HttpStatus.OK);
+        return new ResponseEntity<Hotel>(temp, HttpStatus.OK);
 
     }
 
-    @GetMapping("/agencias")
-    public ResponseEntity<?> getAgencias(){
-        List<Agencia> listaAgencias = new ArrayList<Agencia>();
+    @GetMapping("/hoteis")
+    public ResponseEntity<?> getHoteis(){
+        List<Hotel> listaHoteis = new ArrayList<Hotel>();
         try {
-            listaAgencias = agenciaService.findAll();
+            listaHoteis = hotelService.findAll();
         }catch (NotFoundAgenciaException e){
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<List<Agencia>>(listaAgencias, HttpStatus.OK);
+        return new ResponseEntity<List<Hotel>>(listaHoteis, HttpStatus.OK);
     }
 
-    @GetMapping("/agencias/{id}")
-    public ResponseEntity<?> getOneAgencia(@PathVariable("id") long id){
-        Agencia agenciaOp;
+    @GetMapping("/hoteis/{id}")
+    public ResponseEntity<?> getOneHotel(@PathVariable("id") long id){
+        Hotel hotelOp;
         try{
-            agenciaOp = (Agencia) agenciaService.findById(id).get();
+            hotelOp = (Hotel) hotelService.findById(id).get();
         }catch (NotFoundAgenciaException e){
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }
 
-        return new ResponseEntity<Agencia>(agenciaOp, HttpStatus.OK);
+        return new ResponseEntity<Hotel>(agenciaOp, HttpStatus.OK);
     }
     
 }

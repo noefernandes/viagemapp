@@ -21,7 +21,7 @@ import com.spring.viagemapp.error.RepeatedEmailException;
 import com.spring.viagemapp.error.RepeatedNameException;
 import com.spring.viagemapp.error.RepeteadUsernameException;
 import com.spring.viagemapp.error.WrongPasswordException;
-import com.spring.viagemapp.model.Agencia;
+import com.spring.viagemapp.model.Quarto;
 import com.spring.viagemapp.model.AvaliacaoPerUser;
 import com.spring.viagemapp.model.AvaliacaoPrestadorDeServico;
 import com.spring.viagemapp.model.Cliente;

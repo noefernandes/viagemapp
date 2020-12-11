@@ -1,19 +1,19 @@
 package com.spring.viagemapp.service.serviceimpl;
 
 import com.spring.viagemapp.error.*;
-import com.spring.viagemapp.model.Agencia;
+import com.spring.viagemapp.model.Hotel;
 import com.spring.viagemapp.model.Cliente;
 import com.spring.viagemapp.model.Usuario;
-import com.spring.viagemapp.model.Viagem;
-import com.spring.viagemapp.repository.AgenciaRepository;
+import com.spring.viagemapp.model.Quarto;
+import com.spring.viagemapp.repository.HotelRepository;
 import com.spring.viagemapp.repository.ClienteRepository;
-import com.spring.viagemapp.repository.ViagemRepository;
-import com.spring.viagemapp.service.AgenciaService;
+import com.spring.viagemapp.repository.QuartoRepository;
+import com.spring.viagemapp.service.HotelService;
 import com.spring.viagemapp.service.ClienteService;
-import com.spring.viagemapp.service.ViagemService;
+import com.spring.viagemapp.service.QuartoService;
 import com.spring.viagemapp.utils.ClienteTags;
 
-import com.spring.viagemapp.utils.ViagemComNome;
+import com.spring.viagemapp.utils.QuartoComNome;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -37,9 +37,9 @@ public class ClienteServiceImpl implements ClienteService {
     @Autowired
     ClienteRepository clienteRepository;
     @Autowired
-    ViagemService viagemService;
+    QuartoService quartoService;
     @Autowired
-    AgenciaService agenciaService;
+    HotelService quartoService;
 
     @Override
     public List<Cliente> findAll() {
@@ -94,55 +94,55 @@ public class ClienteServiceImpl implements ClienteService {
     }
 
     //@Override
-    //public List<Viagem> getViagensDoCliente(long idCliente){
+    //public List<Quarto> getViagensDoCliente(long idCliente){
        // return clienteRepository.getViagensDoCliente(idCliente);
     //}
 
-    public List<ViagemComNome> convert(List<Object[]> viagensObj){
-        List<Viagem> viagens = new ArrayList<Viagem>();
+    public List<QuartoComNome> convert(List<Object[]> viagensObj){
+        List<Quarto> viagens = new ArrayList<Quarto>();
 
         for(Object[] obj : viagensObj) {
-            Viagem viagem = new Viagem();
+            Quarto quarto = new Quarto();
             
             //System.out.print("OBJETOOOOOOOOO:: " + obj[1].toString());
             
             String bigString = (obj[1].toString());
             BigInteger bi = new BigInteger(bigString);
-            Long idViagem = bi.longValue();
-            viagem.setId(idViagem);
+            Long idQuarto = bi.longValue();
+            quarto.setId(idQuarto);
 
-            List<String> tags = viagemService.getTagsViagem(viagem.getId());
-            viagem.setTags(tags);
+            List<String> tags = quartoService.getTagsQuarto(quarto.getId());
+            quarto.setTags(tags);
 
-            viagem.setCapacidade((Integer) obj[2]);
-            viagem.setData((String) obj[4]);
-            viagem.setHorarioChegada((String) obj[5]);
-            viagem.setHorarioPartida((String) obj[6]);
-            viagem.setIdAgencia((Long.parseLong(obj[7].toString())));
-            viagem.setLocalChegada((String) obj[8]);
-            viagem.setLocalPartida((String) obj[9]);
-            viagem.setPreco((double) obj[3]);
-            viagem.setQtdPassageiros((int) obj[10]);
+            quarto.setCapacidade((Integer) obj[2]);
+            quarto.setData((String) obj[4]);
+            quarto.setHorarioChegada((String) obj[5]);
+            quarto.setHorarioPartida((String) obj[6]);
+            quarto.setIdHotel((Long.parseLong(obj[7].toString())));
+            quarto.setLocalChegada((String) obj[8]);
+            quarto.setLocalPartida((String) obj[9]);
+            quarto.setPreco((double) obj[3]);
+            quarto.setQtdPassageiros((int) obj[10]);
 
-            viagens.add(viagem);
+            viagens.add(quarto);
         }
 
-        ArrayList<ViagemComNome> viagensComNome = new ArrayList<ViagemComNome>();
-        for(Viagem viagem: viagens){
-            ViagemComNome viagemComNome = new ViagemComNome();
-            viagemComNome.viagem = viagem;
-            Agencia agencia = (Agencia) agenciaService.findById(viagem.getIdAgencia()).get();
-            viagemComNome.nomeAgencia = agencia.getNome();
-            viagemComNome.nota = agencia.getNota();
-            viagensComNome.add(viagemComNome);
+        ArrayList<QuartoComNome> viagensComNome = new ArrayList<QuartoComNome>();
+        for(Quarto quarto: viagens){
+            QuartoComNome quartoComNome = new QuartoComNome();
+            quartoComNome.quarto = quarto;
+            Hotel quarto = (Hotel) quartoService.findById(quarto.getIdHotel()).get();
+            quartoComNome.nomeHotel = quarto.getNome();
+            quartoComNome.nota = quarto.getNota();
+            viagensComNome.add(quartoComNome);
         }
 
         return viagensComNome;
     }
 
     @Override
-    public int quantidadeDeClientes(long idViagem) {
-        return clienteRepository.quantidadeDeClientes(idViagem);
+    public int quantidadeDeClientes(long idQuarto) {
+        return clienteRepository.quantidadeDeClientes(idQuarto);
     }
 
     @Override
@@ -151,9 +151,9 @@ public class ClienteServiceImpl implements ClienteService {
     }
 
     @Override
-    public List<ViagemComNome> getViagensDoClienteComNome(long idCliente){
+    public List<QuartoComNome> getViagensDoClienteComNome(long idCliente){
         List<Object[]> viagensObj = clienteRepository.getViagensDoCliente(idCliente);
-        List<ViagemComNome> viagensComNome = convert(viagensObj);
+        List<QuartoComNome> viagensComNome = convert(viagensObj);
         return viagensComNome;
     }
 

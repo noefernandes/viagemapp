@@ -34,16 +34,16 @@ public abstract class Servico
 	@ElementCollection
     private List<String> tags;
 	
-	@JsonManagedReference("cliente_viagem-viagem")
-    @OneToMany(mappedBy = "viagem")
-    private List<ClienteViagem> clienteViagem;
+	@JsonManagedReference("cliente_quarto-quarto")
+    @OneToMany(mappedBy = "quarto")
+    private List<ClienteQuarto> clienteQuarto;
 	
-	public List<ClienteViagem> getClienteViagem() {
-        return clienteViagem;
+	public List<ClienteQuarto> getClienteQuarto() {
+        return clienteQuarto;
     }
 
-    public void setClienteViagem(List<ClienteViagem> clienteViagem) {
-        this.clienteViagem = clienteViagem;
+    public void setClienteViagem(List<ClienteQuarto> clienteQuarto) {
+        this.clienteQuarto= clienteQuarto;
     }
 	
 	public Long getId() {

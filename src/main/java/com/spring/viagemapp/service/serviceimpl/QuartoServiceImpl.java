@@ -1,11 +1,11 @@
 package com.spring.viagemapp.service.serviceimpl;
 import com.spring.viagemapp.error.*;
-import com.spring.viagemapp.model.Agencia;
+import com.spring.viagemapp.model.Hotel;
 import com.spring.viagemapp.model.PrestadorDeServico;
 import com.spring.viagemapp.model.Servico;
 import com.spring.viagemapp.model.Viagem;
 import com.spring.viagemapp.repository.ViagemRepository;
-import com.spring.viagemapp.service.AgenciaService;
+import com.spring.viagemapp.service.HotelService;
 import com.spring.viagemapp.service.ClienteService;
 import com.spring.viagemapp.service.ViagemService;
 import com.spring.viagemapp.utils.ServicoTags;
@@ -24,13 +24,13 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class ViagemServiceImpl extends ServicoServiceImpl<Viagem> implements ViagemService{
+public class QuartoServiceImpl extends ServicoServiceImpl<Quarto> implements QuartoService{
 
     @Autowired
-    ViagemRepository viagemRepository;
+    QuartoRepository quartoRepository;
 
     @Autowired
-    AgenciaService agenciaService;
+    HotelService hotelService;
 
     @Autowired
     ClienteService clienteService;
@@ -47,22 +47,22 @@ public class ViagemServiceImpl extends ServicoServiceImpl<Viagem> implements Via
     //    return viagens;
     //}
 
-    public List<ViagemComNome> findAllSort(long idCliente){
-        List<Viagem> viagens = viagemRepository.findAll();
-        if(viagens.isEmpty()){
-            throw new NotFoundException("Viagens não encontradas");
+    public List<QuartoComNome> findAllSort(long idCliente){
+        List<Quarto> quartos = quartoRepository.findAll();
+        if(quartos.isEmpty()){
+            throw new NotFoundException("Quartos não encontrados");
         }
 
-        List<Viagem> listaViagens = findAll();
+        List<Quarto> listaViagens = findAll();
 
-        List<ViagemComNome> viagensCliente = clienteService.convert(clienteService.getViagensDoCliente(idCliente));
+        List<QuartoComNome> quartosCliente = clienteService.convert(clienteService.getQuartosDoCliente(idCliente));
         List<Long> indices = new ArrayList<Long>();
 
-        for(int i = 0; i < viagensCliente.size(); i++){
-            indices.add(viagensCliente.get(i).viagem.getId());
+        for(int i = 0; i < quartosCliente.size(); i++){
+            indices.add(quartosCliente.get(i).viagem.getId());
         }
 
-        List<ViagemComNome> viagensComNome = new ArrayList<ViagemComNome>();
+        List<QuartoComNome> quartosComNome = new ArrayList<QuartoComNome>();
         for(int i = 0; i < listaViagens.size(); i++){
             boolean pular = false;
             for(int j = 0; j < indices.size(); j++){
@@ -75,15 +75,15 @@ public class ViagemServiceImpl extends ServicoServiceImpl<Viagem> implements Via
                 continue;
             }
 
-            ViagemComNome viagemComNome = new ViagemComNome();
-            viagemComNome.viagem = listaViagens.get(i);
-            Agencia agencia = (Agencia) agenciaService.findById(listaViagens.get(i).getIdAgencia()).get();
-            viagemComNome.nomeAgencia = agencia.getNome();
-            viagemComNome.nota = agencia.getNota();
-            viagensComNome.add(viagemComNome);
+            QuartoComNome quartoComNome = new QuartoComNome();
+            quartoComNome.quarto = listaViagens.get(i);
+            Hotel hotel = (Hotel) hotelService.findById(listaViagens.get(i).getIdHotel()).get();
+            quartoComNome.nomeHotel = hotel.getNome();
+            quartoComNome.nota = hotel.getNota();
+            quartosComNome.add(quartoComNome);
         }
         
-        viagensComNome.sort((ViagemComNome rhs, ViagemComNome lhs) -> 
+        quartosComNome.sort((QuartoComNome rhs, QuartoComNome lhs) -> 
         {
         	if(rhs.nota < lhs.nota) 
         	{
@@ -97,38 +97,38 @@ public class ViagemServiceImpl extends ServicoServiceImpl<Viagem> implements Via
         	return -1;
         });
 
-        return viagensComNome;
+        return quartosComNome;
     }
 
 
-    public List<Viagem> findAllByAgencia(Agencia agencia){
-        if(agencia.getViagens().isEmpty()){
-            throw new NotFoundViagensException("Esta agência não tem viagens");
+    public List<Quarto> findAllByHotel(Hotel hotel){
+        if(hotel.getViagens().isEmpty()){
+            throw new NotFoundViagensException("Este hotel não tem quartos");
         }
         
-        List<Viagem> viagens = new ArrayList<Viagem>();
+        List<Quarto> quartos = new ArrayList<Quarto>();
         
-        for(Servico e : agencia.getViagens())
+        for(Servico e : hotel.getQuartos())
         {
-        	viagens.add((Viagem) e);
+        	quartos.add((Quarto) e);
         }
         
-        return viagens;
+        return quartos;
     }
 
     @Override
-    public List<Viagem> getViagens(long id){
+    public List<Quarto> getViagens(long id){
 
-        Optional<Agencia> agenciaOp = agenciaService.findById(id);
+        Optional<Hotel> hotelOp = hotelService.findById(id);
 
-        if(!agenciaOp.isPresent()){
-            throw new NotFoundAgenciaException("Agência de ID " + id + " não identificada. Não será possível" +
-                    " encontrar suas viagens.");
+        if(!hotelOp.isPresent()){
+            throw new NotFoundAgenciaException("Hotel de ID " + id + " não identificada. Não será possível" +
+                    " encontrar seus hoteis.");
         }
 
         
-        List<Viagem> viagens = findAllByAgencia(agenciaOp.get());
-        return viagens;
+        List<Quarto> quartos = findAllByHotel(hotelOp.get());
+        return quartos;
     }
 
     //@Override
@@ -155,18 +155,18 @@ public class ViagemServiceImpl extends ServicoServiceImpl<Viagem> implements Via
     //}
 
     @Override
-    public void cadastrarViagem(ViagemTags viagemTags, long id){
-        Optional<Agencia> agenciaOp = agenciaService.findById(id);
-        if(!agenciaOp.isPresent()) {
-            throw new NotFoundAgenciaException("Agência de ID " + id + " não encontrada. " +
-                    "O cadastro da viagem não será possível.");
+    public void cadastrarQuarto(QuartoTags quartoTags, long id){
+        Optional<Hotel> hotelOp = hotelService.findById(id);
+        if(!hotelOp.isPresent()) {
+            throw new NotFoundAgenciaException("Hotel de ID " + id + " não encontrada. " +
+                    "O cadastro do quarto não será possível.");
         }
 
-        viagemTags.viagem.setAgencia(agenciaOp.get());
-        agenciaOp.get().addViagem(viagemTags.viagem);
+        quartoTags.quarto.setHotel(hotelOp.get());
+        hotelOp.get().addViagem(quartoTags.viagem);
         ServicoTags<Viagem> servicoTags = new ServicoTags<Viagem>();
-        servicoTags.servico = viagemTags.viagem;
-        servicoTags.tagString = viagemTags.tagString;
+        servicoTags.servico = quartoTags.viagem;
+        servicoTags.tagString = quartoTags.tagString;
         save(servicoTags);
     }
 
@@ -176,17 +176,17 @@ public class ViagemServiceImpl extends ServicoServiceImpl<Viagem> implements Via
 	//}
 
 	@Override
-    public void deletarViagem(long id){
-        Optional<Viagem> viagem = viagemRepository.findById(id);
-        if(!viagem.isPresent()){
-            throw new NotFoundViagensException("Viagem de ID " + id + " não encontrada. " +
+    public void deletarQuarto(long id){
+        Optional<Quarto> quarto = quartoRepository.findById(id);
+        if(!quarto.isPresent()){
+            throw new NotFoundViagensException("Quarto de ID " + id + " não encontrada. " +
                     "A deleção não poderá ocorrer.");
         }
 
-        viagemRepository.delete(viagem.get());
+        quartoRepository.delete(quarto.get());
     }
 
-    public List<String> getTagsViagem(long idViagem){
-        return viagemRepository.getTagsServico(idViagem);
+    public List<String> getTagsQuarto(long idQuarto){
+        return quartoRepository.getTagsServico(idQuarto);
     }
 }
