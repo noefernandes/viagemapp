@@ -26,6 +26,6 @@ public interface HotelService extends PrestadorDeServicoService<Hotel, Avaliacao
     List<Double> showNotas(Hotel hotel);
     List<ComentarioComNome> showComentarios(Hotel hotel);
     public void salvarAvaliacao(AvaliacaoPerUser avaliacao);
-    //public Hotel avaliarHotel(@PathVariable long idCliente,
-    //                              @PathVariable long idHotel, @RequestBody @Valid AvaliacaoPerUser avaliacao);
+    public Hotel avaliarPrestador(@PathVariable long idCliente,
+                                  @PathVariable long idHotel, @RequestBody @Valid AvaliacaoPerUser avaliacao);
 }

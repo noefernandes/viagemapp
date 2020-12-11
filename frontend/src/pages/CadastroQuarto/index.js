@@ -12,11 +12,11 @@ const CurrencyFormat = require('react-currency-format');
 
 export default function CadastroQuarto(){
 
-    const [inicioReserva, setLocalPartida] = useState('');
-    const [fimReserva, setLocalChegada] = useState('');
-    const [numero, setData] = useState('');
+    const [inicioReserva, setInicioReserva] = useState('');
+    const [fimReserva, setFimReserva] = useState('');
+    const [numero, setNumero] = useState('');
     const [preco, setPreco] = useState();
-    const [andar, setCapacidade] = useState();
+    const [andar, setAndar] = useState();
     const [tagString, setTags] = useState('');
     const [idHotel, setIdHotel] = useState();
     
@@ -75,31 +75,14 @@ export default function CadastroQuarto(){
             
             <form className='form-cadastro-quarto' onSubmit={handleCadastroQuarto} >
                 <h1 style={{marginBottom: 30}}>Cadastre um quarto</h1>
-                <div className='local'>
-                    <input 
-                        type='text' 
-                        placeholder='Número do quarto' 
-                        value={numero}
-                        onChange={e => {setLocalPartida(e.target.value);
-                                       setIdHotel(idUsuario)
-                        }}
-                    />
-                </div>
-                <div className='andar'>
-                    <input
-                        type='text' 
-                        placeholder='Andar do Quarto' 
-                        value={andar}
-                        onChange={e => setLocalChegada(e.target.value)}
-                    />
-                </div>
+                
                 <div className='inicioReserva'>
                     <CurrencyFormat 
                         format="##/##/####" 
                         placeholder="Início (DD/MM/AAAA)" 
                         mask={['D', 'D', 'M', 'M', 'A', 'A', 'A', 'A']}
                         value={inicioReserva}
-                        onChange={e => setData(e.target.value)}
+                        onChange={e => setInicioReserva(e.target.value)}
                     />
                 </div>
                 <div className='fimReserva'>
@@ -108,7 +91,27 @@ export default function CadastroQuarto(){
                         placeholder="Fim (DD/MM/AAAA)"
                         mask={['D', 'D', 'M', 'M', 'A', 'A', 'A', 'A']}
                         value={fimReserva}
-                        onChange={e => setData(e.target.value)}
+                        onChange={e => setFimReserva(e.target.value)}
+                    />
+                
+                </div>
+                <div className='local'>
+                    <input
+                        type='text'
+                        placeholder='Número do quarto'
+                        value={numero}
+                        onChange={e => {
+                            setNumero(e.target.value);
+                            setIdHotel(idUsuario)
+                        }}
+                    />
+                </div>
+                <div className='andar'>
+                    <input
+                        type='text'
+                        placeholder='Andar do Quarto'
+                        value={andar}
+                        onChange={e => setAndar(e.target.value)}
                     />
                 </div>
                 <div>
