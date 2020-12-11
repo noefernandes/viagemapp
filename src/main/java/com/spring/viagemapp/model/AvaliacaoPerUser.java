@@ -19,14 +19,14 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 @Table(name="avaliacaoperuser")
 public class AvaliacaoPerUser extends AvaliacaoPrestadorDeServico
 {	
-	private long idAgencia;
+	private long idRestaurante;
 	private long idCliente;
 	
 	// Elemento do mapeamento com a agência
 	@ManyToOne
-	@JsonBackReference("Avaliacao-agencia-reference")
-    @JoinColumn(name = "agencia_id")
-    private PrestadorDeServico agencia;
+	@JsonBackReference("Avaliacao-restaurante-reference")
+    @JoinColumn(name = "restaurante_id")
+    private PrestadorDeServico restaurante;
 	
 	// Elemento do mapeamento com o cliente
 	@ManyToOne
@@ -48,9 +48,9 @@ public class AvaliacaoPerUser extends AvaliacaoPrestadorDeServico
 
     public boolean avaliarPrestador(PrestadorDeServico prestador, Cliente cliente) 
     {
-    	 setAgencia(prestador);
+    	 setRestaurante(prestador);
          setCliente(cliente);
-         setIdAgencia(prestador.getId());
+         setIdRestaurante(prestador.getId());
          setIdCliente(cliente.getId());
          
          return true;
@@ -68,13 +68,13 @@ public class AvaliacaoPerUser extends AvaliacaoPrestadorDeServico
 		
 		return lista;
 	}
-    
-	public long getIdAgencia() {
-		return idAgencia;
+
+	public long getIdRestaurante() {
+		return idRestaurante;
 	}
 
-	public void setIdAgencia(long idAgencia) {
-		this.idAgencia = idAgencia;
+	public void setIdRestaurante(long idRestaurante) {
+		this.idRestaurante = idRestaurante;
 	}
 
 	public long getIdCliente() {
@@ -85,12 +85,12 @@ public class AvaliacaoPerUser extends AvaliacaoPrestadorDeServico
 		this.idCliente = idCliente;
 	}
 
-	public PrestadorDeServico getAgencia() {
-		return agencia;
+	public PrestadorDeServico getRestaurante() {
+		return restaurante;
 	}
 
-	public void setAgencia(PrestadorDeServico agencia) {
-		this.agencia = agencia;
+	public void setRestaurante(PrestadorDeServico restaurante) {
+		this.restaurante = restaurante;
 	}
 
 	public Cliente getCliente() {
@@ -148,4 +148,5 @@ public class AvaliacaoPerUser extends AvaliacaoPrestadorDeServico
 	public void setComentarios(String comentarios) {
 		this.comentarios = comentarios;
 	}
+    
 }

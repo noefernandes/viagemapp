@@ -13,15 +13,14 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import com.spring.viagemapp.error.NotFoundAgenciaException;
 import com.spring.viagemapp.error.NotFoundClienteException;
 import com.spring.viagemapp.error.NotFoundLoginException;
+import com.spring.viagemapp.error.NotFoundRestauranteException;
 import com.spring.viagemapp.error.RepeatedCpfException;
 import com.spring.viagemapp.error.RepeatedEmailException;
 import com.spring.viagemapp.error.RepeatedNameException;
 import com.spring.viagemapp.error.RepeteadUsernameException;
 import com.spring.viagemapp.error.WrongPasswordException;
-import com.spring.viagemapp.model.Agencia;
 import com.spring.viagemapp.model.AvaliacaoPerUser;
 import com.spring.viagemapp.model.AvaliacaoPrestadorDeServico;
 import com.spring.viagemapp.model.Cliente;
@@ -50,7 +49,7 @@ public class PrestadorDeServicoServiceImpl<T extends PrestadorDeServico, S exten
         Optional<Cliente> cliente = clienteRepository.findById(idCliente);
 
         if(!prestador.isPresent()){
-            throw new NotFoundAgenciaException("Prestador com o ID " + idPrestador + " não encontrado ao avaliar!");
+            throw new NotFoundRestauranteException("Prestador com o ID " + idPrestador + " não encontrado ao avaliar!");
         }
 
         if(!cliente.isPresent()){
@@ -76,7 +75,7 @@ public class PrestadorDeServicoServiceImpl<T extends PrestadorDeServico, S exten
     public List<T> findAll() {
         List<T> prestadores = prestadorRepository.findAll();
         if(prestadores.isEmpty()){
-            throw new NotFoundAgenciaException("Prestadores de serviço não encontrados");
+            throw new NotFoundRestauranteException("Prestadores de serviço não encontrados");
         }
         
         return prestadores;
@@ -86,7 +85,7 @@ public class PrestadorDeServicoServiceImpl<T extends PrestadorDeServico, S exten
     public Optional<T> findById(long id) {
         Optional<T> prestador = prestadorRepository.findById(id);
         if(!prestador.isPresent()){
-            throw new NotFoundAgenciaException("Prestador de serviço não encontrado");
+            throw new NotFoundRestauranteException("Prestador de serviço não encontrado");
         }
 
         

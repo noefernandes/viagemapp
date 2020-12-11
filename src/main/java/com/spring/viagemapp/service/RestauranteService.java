@@ -1,6 +1,6 @@
 package com.spring.viagemapp.service;
 
-import com.spring.viagemapp.model.Agencia;
+import com.spring.viagemapp.model.Restaurante;
 import com.spring.viagemapp.model.AvaliacaoPerUser;
 import com.spring.viagemapp.model.Usuario;
 import com.spring.viagemapp.utils.ComentarioComNome;
@@ -11,7 +11,7 @@ import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
-public interface AgenciaService extends PrestadorDeServicoService<Agencia, AvaliacaoPerUser>{
+public interface RestauranteService extends PrestadorDeServicoService<Restaurante, AvaliacaoPerUser>{
     //List<Agencia> findAll();
     //Optional<Agencia> findById(long id);
     //Agencia save(Agencia agencia);
@@ -22,9 +22,9 @@ public interface AgenciaService extends PrestadorDeServicoService<Agencia, Avali
     //boolean existsByNome(String nome);
     //Optional<Agencia> findByNomeUsuario(String nomeUsuario);
     //Agencia checkLogin(Usuario usuario);
-    void updateNota(Agencia agencia,  List<AvaliacaoPerUser> avaliacao);
-    List<Double> showNotas(Agencia agencia);
-    List<ComentarioComNome> showComentarios(Agencia agencia);
+    void updateNota(Restaurante restaurante,  List<AvaliacaoPerUser> avaliacao);
+    List<Double> showNotas(Restaurante restaurante);
+    List<ComentarioComNome> showComentarios(Restaurante restaurante);
     public void salvarAvaliacao(AvaliacaoPerUser avaliacao);
     //public Agencia avaliarAgencia(@PathVariable long idCliente,
     //                              @PathVariable long idAgencia, @RequestBody @Valid AvaliacaoPerUser avaliacao);

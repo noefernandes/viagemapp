@@ -2,9 +2,9 @@ package com.spring.viagemapp.controller;
 
 import com.spring.viagemapp.error.*;
 import com.spring.viagemapp.model.*;
-import com.spring.viagemapp.service.AgenciaService;
 import com.spring.viagemapp.service.AvaliacaoPerUserService;
 import com.spring.viagemapp.service.ClienteService;
+import com.spring.viagemapp.service.RestauranteService;
 import com.spring.viagemapp.utils.ComentarioComNome;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,17 +23,17 @@ import java.util.List;
 @RequestMapping(value="/")
 public class AgenciaController {
     @Autowired
-    AgenciaService agenciaService;
+    RestauranteService restauranteService;
     @Autowired
     ClienteService clienteService;
     @Autowired
     AvaliacaoPerUserService avaliacaoService;
 
     @PostMapping(value = "/cadastroAgencia")
-    public ResponseEntity<?> cadastrarAgencia(@RequestBody @Valid Agencia agencia){
-        Agencia temp = new Agencia();
+    public ResponseEntity<?> cadastrarRestaurante(@RequestBody @Valid Restaurante restaurante){
+        Restaurante temp = new Restaurante();
         try{
-        temp = (Agencia) agenciaService.save(agencia);
+        temp = (Restaurante) restauranteService.save(restaurante);
         }catch(RepeatedNameException e){
             return new ResponseEntity<>(e.getMessage(), HttpStatus.FORBIDDEN);
         }catch(RepeatedCnpjException e){
@@ -44,17 +44,17 @@ public class AgenciaController {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.FORBIDDEN);
         }
 
-        return new ResponseEntity<Agencia>(temp, HttpStatus.CREATED);
+        return new ResponseEntity<>(temp, HttpStatus.CREATED);
     }
 
     @PostMapping(value = "/{idCliente}/avaliarAgencia/{idAgencia}")
-    public ResponseEntity<?> avaliarAgencia(@PathVariable long idCliente,
-    										@PathVariable long idAgencia, @RequestBody @Valid AvaliacaoPerUser avaliacao){
-        Agencia agencia;
+    public ResponseEntity<?> avaliarRestaurante(@PathVariable long idCliente,
+    										@PathVariable long idRestaurante, @RequestBody @Valid AvaliacaoPerUser avaliacao){
+        Restaurante restaurante;
     	try{
-            agencia = agenciaService.avaliarPrestador(idCliente, idAgencia, avaliacao);
-            agenciaService.salvarAvaliacao(avaliacao);
-        }catch(NotFoundAgenciaException e){
+            restaurante = restauranteService.avaliarPrestador(idCliente, idRestaurante, avaliacao);
+            restauranteService.salvarAvaliacao(avaliacao);
+        }catch(NotFoundRestauranteException e){
     	    return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }catch (NotFoundClienteException e){
     	    return  new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
@@ -63,40 +63,40 @@ public class AgenciaController {
         	return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
     	}
        
-        return new ResponseEntity<>(agencia, HttpStatus.OK);
+        return new ResponseEntity<>(restaurante, HttpStatus.OK);
     }
 
     @Transactional
     @PutMapping(value = "/updateToSortNotas/{id}")
     public ResponseEntity<?> updateToSortNotas(@PathVariable("id") long id){
-        Agencia agencia;
+        Restaurante restaurante;
         try{
-            agencia = (Agencia) agenciaService.findById(id).get();
-            List<AvaliacaoPerUser> avaliacao = avaliacaoService.findByAgencia(agencia);
-            agenciaService.updateNota(agencia,avaliacao);
-        }catch (NotFoundAgenciaException e){
+            restaurante = (Restaurante) restauranteService.findById(id).get();
+            List<AvaliacaoPerUser> avaliacao = avaliacaoService.findByRestaurante(restaurante);
+            restauranteService.updateNota(restaurante, avaliacao);
+        }catch (NotFoundRestauranteException e){
             return new ResponseEntity<>(e.getMessage(), HttpStatus.FORBIDDEN);
         }
-        return new ResponseEntity<Agencia>(agencia,HttpStatus.OK);
+        return new ResponseEntity<>(restaurante, HttpStatus.OK);
     }
 
 //Aqui será retornado um hashmap, sendo a chave o nome do usuario que comentou e o valor o comentário
     @GetMapping(value = "/showComentarios/{idAgencia}")
-    public ResponseEntity<?> showComentarios(@PathVariable long idAgencia){
-        Agencia agencia = new Agencia();
+    public ResponseEntity<?> showComentarios(@PathVariable long idRestaurante){
+        Restaurante restaurante = new Restaurante();
         List<ComentarioComNome> comentarios;
         try{
-            agencia = (Agencia) agenciaService.findById(idAgencia).get();
+            restaurante = (Restaurante) restauranteService.findById(idRestaurante).get();
             try{
-            	comentarios = agenciaService.showComentarios(agencia);
-            }catch(NotFoundAgenciaException e){
+            	comentarios = restauranteService.showComentarios(restaurante);
+            }catch(NotFoundRestauranteException e){
                 return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
             }catch(NotFoundAvaliacaoException e)
             {
             	return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
             }
 
-        }catch(NotFoundAgenciaException e){
+        }catch(NotFoundRestauranteException e){
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND); 
         }
         
@@ -107,59 +107,59 @@ public class AgenciaController {
     }
 
     @GetMapping(value = "/showNotas/{id_agencia}")
-    public ResponseEntity<?> showNotas(@PathVariable ("id_agencia") long id_agencia){
-        Agencia agencia;
+    public ResponseEntity<?> showNotas(@PathVariable long id_restaurante){
+        Restaurante restaurante;
         List<Double> avaliacao;
         try{
-            agencia = (Agencia) agenciaService.findById(id_agencia).get();
-            avaliacao = agenciaService.showNotas(agencia);
+            restaurante = (Restaurante) restauranteService.findById(id_restaurante).get();
+            avaliacao = restauranteService.showNotas(restaurante);
         }catch(NotFoundException e){
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
-        }catch(NotFoundAgenciaException e){
+        }catch(NotFoundRestauranteException e){
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }
 
-        return new ResponseEntity<List<Double>>(avaliacao,HttpStatus.OK);
+        return new ResponseEntity<>(avaliacao, HttpStatus.OK);
     }
 
 
 
     @PostMapping(value = "/loginAgencia")
     public ResponseEntity<?> realizarLogin(@RequestBody @Valid Usuario usuario){
-        Agencia temp = new Agencia();
+    	Restaurante temp = new Restaurante();
 
         try{
-            temp = (Agencia) agenciaService.checkLogin(usuario);
+            temp = (Restaurante) restauranteService.checkLogin(usuario);
         }catch(NotFoundLoginException e){
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }catch(WrongPasswordException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.FORBIDDEN);
         }
-        return new ResponseEntity<Agencia>(temp, HttpStatus.OK);
+        return new ResponseEntity<>(temp, HttpStatus.OK);
 
     }
 
     @GetMapping("/agencias")
     public ResponseEntity<?> getAgencias(){
-        List<Agencia> listaAgencias = new ArrayList<Agencia>();
+        List<Restaurante> listaAgencias = new ArrayList<Restaurante>();
         try {
-            listaAgencias = agenciaService.findAll();
-        }catch (NotFoundAgenciaException e){
+            listaAgencias = restauranteService.findAll();
+        }catch (NotFoundRestauranteException e){
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<List<Agencia>>(listaAgencias, HttpStatus.OK);
+        return new ResponseEntity<>(listaAgencias, HttpStatus.OK);
     }
 
     @GetMapping("/agencias/{id}")
     public ResponseEntity<?> getOneAgencia(@PathVariable("id") long id){
-        Agencia agenciaOp;
+    	Restaurante agenciaOp;
         try{
-            agenciaOp = (Agencia) agenciaService.findById(id).get();
-        }catch (NotFoundAgenciaException e){
+            agenciaOp = (Restaurante) restauranteService.findById(id).get();
+        }catch (NotFoundRestauranteException e){
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }
 
-        return new ResponseEntity<Agencia>(agenciaOp, HttpStatus.OK);
+        return new ResponseEntity<>(agenciaOp, HttpStatus.OK);
     }
     
 }

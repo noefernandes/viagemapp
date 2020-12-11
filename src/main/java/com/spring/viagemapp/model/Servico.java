@@ -34,18 +34,10 @@ public abstract class Servico
 	@ElementCollection
     private List<String> tags;
 	
-	@JsonManagedReference("cliente_viagem-viagem")
-    @OneToMany(mappedBy = "viagem")
-    private List<ClienteViagem> clienteViagem;
-	
-	public List<ClienteViagem> getClienteViagem() {
-        return clienteViagem;
-    }
+	@JsonManagedReference("cliente_mesa-mesa")
+    @OneToMany(mappedBy = "mesa")
+    private List<ClienteMesa> clienteMesa;
 
-    public void setClienteViagem(List<ClienteViagem> clienteViagem) {
-        this.clienteViagem = clienteViagem;
-    }
-	
 	public Long getId() {
 		return id;
 	}
@@ -53,26 +45,39 @@ public abstract class Servico
 	public void setId(Long id) {
 		this.id = id;
 	}
+
+	public double getPreco() {
+		return preco;
+	}
+
+	public void setPreco(double preco) {
+		this.preco = preco;
+	}
+
+	public int getCapacidade() {
+		return capacidade;
+	}
+
+	public void setCapacidade(int capacidade) {
+		this.capacidade = capacidade;
+	}
+
+	public List<String> getTags() {
+		return tags;
+	}
+
+	public void setTags(List<String> tags) {
+		this.tags = tags;
+	}
+
+	public List<ClienteMesa> getClienteMesa() {
+		return clienteMesa;
+	}
+
+	public void setClienteMesa(List<ClienteMesa> clienteMesa) {
+		this.clienteMesa = clienteMesa;
+	}
 	
-	public List<String> getTags(){ return tags;}
-
-    public void setTags(List<String> tags){ this.tags = tags; }
-
-    public void addTags(List<String> tags){ this.tags.addAll((tags)); }
-    
-    public double getPreco() {
-        return preco;
-    }
-
-    public void setPreco(double preco) {
-        this.preco = preco;
-    }
-
-    public int getCapacidade() {
-        return capacidade;
-    }
-
-    public void setCapacidade(int capacidade) {
-        this.capacidade = capacidade;
-    }
+	public void addTags(List<String> tags){ this.tags.addAll((tags)); }
+	
 }

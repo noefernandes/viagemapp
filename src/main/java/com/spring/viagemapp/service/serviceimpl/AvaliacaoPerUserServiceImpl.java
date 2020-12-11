@@ -7,9 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.spring.viagemapp.error.NotFoundAgenciaException;
-import com.spring.viagemapp.error.NotFoundViagensException;
-import com.spring.viagemapp.model.Agencia;
+import com.spring.viagemapp.error.NotFoundRestauranteException;
+import com.spring.viagemapp.error.NotFoundMesasException;
+import com.spring.viagemapp.model.Restaurante;
 import com.spring.viagemapp.model.AvaliacaoPerUser;
 import com.spring.viagemapp.model.Cliente;
 import com.spring.viagemapp.repository.AvaliacaoPerUserRepository;
@@ -30,18 +30,18 @@ public class AvaliacaoPerUserServiceImpl implements AvaliacaoPerUserService {
 
 	// TODO: Atualizar a excessão
 	@Override
-	public List<AvaliacaoPerUser> findByAgencia(Agencia agencia) {
-		if(agencia.getAvaliacoes().isEmpty()){
-            throw new NotFoundAgenciaException("Esta agência não tem avaliações");
+	public List<AvaliacaoPerUser> findByRestaurante(Restaurante restaurante) {
+		if(restaurante.getAvaliacoes().isEmpty()){
+            throw new NotFoundRestauranteException("Este restaurante não tem avaliações");
         }
-        return agencia.getAvaliacoes();
+        return restaurante.getAvaliacoes();
 	}
 
 	// TODO: Atualizar a excessão
 	@Override
 	public List<AvaliacaoPerUser> findByCliente(Cliente cliente) {
 		if(cliente.getAvaliacoes().isEmpty()){
-            throw new NotFoundViagensException("Este cliente ainda não avaliou nenhuma agência");
+            throw new NotFoundMesasException("Este cliente ainda não avaliou nenhum restaurante");
         }
         return cliente.getAvaliacoes();
 	}

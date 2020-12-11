@@ -24,65 +24,64 @@ public class Cliente extends Usuario{
 
     //Adding in the cascade = {CascadeType.ALL} on the Parent's reference to the Child solved
     // the problem in both cases. This saved the Child and the Parent.
-    @JsonManagedReference("cliente-cliente_viagem")
+    @JsonManagedReference("cliente-cliente_mesa")
     @OneToMany(mappedBy = "cliente")
-    private List<ClienteViagem> clienteViagem;
+    private List<ClienteMesa> clienteMesa;
     
     @JsonManagedReference("Avaliacao-cliente-reference")
     @OneToMany(mappedBy = "cliente")
     private List<AvaliacaoPerUser> avaliacoes;
-    
-    public List<AvaliacaoPerUser> getAvaliacoes() {
+
+	public String getNome() {
+		return nome;
+	}
+
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
+
+	public String getCpf() {
+		return cpf;
+	}
+
+	public void setCpf(String cpf) {
+		this.cpf = cpf;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public List<String> getTags() {
+		return tags;
+	}
+
+	public void setTags(List<String> tags) {
+		this.tags = tags;
+	}
+
+	public List<ClienteMesa> getClienteMesa() {
+		return clienteMesa;
+	}
+
+	public void setClienteMesa(List<ClienteMesa> clienteMesa) {
+		this.clienteMesa = clienteMesa;
+	}
+
+	public List<AvaliacaoPerUser> getAvaliacoes() {
 		return avaliacoes;
 	}
 
 	public void setAvaliacoes(List<AvaliacaoPerUser> avaliacoes) {
 		this.avaliacoes = avaliacoes;
 	}
-
-	public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public String getCpf() {
-        return cpf;
-    }
-
-    public void setCpf(String cpf) {
-        this.cpf = cpf;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public List<String> getTags() {
-		return tags;
-	}
-
-	public void setTags(List<String> tagsCliente) {
-		this.tags = tagsCliente;
-	}
 	
-	public void addTags(List<String> tagsCliente)
-    {
+	public void addTags(List<String> tagsCliente){
     	this.tags.addAll((tagsCliente)); 
     }
-
-	public List<ClienteViagem> getClienteViagem() {
-        return clienteViagem;
-    }
-
-    public void setClienteViagem(List<ClienteViagem> clienteViagem) {
-        this.clienteViagem = clienteViagem;
-    }
-    
+       
 }

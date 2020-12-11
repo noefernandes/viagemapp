@@ -1,18 +1,17 @@
 package com.spring.viagemapp.service;
 
-import com.spring.viagemapp.model.Agencia;
-import com.spring.viagemapp.model.Viagem;
-import com.spring.viagemapp.utils.ViagemComNome;
-import com.spring.viagemapp.utils.ViagemTags;
+import com.spring.viagemapp.model.Mesa;
+import com.spring.viagemapp.utils.MesaComNome;
+import com.spring.viagemapp.utils.MesaTags;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 import java.util.Optional;
 
-public interface ViagemService extends ServicoService<Viagem>{
+public interface MesaService extends ServicoService<Mesa>{
     //List<Viagem> findAll();
-    List<ViagemComNome> findAllSort(long idCliente);
+    List<MesaComNome> findAllSort(long idCliente);
 
     //Optional<Viagem> findById(long id);
 
@@ -24,12 +23,12 @@ public interface ViagemService extends ServicoService<Viagem>{
 
     //List<Viagem> findAllByAgencia(Agencia agencia);
 
-    List<String> getTagsViagem(long idViagem);
+    List<String> getTagsMesa(long idMesa);
 
-    List<Viagem> getViagens(long id);
+    List<Mesa> getMesas(long id);
 
-    void cadastrarViagem(ViagemTags viagemTags, long id);
+    void cadastrarMesa(MesaTags mesaTags, long id);
 
-    void deletarViagem(long id);
+    void deletarMesa(long id);
 
 }

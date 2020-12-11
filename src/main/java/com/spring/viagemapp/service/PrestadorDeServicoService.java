@@ -9,7 +9,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import com.spring.viagemapp.model.Agencia;
 import com.spring.viagemapp.model.AvaliacaoPerUser;
 import com.spring.viagemapp.model.AvaliacaoPrestadorDeServico;
 import com.spring.viagemapp.model.PrestadorDeServico;

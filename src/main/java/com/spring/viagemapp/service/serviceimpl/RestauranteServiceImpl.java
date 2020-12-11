@@ -1,15 +1,17 @@
 package com.spring.viagemapp.service.serviceimpl;
 
 import com.spring.viagemapp.error.*;
-import com.spring.viagemapp.model.Agencia;
+import com.spring.viagemapp.model.Restaurante;
 import com.spring.viagemapp.model.AvaliacaoPerUser;
 import com.spring.viagemapp.model.Cliente;
 import com.spring.viagemapp.model.PrestadorDeServico;
+import com.spring.viagemapp.model.Restaurante;
 import com.spring.viagemapp.model.Usuario;
-import com.spring.viagemapp.repository.AgenciaRepository;
+import com.spring.viagemapp.repository.RestauranteRepository;
 import com.spring.viagemapp.repository.AvaliacaoPerUserRepository;
 import com.spring.viagemapp.repository.ClienteRepository;
-import com.spring.viagemapp.service.AgenciaService;
+import com.spring.viagemapp.repository.RestauranteRepository;
+import com.spring.viagemapp.service.RestauranteService;
 import com.spring.viagemapp.utils.ComentarioComNome;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -27,10 +29,10 @@ import static com.spring.viagemapp.security.MD5.getMd5;
 
 @Service
 @Transactional(readOnly = false)
-public class AgenciaServiceImpl extends PrestadorDeServicoServiceImpl<Agencia, AvaliacaoPerUser> implements AgenciaService{
+public class RestauranteServiceImpl extends PrestadorDeServicoServiceImpl<Restaurante, AvaliacaoPerUser> implements RestauranteService{
 
     @Autowired
-    AgenciaRepository agenciaRepository;
+    RestauranteRepository restauranteRepository;
 	
     @Autowired
     ClienteRepository clienteRepository;
@@ -96,7 +98,7 @@ public class AgenciaServiceImpl extends PrestadorDeServicoServiceImpl<Agencia, A
 
     @Override
     @Transactional(readOnly = false)
-    public void updateNota(Agencia agencia, List<AvaliacaoPerUser> avaliacao){
+    public void updateNota(Restaurante restaurante, List<AvaliacaoPerUser> avaliacao){
         Double media1 = 0.0;
         Double media2 = 0.0;
         Double media3 = 0.0;
@@ -120,21 +122,21 @@ public class AgenciaServiceImpl extends PrestadorDeServicoServiceImpl<Agencia, A
         media5 /= avaliacao.size();
 
         Double mediaGeral = (media1+media2+media3+media4+media5) / 5;
-        agencia.setNota(mediaGeral);
+        restaurante.setNota(mediaGeral);
         
         
-        agenciaRepository.save(agencia);
+        restauranteRepository.save(restaurante);
     }
 
     
     @Override
-	public List<ComentarioComNome> showComentarios(Agencia agencia)
+	public List<ComentarioComNome> showComentarios(Restaurante restaurante)
 	{
-		List<AvaliacaoPerUser> avaliacoes = agencia.getAvaliacoes();
+		List<AvaliacaoPerUser> avaliacoes = restaurante.getAvaliacoes();
 		
 		if(avaliacoes.isEmpty()) 
 		{
-			throw new NotFoundAvaliacaoException("A agência fornecida não possui avaliações");
+			throw new NotFoundAvaliacaoException("O restaurante fornecido não possui avaliações");
 		}
 
 		List<ComentarioComNome> comentariosComNome = new ArrayList<ComentarioComNome>();
@@ -152,11 +154,11 @@ public class AgenciaServiceImpl extends PrestadorDeServicoServiceImpl<Agencia, A
 	}
     
     @Override
-    public List<Double> showNotas(Agencia agencia){
-        List<AvaliacaoPerUser> avaliacao = agencia.getAvaliacoes();
+    public List<Double> showNotas(Restaurante restaurante){
+        List<AvaliacaoPerUser> avaliacao = restaurante.getAvaliacoes();
     	
         if(avaliacao.isEmpty()){
-            throw new NotFoundAgenciaException("Agencia não encontrada");
+            throw new NotFoundRestauranteException("Restaurante não encontrado");
         }
         
         Double media1 = 0.0;

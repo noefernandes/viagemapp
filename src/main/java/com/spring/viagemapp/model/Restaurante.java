@@ -8,8 +8,8 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.spring.viagemapp.model.Usuario;
 
 @Entity
-@Table(name="agencia")
-public class Agencia extends PrestadorDeServico{
+@Table(name="restaurante")
+public class Restaurante extends PrestadorDeServico{
     //@NotBlank
     //private String nome;
     //@NotBlank
@@ -20,12 +20,12 @@ public class Agencia extends PrestadorDeServico{
     //private double nota = 0;
 
 
-    @JsonManagedReference("agencia_viagem-viagem")
-    @OneToMany(mappedBy = "agencia")
-    private List<Viagem> viagens;
+    @JsonManagedReference("restaurante_mesa-mesa")
+    @OneToMany(mappedBy = "restaurante")
+    private List<Mesa> mesas;
     
-    @JsonManagedReference("Avaliacao-agencia-reference")
-    @OneToMany(mappedBy = "agencia")
+    @JsonManagedReference("Avaliacao-restaurante-reference")
+    @OneToMany(mappedBy = "restaurante")
     private List<AvaliacaoPerUser> avaliacoes;
 
 
@@ -60,13 +60,13 @@ public class Agencia extends PrestadorDeServico{
     //    this.cnpj = cnpj;
     //}
 
-    public List<Viagem> getViagens() {
-        return viagens;
+    public List<Mesa> getMesas() {
+        return mesas;
     }
 
-    public void addViagem(Viagem viagem){viagens.add(viagem);}
+    public void addMesa(Mesa mesa){mesas.add(mesa);}
 
-    public void setViagens(List<Viagem> viagens) {
-        this.viagens = viagens;
+    public void setMesas(List<Mesa> mesas) {
+        this.mesas = mesas;
     }
 }

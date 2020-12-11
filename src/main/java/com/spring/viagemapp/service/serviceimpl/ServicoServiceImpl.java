@@ -9,8 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.spring.viagemapp.error.NotFoundAgenciaException;
-import com.spring.viagemapp.error.NotFoundViagensException;
+import com.spring.viagemapp.error.NotFoundRestauranteException;
+import com.spring.viagemapp.error.NotFoundMesasException;
 import com.spring.viagemapp.model.Servico;
 import com.spring.viagemapp.repository.ServicoRepository;
 import com.spring.viagemapp.service.ServicoService;
@@ -29,7 +29,7 @@ public class ServicoServiceImpl<T extends Servico> implements ServicoService<T>
 		List<T> servicos = servicoRepository.findAll();
 		if(servicos.isEmpty())
 		{
-			throw new NotFoundAgenciaException("Serviços não encontrados");
+			throw new NotFoundRestauranteException("Serviços não encontrados");
 		}
 		return servicos;
 	}
@@ -39,7 +39,7 @@ public class ServicoServiceImpl<T extends Servico> implements ServicoService<T>
         Optional<T> servico;
         servico = servicoRepository.findById(id);
         if(!servico.isPresent()){
-            throw new NotFoundViagensException("Serviço não encontrado");
+            throw new NotFoundMesasException("Serviço não encontrado");
         }
         return servico;
     }
