@@ -8,7 +8,7 @@ import logoImg from '../../assets/logo.png';
 
 export default function PerfilAgencia(){
     //Inicia-se com um vetor vazio como total de viagens do usuario.
-    const [viagens, setViagens] = useState([])
+    const [mesas, setMesas] = useState([])
     
     //Pega os dados anteriormente armazenados no localStorage.
     const idUsuario = localStorage.getItem('idUsuario');
@@ -18,20 +18,21 @@ export default function PerfilAgencia(){
 
     useEffect(() => {
         api.get(`/agencias/${idUsuario}`).then(response => {
-            setViagens(response.data.viagens);
-            console.log(response.data.viagens);
+            console.log(response.data)
+            setMesas(response.data.mesas);
+            console.log(response.data.mesas);
         })
     }, [idUsuario]);
 
-    async function handleDeleteViagem(idv){
+    async function handleDeleteMesa(id){
         try{
-            console.log("Valor do id:" + idv);
-            await api.delete(`/viagens/${idv}`);
+            console.log("Valor do id:" + id);
+            await api.delete(`/viagens/${id}`);
             /*Filtra a lista de incidents mantendo apenas aqueles
             com id diferente do com id deletado*/
-            setViagens(viagens.filter(viagem => viagem.idv !== idv));
+            setMesas(mesas.filter(mesa => mesa.id !== id));
         }catch(Err){
-            alert('Erro ao deletar viagem.');
+            alert('Erro ao deletar Mesa.');
         }
     }
 
@@ -43,10 +44,10 @@ export default function PerfilAgencia(){
         history.push('/loginAgencia');
     }
 
-    function handleGuardarAgencia(id, nomeAgencia){
-        localStorage.setItem('idAgencia', id);
-        localStorage.setItem('nomeAgencia', nomeAgencia);
-        console.log('Primeiro:' + nomeAgencia);
+    function handleGuardarRestaurante(id, nomeRestaurante){
+        localStorage.setItem('idRestaurante', id);
+        localStorage.setItem('nomeRestaurante', nomeRestaurante);
+        console.log('Primeiro:' + nomeRestaurante);
     }
 
     return (
@@ -59,33 +60,33 @@ export default function PerfilAgencia(){
                 </button>
             </header>
             <div className='container-viagens-agencia'>
-                <Link className='button-cadastro-viagem' to='cadastroViagem'>Cadastrar viagem</Link>
+                <Link className='button-cadastro-viagem' to='cadastroViagem'>Cadastrar mesa</Link>
                 <Link className='button-avaliar-agencia' to='showAvaliacoesAgencia'
-                                      onClick={() => handleGuardarAgencia(idUsuario, 
+                                      onClick={() => handleGuardarRestaurante(idUsuario, 
                                                                     nomeUsuario)}>Minhas avaliações</Link>
                         
-                <h1>Minhas viagens</h1>
+                <h1>Minhas mesas</h1>
                 <div className="lista-viagens">
                     <ul>
-                        {viagens.map(viagem => (
+                        {mesas.map(mesa => (
                         <li>
                             <strong>Local de partida</strong>
-                            <p>{viagem.localPartida}</p>
+                            <p>{mesa.localPartida}</p>
                             <strong>Local de chegada</strong>
-                            <p>{viagem.localChegada}</p>
+                            <p>{mesa.localChegada}</p>
                             <strong>Data</strong>
-                            <p>{viagem.data}</p>
+                            <p>{mesa.data}</p>
                             <strong>Horário de partida</strong>
-                            <p>{viagem.horarioPartida}</p>
+                            <p>{mesa.horarioPartida}</p>
                             <strong>Horário de chegada</strong>
-                            <p>{viagem.horarioChegada}</p>
+                            <p>{mesa.horarioChegada}</p>
                             <strong>Preço</strong>
-                            <p>{Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(viagem.preco)}</p>
+                            <p>{Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(mesa.preco)}</p>
                             <strong>Capacidade</strong>
-                            <p>{viagem.qtdPassageiros}/{viagem.capacidade}</p>
+                            <p>{mesa.qtdPassageiros}/{mesa.capacidade}</p>
                             <strong>Tags: </strong>
                             <ul className="listaTags">
-                                {viagem.tags.map(tag => (
+                                {mesa.tags.map(tag => (
                                     <li>
                                         <p>{tag}</p>
                                     </li>
@@ -93,7 +94,7 @@ export default function PerfilAgencia(){
                             </ul>
 
                             <button 
-                                onClick={() => handleDeleteViagem(viagem.idv)}
+                                onClick={() => handleDeleteMesa(mesa.id)}
                                 type='button' 
                                 className='trash' 
                             >

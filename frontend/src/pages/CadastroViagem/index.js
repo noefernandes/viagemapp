@@ -20,7 +20,7 @@ export default function CadastroViagem(){
     const [preco, setPreco] = useState();
     const [capacidade, setCapacidade] = useState();
     const [tagString, setTags] = useState('');
-    const [idAgencia, setIdAgencia] = useState();
+    const [idRestaurante, setIdRestaurante] = useState();
     
     const history = useHistory();
 
@@ -29,8 +29,8 @@ export default function CadastroViagem(){
     async function handleCadastroViagem(e){
         e.preventDefault();
 
-         const viagem = {
-         		viagem:{
+         const mesa = {
+         	    mesa:{
                 	localPartida,
                 	localChegada,
                 	data,
@@ -38,14 +38,14 @@ export default function CadastroViagem(){
                 	horarioChegada,
                 	preco,
                     capacidade,
-                    idAgencia 
+                    idRestaurante 
                 },
             		tagString
             }
 
         try{
-            console.log(viagem);
-            const response = await api.post(`/${idUsuario}/cadastrarViagem`, viagem);
+            console.log(mesa);
+            const response = await api.post(`/${idUsuario}/cadastrarViagem`, mesa);
             console.log(response.data);
             history.push('PerfilAgencia'); 
 
@@ -78,14 +78,14 @@ export default function CadastroViagem(){
             </header>
             
             <form className='form-cadastro-viagem' onSubmit={handleCadastroViagem} >
-                <h1 style={{marginBottom: 30}}>Cadastre uma viagem</h1>
+                <h1 style={{marginBottom: 30}}>Cadastre uma Mesa</h1>
                 <div className='local'>
                     <input 
                         type='text' 
                         placeholder='Local de partida' 
                         value={localPartida}
                         onChange={e => {setLocalPartida(e.target.value);
-                                       setIdAgencia(idUsuario)
+                                       setIdRestaurante(idUsuario)
                         }}
                     />
                     <input
