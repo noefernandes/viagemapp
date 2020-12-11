@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';    //npm install react-router-dom 
-import { FiArrowRight, FiArrowLeft } from '../CadastroHotel/node_modules/react-icons/fi'           //npm install react-icons
+import { FiArrowRight, FiArrowLeft } from 'react-icons/fi'           //npm install react-icons
 
 import './styles.css';
 
@@ -70,7 +70,7 @@ export default function LoginHotel(){
                 </input>
                 
                 <button className='button' type='submit'>
-                    Entrar como agência
+                    Entrar como hotel
                 </button>
             </form>
             <Link className = "back-link" to="/cadastroHotel">

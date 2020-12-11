@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import './styles.css';
-import { FiArrowRight, FiArrowLeft } from '../CadastroHotel/node_modules/react-icons/fi';
+import { FiArrowRight, FiArrowLeft } from 'react-icons/fi';
 
 import logoImg from '../../assets/logo.png';
 import api from '../../services/api';

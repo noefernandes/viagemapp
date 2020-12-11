@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';    //npm install react-router-dom
-import { FiArrowLeft } from '../CadastroHotel/node_modules/react-icons/fi';           //npm install react-icons
+import { FiArrowLeft } from 'react-icons/fi';           //npm install react-icons
 import './styles.css';
 
 import logoImg from '../../assets/logo.png';

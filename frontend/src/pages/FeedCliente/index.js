@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useHistory } from 'react-router-dom';    //npm install react-router-dom
-import { FiPower, FiTrash2, FiShoppingCart } from '../CadastroHotel/node_modules/react-icons/fi'      //npm install react-icons
+import { FiPower, FiTrash2, FiShoppingCart } from 'react-icons/fi'      //npm install react-icons
 import './styles.css';
 
 import api from '../../services/api';
 import logoImg from '../../assets/logo.png';
 
-const CurrencyFormat = require('../CadastroQuarto/node_modules/react-currency-format');
+const CurrencyFormat = require('react-currency-format');
 
 export default function PerfilHotel(){
     //Inicia-se com um vetor vazio como total de quartos do usuario.

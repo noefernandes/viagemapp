@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';    //npm install react-router-dom
-import { FiPower, FiTrash2, FiArrowLeft } from '../CadastroHotel/node_modules/react-icons/fi'      //npm install react-icons
+import { FiPower, FiTrash2, FiArrowLeft } from 'react-icons/fi'      //npm install react-icons
 import './styles.css';
 
 import logoImg from '../../assets/logo.png';
@@ -84,6 +84,8 @@ export default function CadastroQuarto(){
                                        setIdHotel(idUsuario)
                         }}
                     />
+                </div>
+                <div className='andar'>
                     <input
                         type='text' 
                         placeholder='Andar do Quarto' 

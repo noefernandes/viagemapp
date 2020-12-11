@@ -14,8 +14,8 @@ export default function BemVindo(){
             <Link 
             className='button-bem-vindo' 
             style={{ marginTop: '40px' }} 
-            to='/loginAgencia'>
-                Entrar como agência
+            to='/loginHotel'>
+                Entrar como hotel
             </Link>
             
             <Link 

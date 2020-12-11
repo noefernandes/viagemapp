@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useHistory } from 'react-router-dom';    //npm install react-router-dom
-import { FiPower, FiTrash2 } from '../CadastroHotel/node_modules/react-icons/fi'      //npm install react-icons
+import { FiPower, FiTrash2 } from 'react-icons/fi'      //npm install react-icons
 import './styles.css';
 
 import api from '../../services/api';
@@ -90,6 +90,7 @@ useEffect(() => {
                                       </Link>
 
                                   </div>
+                                    </p>
                               </li>
                               ))}
                           </ul>
