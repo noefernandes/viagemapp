@@ -28,14 +28,14 @@ public class QuartoController {
     @Autowired
     ClienteService clienteService;
     @Autowired
-    Service agenciaService;
+    HotelService hotelService;
 
 
     @GetMapping("/{idCliente}/quartosComNome")
     public ResponseEntity<?> getQuartosComNomeDeHotel(@PathVariable long idCliente){
         List<QuartoComNome> quartosComNome;
         try{
-        	quartoComNome  = quartoService.findAllSort(idCliente);
+        	quartosComNome  = quartoService.findAllSort(idCliente);
         }catch (NotFoundException e){
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }
@@ -72,7 +72,7 @@ public class QuartoController {
     @DeleteMapping("/quartos/{id}")
     public ResponseEntity<?> deletarQuarto(@PathVariable long id){
         try{
-            quartoService.deletarViagem(id);
+            quartoService.deletarQuarto(id);
         }catch(NotFoundViagensException e){
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }

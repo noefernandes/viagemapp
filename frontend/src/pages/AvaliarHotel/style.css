@@ -1,4 +1,4 @@
-.container-avaliar-agencia{
+.container-avaliar-hotel{
     width: 100%;
     max-width: 1120px;
     height: 100vh;
@@ -9,28 +9,28 @@
     justify-content: space-between;
 }
 
-.container-avaliar-agencia img{
+.container-avaliar-hotel img{
     margin-left: 80px;
 }
 
-.container-avaliar-agencia section.form{
+.container-avaliar-hotel section.form{
     width: 100%;
     max-width: 350px;
     margin-right: 200px;
 }
 
-.container-avaliar-agencia section.form h1{
+.container-avaliar-hotel section.form h1{
     margin-bottom: 32px;
     font-size: 32px;
     font-weight: bold;
 }
 
-.container-avaliar-agencia section.form form div.avaliacao-parte{
+.container-avaliar-hotel section.form form div.avaliacao-parte{
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
 }
 
-.container-avaliar-agencia section.form form input{
+.container-avaliar-hotel section.form form input{
     width: 80px;
     height: 30px;
     display: block;
@@ -42,7 +42,7 @@
     padding-left: 32px;
 }
 
-.container-avaliar-agencia section.form form textarea{
+.container-avaliar-hotel section.form form textarea{
     width: 500px;
     height: 100px;
     display: block;
@@ -56,12 +56,12 @@
     font-size: medium;
 }
 
-.container-avaliar-agencia section.form form button{
+.container-avaliar-hotel section.form form button{
     width: 500px;
     height: 60px;
 }
 
 
-.container-avaliar-agencia section.form div.container-autenticacao input{
+.container-avaliar-hotel section.form div.container-autenticacao input{
     width: 230px;
 }

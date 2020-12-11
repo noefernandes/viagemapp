@@ -6,7 +6,7 @@ import './styles.css';
 import logoImg from '../../assets/logo.png';
 import api from '../../services/api';
 
-export default function CadastroAgencia(){
+export default function CadastroHotel(){
     //Cria os estados a serem armazenados
     const [nome, setNome] = useState('');
     const [cnpj, setCnpj] = useState('');
@@ -29,13 +29,13 @@ export default function CadastroAgencia(){
 
         try{
             //Manda a requisição
-            const response = await api.post('cadastroAgencia', data);
+            const response = await api.post('cadastroHotel', data);
 
             if(response.status === 200){
                 alert('Usuario cadastrado com sucesso!');
             }
             //Redireciona para a página
-            history.push('loginAgencia');
+            history.push('loginHotel');
         }catch (err){
             //Equivale ao BADREQUEST
             if(err.response.status === 400){
@@ -50,10 +50,10 @@ export default function CadastroAgencia(){
     }
 
     return (
-        <div className="cadastro-agencia-container">
+        <div className="cadastro-hotel-container">
             <section>
-                <img src={logoImg} width={200} alt="ViagemApp logo"/>
-                <Link className="back-link" style={{ marginLeft: 120 }} to="/loginAgencia">
+                <img src={logoImg} width={200} alt="QuartoApp logo"/>
+                <Link className="back-link" style={{ marginLeft: 120 }} to="/loginHotel">
                     <FiArrowLeft/>
                     Já tenho login
                 </Link>
@@ -65,7 +65,7 @@ export default function CadastroAgencia(){
                     <h1>Faça seu cadastro</h1>
 
                     <input 
-                        placeholder='Nome da agência'
+                        placeholder='Nome do hotel'
                         value={nome}
                         onChange = {e => setNome(e.target.value)}
                     />

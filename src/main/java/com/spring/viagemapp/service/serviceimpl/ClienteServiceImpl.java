@@ -38,9 +38,9 @@ public class ClienteServiceImpl implements ClienteService {
     ClienteRepository clienteRepository;
     @Autowired
     QuartoService quartoService;
-    @Autowired
-    HotelService quartoService;
 
+    @Autowired
+    HotelService hotelService;
     @Override
     public List<Cliente> findAll() {
         List<Cliente> clientes = clienteRepository.findAll();
@@ -98,10 +98,10 @@ public class ClienteServiceImpl implements ClienteService {
        // return clienteRepository.getViagensDoCliente(idCliente);
     //}
 
-    public List<QuartoComNome> convert(List<Object[]> viagensObj){
-        List<Quarto> viagens = new ArrayList<Quarto>();
+    public List<QuartoComNome> convert(List<Object[]> quartosObj){
+        List<Quarto> quartos = new ArrayList<Quarto>();
 
-        for(Object[] obj : viagensObj) {
+        for(Object[] obj : quartosObj) {
             Quarto quarto = new Quarto();
             
             //System.out.print("OBJETOOOOOOOOO:: " + obj[1].toString());
@@ -114,30 +114,27 @@ public class ClienteServiceImpl implements ClienteService {
             List<String> tags = quartoService.getTagsQuarto(quarto.getId());
             quarto.setTags(tags);
 
-            quarto.setCapacidade((Integer) obj[2]);
-            quarto.setData((String) obj[4]);
-            quarto.setHorarioChegada((String) obj[5]);
-            quarto.setHorarioPartida((String) obj[6]);
+            quarto.setNumero((Integer) obj[2]);
+            quarto.setInicioReserva((String) obj[4]);
+            quarto.setFimReserva((String) obj[5]);
+            quarto.setAndar((Integer) obj[6]);
             quarto.setIdHotel((Long.parseLong(obj[7].toString())));
-            quarto.setLocalChegada((String) obj[8]);
-            quarto.setLocalPartida((String) obj[9]);
             quarto.setPreco((double) obj[3]);
-            quarto.setQtdPassageiros((int) obj[10]);
 
-            viagens.add(quarto);
+            quartos.add(quarto);
         }
 
-        ArrayList<QuartoComNome> viagensComNome = new ArrayList<QuartoComNome>();
-        for(Quarto quarto: viagens){
+        ArrayList<QuartoComNome> quartosComNome = new ArrayList<QuartoComNome>();
+        for(Quarto quarto: quartos){
             QuartoComNome quartoComNome = new QuartoComNome();
             quartoComNome.quarto = quarto;
-            Hotel quarto = (Hotel) quartoService.findById(quarto.getIdHotel()).get();
-            quartoComNome.nomeHotel = quarto.getNome();
-            quartoComNome.nota = quarto.getNota();
-            viagensComNome.add(quartoComNome);
+            Hotel hotel = (Hotel) hotelService.findById(quarto.getIdHotel()).get();
+            quartoComNome.nomeHotel = hotel.getNome();
+            quartoComNome.nota = hotel.getNota();
+            quartosComNome.add(quartoComNome);
         }
 
-        return viagensComNome;
+        return quartosComNome;
     }
 
     @Override
@@ -146,15 +143,15 @@ public class ClienteServiceImpl implements ClienteService {
     }
 
     @Override
-    public List<Object[]> getViagensDoCliente(long idCliente){    
-    	return clienteRepository.getViagensDoCliente(idCliente);
+    public List<Object[]> getQuartosDoCliente(long idCliente){
+    	return clienteRepository.getQuartosDoCliente(idCliente);
     }
 
     @Override
-    public List<QuartoComNome> getViagensDoClienteComNome(long idCliente){
-        List<Object[]> viagensObj = clienteRepository.getViagensDoCliente(idCliente);
-        List<QuartoComNome> viagensComNome = convert(viagensObj);
-        return viagensComNome;
+    public List<QuartoComNome> getQuartosDoClienteComNome(long idCliente){
+        List<Object[]> viagensObj = clienteRepository.getQuartosDoCliente(idCliente);
+        List<QuartoComNome> quartosComNome = convert(viagensObj);
+        return quartosComNome;
     }
 
     @Override

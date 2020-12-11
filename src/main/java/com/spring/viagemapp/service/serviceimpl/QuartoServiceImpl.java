@@ -3,14 +3,14 @@ import com.spring.viagemapp.error.*;
 import com.spring.viagemapp.model.Hotel;
 import com.spring.viagemapp.model.PrestadorDeServico;
 import com.spring.viagemapp.model.Servico;
-import com.spring.viagemapp.model.Viagem;
-import com.spring.viagemapp.repository.ViagemRepository;
+import com.spring.viagemapp.model.Quarto;
+import com.spring.viagemapp.repository.QuartoRepository;
 import com.spring.viagemapp.service.HotelService;
 import com.spring.viagemapp.service.ClienteService;
-import com.spring.viagemapp.service.ViagemService;
+import com.spring.viagemapp.service.QuartoService;
 import com.spring.viagemapp.utils.ServicoTags;
-import com.spring.viagemapp.utils.ViagemComNome;
-import com.spring.viagemapp.utils.ViagemTags;
+import com.spring.viagemapp.utils.QuartoComNome;
+import com.spring.viagemapp.utils.QuartoTags;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -59,7 +59,7 @@ public class QuartoServiceImpl extends ServicoServiceImpl<Quarto> implements Qua
         List<Long> indices = new ArrayList<Long>();
 
         for(int i = 0; i < quartosCliente.size(); i++){
-            indices.add(quartosCliente.get(i).viagem.getId());
+            indices.add(quartosCliente.get(i).quarto.getId());
         }
 
         List<QuartoComNome> quartosComNome = new ArrayList<QuartoComNome>();
@@ -102,7 +102,7 @@ public class QuartoServiceImpl extends ServicoServiceImpl<Quarto> implements Qua
 
 
     public List<Quarto> findAllByHotel(Hotel hotel){
-        if(hotel.getViagens().isEmpty()){
+        if(hotel.getQuartos().isEmpty()){
             throw new NotFoundViagensException("Este hotel não tem quartos");
         }
         
@@ -117,7 +117,7 @@ public class QuartoServiceImpl extends ServicoServiceImpl<Quarto> implements Qua
     }
 
     @Override
-    public List<Quarto> getViagens(long id){
+    public List<Quarto> getQuartos(long id){
 
         Optional<Hotel> hotelOp = hotelService.findById(id);
 
@@ -163,9 +163,9 @@ public class QuartoServiceImpl extends ServicoServiceImpl<Quarto> implements Qua
         }
 
         quartoTags.quarto.setHotel(hotelOp.get());
-        hotelOp.get().addViagem(quartoTags.viagem);
-        ServicoTags<Viagem> servicoTags = new ServicoTags<Viagem>();
-        servicoTags.servico = quartoTags.viagem;
+        hotelOp.get().addQuarto(quartoTags.quarto);
+        ServicoTags<Quarto> servicoTags = new ServicoTags<Quarto>();
+        servicoTags.servico = quartoTags.quarto;
         servicoTags.tagString = quartoTags.tagString;
         save(servicoTags);
     }

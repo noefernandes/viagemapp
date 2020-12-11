@@ -1,23 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useHistory } from 'react-router-dom';    //npm install react-router-dom
-import { FiPower, FiTrash2, FiShoppingCart } from 'react-icons/fi'      //npm install react-icons
+import { FiPower, FiTrash2, FiShoppingCart } from '../CadastroHotel/node_modules/react-icons/fi'      //npm install react-icons
 import './styles.css';
 
 import api from '../../services/api';
 import logoImg from '../../assets/logo.png';
 
-const CurrencyFormat = require('react-currency-format');
+const CurrencyFormat = require('../CadastroQuarto/node_modules/react-currency-format');
 
-export default function PerfilAgencia(){
-    //Inicia-se com um vetor vazio como total de viagens do usuario.
-    const [viagensComNome, setViagensComNome] = useState([])
-    const [nomeAgencia, setNomeAgencia] = useState('');
+export default function PerfilHotel(){
+    //Inicia-se com um vetor vazio como total de quartos do usuario.
+    const [quartosComNome, setQuartosComNome] = useState([])
+    const [nomeHotel, setNomeHotel] = useState('');
     const [localPartida, setLocalPartida] = useState('');
     const [localChegada, setLocalChegada] = useState('');
     const [data, setData] = useState('');
     const [tags, setTags] = useState([]);
     const [loading, setLoading] = useState(false);
-    const [filteredViagensComNome, setFilteredViagensComNome] = useState([]);
+    const [filteredQuartosComNome, setFilteredQuartosComNome] = useState([]);
     const [aux, setAux] = useState([]);
 
     //Para pegar valor do nome da agencia
@@ -28,17 +28,17 @@ export default function PerfilAgencia(){
 
     const history = useHistory();
 
-    async function handleComprarViagem(id){
+    async function handleComprarQuarto(id){
         try{
-            const response = await api.post(`/${idUsuario}/comprarViagem/${id}`, idUsuario);
+            const response = await api.post(`/${idUsuario}/comprarQuarto/${id}`, idUsuario);
             /*Filtra a lista de incidents mantendo apenas aqueles
             com id diferente do com id deletado*/
-            setViagensComNome(viagensComNome.filter(viagemComNome => viagemComNome.viagem.id !== id));
+            setQuartosComNome(quartosComNome.filter(quartoComNome => quartoComNome.quarto.id !== id));
         }catch(err){
             if(err.response.status === 403){
                 alert(err.response.data);
             }else{
-                alert('Erro ao comprar viagem.');
+                alert('Erro ao comprar quarto.');
             }
         }
     }
@@ -46,8 +46,8 @@ export default function PerfilAgencia(){
     useEffect(() => {
         setLoading(true);
         //
-        api.get(`${idUsuario}/viagensComNome/`).then(response => {
-            setViagensComNome(response.data);
+        api.get(`${idUsuario}/quartosComNome/`).then(response => {
+            setQuartosComNome(response.data);
             console.log(response.data);
             setAux(response.data);
             setLoading(false);
@@ -57,22 +57,22 @@ export default function PerfilAgencia(){
 
     useEffect(() => {
 
-        setFilteredViagensComNome(
-          viagensComNome.filter((viagemComNome) =>{
+        setFilteredQuartosComNome(
+          quartosComNome.filter((quartoComNome) =>{
             if(tags[0] === "")
             {
                 console.log(aux);
                 return aux;
             }
             return (
-               viagemComNome.nomeAgencia.toLowerCase().includes(nomeAgencia.toLowerCase())
-            && viagemComNome.viagem.localPartida.toLowerCase().includes(localPartida.toLowerCase())
-            && viagemComNome.viagem.localChegada.toLowerCase().includes(localChegada.toLowerCase())
-            && viagemComNome.viagem.data.toLowerCase().includes(data)
-            && tags.every(e => viagemComNome.viagem.tags.includes(e)));    
+               quartoComNome.nomeHotel.toLowerCase().includes(nomeHotel.toLowerCase())
+            && quartoComNome.quarto.localPartida.toLowerCase().includes(localPartida.toLowerCase())
+            && quartoComNome.quarto.localChegada.toLowerCase().includes(localChegada.toLowerCase())
+            && quartoComNome.quarto.data.toLowerCase().includes(data)
+            && tags.every(e => quartoComNome.quarto.tags.includes(e)));    
           })
         );
-      }, [nomeAgencia, localPartida, localChegada, data, tags, viagensComNome]);
+      }, [nomeHotel, localPartida, localChegada, data, tags, quartosComNome]);
 
 
     //Função responsáel por limpar o localStorage ao deslogar.
@@ -83,22 +83,22 @@ export default function PerfilAgencia(){
         history.push('/loginCliente');
     }
 
-    function handleGuardarAgencia(id, nomeAgencia){
-        localStorage.setItem('idAgencia', id);
-        localStorage.setItem('nomeAgencia', nomeAgencia);
-        console.log('Primeiro:' + nomeAgencia);
+    function handleGuardarHotel(id, nomeHotel){
+        localStorage.setItem('idHotel', id);
+        localStorage.setItem('nomeHotel', nomeHotel);
+        console.log('Primeiro:' + nomeHotel);
     }
 
     if (loading) {
-        return <p>Carregando Viagens...</p>;
+        return <p>Carregando Quartos...</p>;
     }
 
     return (
         <div className="container-feed-cliente">
             <header>
-                <img src={logoImg} alt="Logo ViagemApp"/>
+                <img src={logoImg} alt="Logo QuartoApp"/>
                 <div style={{display:"flex", alignItems: "center", justifyContent: "center", flexDirection: "row"}}>
-                <Link className='button-minhas-viagens' to='perfilCliente'>Minhas viagens</Link>
+                <Link className='button-minhas-quartos' to='perfilCliente'>Minhas quartos</Link>
                     <button onClick={handleLogout} type='button' className="power" style={{ borderStyle:'none' }}>
                         <FiPower size={50} />
                     </button>
@@ -106,13 +106,13 @@ export default function PerfilAgencia(){
             </header>
            
             <div className="filtro">
-                <h1 style={{marginBottom: 30}}>Busque uma viagem</h1>
+                <h1 style={{marginBottom: 30}}>Busque uma quarto</h1>
                 <div className='part1'>
                     <input 
                         type='text' 
                         placeholder='Nome da agência' 
-                        value={nomeAgencia}
-                        onChange={e => setNomeAgencia(e.target.value)}
+                        value={nomeHotel}
+                        onChange={e => setNomeHotel(e.target.value)}
                     />
                     
                     <input 
@@ -150,35 +150,31 @@ export default function PerfilAgencia(){
 
 
             <div className='container-feed-cliente'>
-                <div className="lista-viagens">
+                <div className="lista-quartos">
                     <ul>
-                        {filteredViagensComNome.map(viagemComNome => (
+                        {filteredQuartosComNome.map(quartoComNome => (
                         <li>
-                            <strong>Agência</strong>
-                            <Link className='button-avaliar-agencia' to='showAvaliacoes'
-                                      onClick={() => handleGuardarAgencia(viagemComNome.viagem.idAgencia, 
-                                                                    viagemComNome.nomeAgencia)}>
-                                {viagemComNome.nomeAgencia}
+                            <strong>Hotel</strong>
+                            <Link className='button-avaliar-hotel' to='showAvaliacoes'
+                                      onClick={() => handleGuardarHotel(quartoComNome.quarto.idHotel, 
+                                                                    quartoComNome.nomeHotel)}>
+                                {quartoComNome.nomeHotel}
                             </Link>
                             <strong>Nota</strong>
-                            <p>{viagemComNome.nota}</p>
-                            <strong>Local de partida</strong>
-                            <p>{viagemComNome.viagem.localPartida}</p>
-                            <strong>Local de chegada</strong>
-                            <p>{viagemComNome.viagem.localChegada}</p>
-                            <strong>Data</strong>
-                            <p>{viagemComNome.viagem.data}</p>
-                            <strong>Horário de partida</strong>
-                            <p>{viagemComNome.viagem.horarioPartida}</p>
-                            <strong>Horário de chegada</strong>
-                            <p>{viagemComNome.viagem.horarioChegada}</p>
+                            <p>{quartoComNome.nota}</p>
+                            <strong>Número</strong>
+                            <p>{quartoComNome.quarto.numero}</p>
+                            <strong>Andar</strong>
+                            <p>{quartoComNome.quarto.andar}</p>
+                            <strong>Ínicio da Reserva</strong>
+                            <p>{quartoComNome.quarto.inicioReserva}</p>
+                            <strong>Fim da Reserva</strong>
+                            <p>{quartoComNome.quarto.fimReserva}</p>
                             <strong>Preço</strong>
-                            <p>{Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(viagemComNome.viagem.preco)}</p>
-                            <strong>Capacidade</strong>
-                            <p>{viagemComNome.viagem.qtdPassageiros}/{viagemComNome.viagem.capacidade}</p>
+                            <p>{Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(quartoComNome.quarto.preco)}</p>
                             <strong>Tags: </strong>
                             <ul className="listaTags">
-                                {viagemComNome.viagem.tags.map(tag => (
+                                {quartoComNome.quarto.tags.map(tag => (
                                     <li>
                                         <p>{tag}</p>
                                     </li>
@@ -186,7 +182,7 @@ export default function PerfilAgencia(){
                             </ul>
 
                             <button 
-                                onClick={() => handleComprarViagem(viagemComNome.viagem.id)}
+                                onClick={() => handleComprarQuarto(quartoComNome.quarto.id)}
                                 type='button' 
                                 className='buy'
                             >

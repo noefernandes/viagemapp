@@ -1,4 +1,4 @@
-.cadastro-agencia-container{
+.cadastro-hotel-container{
     width: 100%;
     max-width: 1120px;
     height: 100vh;
@@ -9,23 +9,23 @@
     justify-content: space-between;
 }
 
-.cadastro-agencia-container img{
+.cadastro-hotel-container img{
     margin-left: 80px;
 }
 
-.cadastro-agencia-container section.form{
+.cadastro-hotel-container section.form{
     width: 100%;
     max-width: 350px;
     margin-right: 200px;
 }
 
-.cadastro-agencia-container section.form form h1{
+.cadastro-hotel-container section.form form h1{
     margin-bottom: 32px;
     font-size: 32px;
     font-weight: bold;
 }
 
-.cadastro-agencia-container section.form form input{
+.cadastro-hotel-container section.form form input{
     width: 500px;
     height: 50px;
     display: block;
@@ -37,17 +37,17 @@
     padding-left: 32px;
 }
 
-.cadastro-agencia-container .cliente-autenticacao{
+.cadastro-hotel-container .cliente-autenticacao{
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 40px;
 }
 
-.cadastro-agencia-container section.form div.container-autenticacao input{
+.cadastro-hotel-container section.form div.container-autenticacao input{
     width: 230px;
 }
 
-.cadastro-agencia-container section.form form button{
+.cadastro-hotel-container section.form form button{
     width: 500px;
     height: 60px;
 }

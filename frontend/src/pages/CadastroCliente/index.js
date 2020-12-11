@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';    //npm install react-router-dom
-import { FiArrowLeft } from 'react-icons/fi';           //npm install react-icons
+import { FiArrowLeft } from '../CadastroHotel/node_modules/react-icons/fi';           //npm install react-icons
 import './styles.css';
 
 import logoImg from '../../assets/logo.png';
@@ -58,7 +58,7 @@ export default function CadastroCliente(){
     return (
         <div className="cadastro-cliente-container">
             <section>
-                <img src={logoImg} width={200} alt="ViagemApp logo"/>
+                <img src={logoImg} width={200} alt="QuartoApp logo"/>
                 <Link className="back-link" style={{ marginLeft: 120 }} to="/loginCliente">
                     <FiArrowLeft/>
                     Já tenho login

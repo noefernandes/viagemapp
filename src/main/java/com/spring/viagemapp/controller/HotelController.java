@@ -86,7 +86,7 @@ public class HotelController {
         Hotel hotel = new Hotel();
         List<ComentarioComNome> comentarios;
         try{
-            agencia = (Hotel) hotelService.findById(idHotel).get();
+            hotel = (Hotel) hotelService.findById(idHotel).get();
             try{
             	comentarios = hotelService.showComentarios(hotel);
             }catch(NotFoundAgenciaException e){
@@ -159,7 +159,7 @@ public class HotelController {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }
 
-        return new ResponseEntity<Hotel>(agenciaOp, HttpStatus.OK);
+        return new ResponseEntity<Hotel>(hotelOp, HttpStatus.OK);
     }
     
 }

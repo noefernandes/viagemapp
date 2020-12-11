@@ -12,7 +12,7 @@ import java.util.Optional;
 
 public interface QuartoService extends ServicoService<Quarto>{
     //List<Viagem> findAll();
-    List<ViagemComNome> findAllSort(long idCliente);
+    List<QuartoComNome> findAllSort(long idCliente);
 
     //Optional<Viagem> findById(long id);
 

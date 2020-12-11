@@ -29,11 +29,11 @@ public class ClienteController {
     @Autowired
     ClienteService clienteService;
     @Autowired
-    ViagemService quartoService;
+    QuartoService quartoService;
     @Autowired
-    AgenciaService hotelService;
+    HotelService hotelService;
     @Autowired
-    ClienteViagemService clienteQuartoService;
+    ClienteQuartoService clienteQuartoService;
 
 
     @PostMapping(value = "/cadastroCliente")
@@ -55,10 +55,10 @@ public class ClienteController {
     }
 
     @PostMapping(value="/{idCliente}/comprarQuarto/{idQuarto}")
-    public ResponseEntity<?> comprarViagem(@PathVariable long idCliente, @PathVariable long idQuarto){
+    public ResponseEntity<?> comprarQuarto(@PathVariable long idCliente, @PathVariable long idQuarto){
         ClienteQuarto clienteQuarto;
         try{
-            clienteQuarto = clienteQuartoService.comprarViagem(idCliente, idQuarto);
+            clienteQuarto = clienteQuartoService.comprarQuarto(idCliente, idQuarto);
         }catch(CapacityException e){
             return new ResponseEntity<>(e.getMessage(), HttpStatus.FORBIDDEN);
         }
@@ -111,7 +111,7 @@ public class ClienteController {
     }
 
     @GetMapping(value = "/{idQuarto}/quantidadeDeClientes")
-    public ResponseEntity<?> quantidadeDeClientes(@PathVariable long idViagem){
+    public ResponseEntity<?> quantidadeDeClientes(@PathVariable long idQuarto){
         return new ResponseEntity<>(clienteService.quantidadeDeClientes(idQuarto), HttpStatus.OK);
     }
 

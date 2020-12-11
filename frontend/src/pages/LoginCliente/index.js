@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import './styles.css';
-import { FiArrowRight, FiArrowLeft } from 'react-icons/fi';
+import { FiArrowRight, FiArrowLeft } from '../CadastroHotel/node_modules/react-icons/fi';
 
 import logoImg from '../../assets/logo.png';
 import api from '../../services/api';
@@ -50,7 +50,7 @@ export default function LoginCliente(){
 
     return (
         <div className="login-cliente-container">
-            <img src={logoImg} alt="Logo ViagemApp" />
+            <img src={logoImg} alt="Logo QuartoApp" />
 
             {/*Executa a função toda vez que submeter o formulário */}
             <form onSubmit={handleLogin}>

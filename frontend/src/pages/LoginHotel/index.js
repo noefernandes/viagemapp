@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';    //npm install react-router-dom 
-import { FiArrowRight, FiArrowLeft } from 'react-icons/fi'           //npm install react-icons
+import { FiArrowRight, FiArrowLeft } from '../CadastroHotel/node_modules/react-icons/fi'           //npm install react-icons
 
 import './styles.css';
 
 import logoImg from '../../assets/logo.png';
 import api from '../../services/api';
 
-export default function LoginAgencia(){
+export default function LoginHotel(){
     //Cria os estados a serem armazenados
     const [nomeUsuario, setNomeUsuario] = useState('');
     const [senha, setSenha] = useState(''); 
@@ -24,12 +24,12 @@ export default function LoginAgencia(){
 
         try{
             //Manda a requisição
-            const response = await api.post('loginAgencia', usuario);
+            const response = await api.post('loginHotel', usuario);
             //Armazena o id e o nome no localStorage do navegador
             localStorage.setItem('idUsuario', response.data.id);
             localStorage.setItem('nomeUsuario', response.data.nome);
             //Redireciona para a página
-            history.push('perfilAgencia');
+            history.push('perfilHotel');
 
         }catch(err){
             //BADREQUEST
@@ -48,7 +48,7 @@ export default function LoginAgencia(){
     }
 
     return (
-        <div className='login-agencia-container'>
+        <div className='login-hotel-container'>
             <img src={logoImg} alt='Logo ViagemApp' />
 
             {/*Executa a função toda vez que submeter o formulário */}
@@ -73,7 +73,7 @@ export default function LoginAgencia(){
                     Entrar como agência
                 </button>
             </form>
-            <Link className = "back-link" to="/cadastroAgencia">
+            <Link className = "back-link" to="/cadastroHotel">
                 <FiArrowRight/> Não tenho cadastro
             </Link>
             <Link className = "back-link" to="/">

@@ -156,7 +156,7 @@ public class HotelServiceImpl extends PrestadorDeServicoServiceImpl<Hotel, Avali
         List<AvaliacaoPerUser> avaliacao = hotel.getAvaliacoes();
     	
         if(avaliacao.isEmpty()){
-            throw new NotFoundHotelException("Hotel não encontrada");
+            throw new NotFoundAgenciaException("Hotel não encontrada");
         }
         
         Double media1 = 0.0;
@@ -170,7 +170,7 @@ public class HotelServiceImpl extends PrestadorDeServicoServiceImpl<Hotel, Avali
         {
             media1 += nota.getAvaliacaoAtendimento();
             media2 += nota.getAvaliacaoLimpeza();
-            media3 += nota.getAvaliacaoRapidez();
+            media3 += nota.getAvaliacaoLocalidade();
             media4 += nota.getAvaliacaoConforto();
             media5 += nota.getAvaliacaoPreco();
         }

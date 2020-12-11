@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.spring.viagemapp.error.NotFoundHotelException;
+import com.spring.viagemapp.error.NotFoundAgenciaException;
 import com.spring.viagemapp.error.NotFoundViagensException;
 import com.spring.viagemapp.model.Hotel;
 import com.spring.viagemapp.model.AvaliacaoPerUser;
@@ -32,7 +32,7 @@ public class AvaliacaoPerUserServiceImpl implements AvaliacaoPerUserService {
 	@Override
 	public List<AvaliacaoPerUser> findByHotel(Hotel hotel) {
 		if(hotel.getAvaliacoes().isEmpty()){
-            throw new NotFoundHotelException("Esta agência não tem avaliações");
+            throw new NotFoundAgenciaException("Esta agência não tem avaliações");
         }
         return hotel.getAvaliacoes();
 	}

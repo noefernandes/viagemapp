@@ -63,7 +63,7 @@ public class AvaliacaoPerUser extends AvaliacaoPrestadorDeServico
 		lista.add(avaliacaoConforto);
 		lista.add(avaliacaoPreco);
 		lista.add(avaliacaoAtendimento);
-		lista.add(avaliacaoLocalidade);
+		lista.add(avaliacaLocalidade);
 		lista.add(avaliacaoLimpeza);
 		
 		return lista;
@@ -126,11 +126,11 @@ public class AvaliacaoPerUser extends AvaliacaoPrestadorDeServico
 	}
 
 	public double getAvaliacaoLocalidade() {
-		return avaliacaoLocalidade;
+		return avaliacaLocalidade;
 	}
 
 	public void setAvaliacaoLocalidade(double avaliacaoLocalidade) {
-		this.avaliacaoLocalidade = avaliacaoLocalidade;
+		this.avaliacaLocalidade = avaliacaoLocalidade;
 	}
 
 	public double getAvaliacaoLimpeza() {

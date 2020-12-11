@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useHistory } from 'react-router-dom';    //npm install react-router-dom
-import { FiPower, FiTrash2 } from 'react-icons/fi'      //npm install react-icons
+import { FiPower, FiTrash2 } from '../CadastroHotel/node_modules/react-icons/fi'      //npm install react-icons
 import './styles.css';
 
 import api from '../../services/api';
 import logoImg from '../../assets/logo.png';
 export default function ShowAvaliacoes(){
     const [avaliacaoLimpeza, setLimpeza] = useState();
-    const [avaliacaoRapidez, setRapidez] = useState();
+    const [avaliacaoLocalidade, setLocalidade] = useState();
     const [avaliacaoAtendimento, setAtendimento] = useState();
     const [avaliacaoPreco, setPreco] = useState();
     const [avaliacaoConforto, setConforto] = useState();
@@ -15,23 +15,23 @@ export default function ShowAvaliacoes(){
 
     const[avaliacoes,setAvaliacoes] = useState([]);
 
-    const idAgencia = localStorage.getItem('idUsuario');
-    const nomeAgencia = localStorage.getItem('nomeUsuario');
+    const idHotel = localStorage.getItem('idUsuario');
+    const nomeHotel = localStorage.getItem('nomeUsuario');
 
     const history = useHistory();
 
     useEffect(() => {
-        console.log('Nome da agência:' + nomeAgencia);
-        //Pegando viagens do cliente
-        api.get(`/showNotas/${idAgencia}`).then(response => {
+        console.log('Nome da agência:' + nomeHotel);
+        //Pegando quartos do cliente
+        api.get(`/showNotas/${idHotel}`).then(response => {
             setAvaliacoes(response.data);
             console.log(response.data)
         })
-        api.get(`/showComentarios/${idAgencia}`).then(response => {
+        api.get(`/showComentarios/${idHotel}`).then(response => {
             setComentarios(response.data);
             console.log(response.data)
         })
-    }, [idAgencia]);
+    }, [idHotel]);
 
 
     function handleLogout(){
@@ -43,17 +43,17 @@ export default function ShowAvaliacoes(){
      return(
         <div className="container-show-avaliacoes">
             <header>
-                <img src={logoImg} alt="Logo ViagemApp"/>
+                <img src={logoImg} alt="Logo QuartoApp"/>
 
                 <div style={{display:"flex", alignItems: "center", justifyContent: "center", flexDirection: "row"}}>
-                <Link className='button-minhas-viagens' to='perfilAgencia'>Minhas viagens</Link>
+                <Link className='button-minhas-quartos' to='perfilHotel'>Minhas quartos</Link>
                     <button onClick={handleLogout} type='button' className="power" style={{ borderStyle:'none' }}>
                         <FiPower size={50} />
                     </button>
                 </div>
             </header>
             <div className='container-cagetorias'>
-                <h1>Avaliação de {nomeAgencia}</h1>
+                <h1>Avaliação de {nomeHotel}</h1>
                 <div className="lista-categorias">
                     <div>
                         <strong>Avaliação de Conforto</strong>
@@ -68,7 +68,7 @@ export default function ShowAvaliacoes(){
                         <p>{avaliacoes[0]}</p>
                     </div>
                     <div>
-                        <strong>Avaliação de Rapidez</strong>
+                        <strong>Avaliação de Localidade</strong>
                         <p>{avaliacoes[2]}</p>
                     </div>
                     <div>

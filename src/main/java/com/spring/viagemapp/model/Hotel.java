@@ -60,13 +60,13 @@ public class Hotel extends PrestadorDeServico{
     //    this.cnpj = cnpj;
     //}
 
-    public List<Quarto> getViagens() {
+    public List<Quarto> getQuartos() {
         return quartos;
     }
 
-    public void addViagem(Quarto quarto){quartos.add(quarto);}
+    public void addQuarto(Quarto quarto){quartos.add(quarto);}
 
-    public void setViagens(List<Quarto> quartos) {
+    public void setQuartos(List<Quarto> quartos) {
         this.quartos = quartos;
     }
 }

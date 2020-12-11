@@ -38,15 +38,10 @@ public class ClienteQuartoServiceImpl implements ClienteQuartoService {
         int qtdClientes = clienteRepository.quantidadeDeClientes(idQuarto);
         Quarto quarto = quartoRepository.findById(idQuarto).get();
 
-        if(qtdClientes >= viagem.getCapacidade()) {
-            throw new CapacityException("A viagem já está cheia!");
-        }
 
         ClienteQuarto clienteQuarto = new ClienteQuarto();
         clienteQuarto.setIdCliente(idCliente);
         clienteQuarto.setIdQuarto(idQuarto);
-
-        quarto.setQtdPassageiros(qtdClientes + 1);
 
         return clienteQuartoRepository.save(clienteQuarto);
     }
@@ -89,7 +84,6 @@ public class ClienteQuartoServiceImpl implements ClienteQuartoService {
         }
 
         int qtdClientes = clienteRepository.quantidadeDeClientes(idQuarto);
-        quartoOp.get().setQtdPassageiros(qtdClientes - 1);
 
         clienteQuartoRepository.deleteClienteQuarto(idCliente,idQuarto);
     }

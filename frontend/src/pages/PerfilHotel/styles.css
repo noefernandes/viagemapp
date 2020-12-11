@@ -1,23 +1,23 @@
-.container-perfil-agencia{
+.container-perfil-hotel{
     width: 100%;
     max-width: 1120px;
     height: 100vh;
     margin: 0 auto;
 }
 
-.container-perfil-agencia header{
+.container-perfil-hotel header{
     display: flex;
     align-items: center;
     justify-content: space-between;
 }
 
-.container-perfil-agencia header span{
+.container-perfil-hotel header span{
     margin-right: 150px;
     font-size: 25px;
     font-weight: bold;
 }
 
-.button-cadastro-viagem{
+.button-cadastro-hotel{
     text-decoration: none;
     font-weight: bold;
     font-size: 18px;
@@ -41,22 +41,22 @@
     transition: filter 0.2s;
 }
 
-.button-cadastro-viagem:hover{
+.button-cadastro-hotel:hover{
     filter: brightness(90%);
 }
 
-.container-viagens-agencia{
+.container-quartos-hotel{
     margin: 0 auto;
     padding: 0 30px;
 }
 
-.container-viagens-agencia h1{
+.container-quartos-hotel h1{
     color: #030330;
     margin-top: 30px;
 
 }
 
-.lista-viagens ul{
+.lista-quartos ul{
     margin-top: 20px;
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -65,26 +65,26 @@
     margin-bottom: 30px;
 }
 
-.lista-viagens ul li{
+.lista-quartos ul li{
     background: #FFF;
     padding: 24px;
     border-radius: 8px;
     position: relative;
 }
 
-.lista-viagens ul li strong{
+.lista-quartos ul li strong{
     font-weight: 700;
     font-size: 16px;
 }
 
-.lista-viagens ul li p{
+.lista-quartos ul li p{
     color: #737380;
     margin-top: 5px;
     margin-bottom: 15px;
     font-weight: 400;
 }
 
-.lista-viagens ul li button{
+.lista-quartos ul li button{
     position: absolute;
     right: 24px;
     top: 24px;

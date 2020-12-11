@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useHistory } from 'react-router-dom';    //npm install react-router-dom
-import { FiPower, FiTrash2 } from 'react-icons/fi'      //npm install react-icons
+import { FiPower, FiTrash2 } from '../CadastroHotel/node_modules/react-icons/fi'      //npm install react-icons
 import './style.css';
-import { FiArrowLeft } from 'react-icons/fi';           //npm install react-icons
+import { FiArrowLeft } from '../CadastroHotel/node_modules/react-icons/fi';           //npm install react-icons
 
 import api from '../../services/api';
 import logoImg from '../../assets/logo.png';
 
-export default function AvaliarAgencia(){
+export default function AvaliarHotel(){
     const [avaliacaoLimpeza, setLimpeza] = useState();
-    const [avaliacaoRapidez, setRapidez] = useState();
+    const [avaliacaoLocalidade, setLocalidade] = useState();
     const [avaliacaoAtendimento, setAtendimento] = useState();
     const [avaliacaoPreco, setPreco] = useState();
     const [avaliacaoConforto, setConforto] = useState();
@@ -17,7 +17,7 @@ export default function AvaliarAgencia(){
 
     const idUsuario = localStorage.getItem('idUsuario');
     const nomeUsuario = localStorage.getItem('nomeUsuario');
-    const idAgencia = localStorage.getItem('idAgencia');
+    const idHotel = localStorage.getItem('idHotel');
 
     const history = useHistory();
 
@@ -31,40 +31,40 @@ export default function AvaliarAgencia(){
 
 
 
-    async function handleAvaliarAgencia(e){
+    async function handleAvaliarHotel(e){
         e.preventDefault();
 
         const data = {
             avaliacaoConforto,
             avaliacaoPreco,
             avaliacaoAtendimento,
-            avaliacaoRapidez,
+            avaliacaoLocalidade,
             avaliacaoLimpeza,
             comentarios
         }
         try{
-            console.log("id da agência: " + idAgencia);
+            console.log("id do hotel: " + idHotel);
             console.log("id do cliente: " + idUsuario);
-            const response = await api.post(`/${idUsuario}/avaliarAgencia/${idAgencia}`, data);
+            const response = await api.post(`/${idUsuario}/avaliarHotel/${idHotel}`, data);
             console.log(response.data.nome);
             if(response.status === 200){
                 console.log("Entra");
                 try{
-                    await api.put(`/updateToSortNotas/${idAgencia}`);
+                    await api.put(`/updateToSortNotas/${idHotel}`);
                 }catch(err){
                     alert('Erro ao gravar notas.')
                 }
             }
             history.push('PerfilCliente');
         }catch(Err){
-            alert('Erro ao avaliar a agência.');
+            alert('Erro ao avaliar o hotel.');
         }
     }
 
     return(
-        <div className="container-avaliar-agencia">
+        <div className="container-avaliar-hotel">
             <section>
-                <img src={logoImg} width={200} alt="ViagemApp logo"/>
+                <img src={logoImg} width={200} alt="QuartoApp logo"/>
                 <Link className="back-link" style={{ marginLeft: 98 }} to="/perfilCliente">
                     <FiArrowLeft/>
                     Não quero avaliar ainda
@@ -72,8 +72,8 @@ export default function AvaliarAgencia(){
             </section>
 
             <section className='form'>
-            <h1>Avalie a agência da viagem!</h1>
-                <form onSubmit={handleAvaliarAgencia}>
+            <h1>Avalie o hotel do quarto!</h1>
+                <form onSubmit={handleAvaliarHotel}>
                     <div className="avaliacao-parte">
                         <div>    
                             <strong> Conforto</strong>
@@ -106,12 +106,12 @@ export default function AvaliarAgencia(){
                         </div>
 
                         <div>
-                            <strong> Rapidez</strong>
+                            <strong> Localidade</strong>
                             <input
                                 placeholder = '1-5'
                                 type="number" min="1" max="5"
-                                value={avaliacaoRapidez}
-                                onChange = {e => setRapidez(e.target.value)}
+                                value={avaliacaoLocalidade}
+                                onChange = {e => setLocalidade(e.target.value)}
                             />
                         </div>
 

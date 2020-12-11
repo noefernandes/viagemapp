@@ -1,4 +1,4 @@
-package com.spring.quartoapp.model;
+package com.spring.viagemapp.model;
 
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
