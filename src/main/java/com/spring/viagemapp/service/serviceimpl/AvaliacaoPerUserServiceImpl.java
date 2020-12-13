@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.spring.viagemapp.error.NotFoundAgenciaException;
 import com.spring.viagemapp.error.NotFoundViagensException;
-import com.spring.viagemapp.model.Agencia;
+import com.spring.viagemapp.model.Hotel;
 import com.spring.viagemapp.model.AvaliacaoPerUser;
 import com.spring.viagemapp.model.Cliente;
 import com.spring.viagemapp.repository.AvaliacaoPerUserRepository;
@@ -30,11 +30,11 @@ public class AvaliacaoPerUserServiceImpl implements AvaliacaoPerUserService {
 
 	// TODO: Atualizar a excessão
 	@Override
-	public List<AvaliacaoPerUser> findByAgencia(Agencia agencia) {
-		if(agencia.getAvaliacoes().isEmpty()){
+	public List<AvaliacaoPerUser> findByHotel(Hotel hotel) {
+		if(hotel.getAvaliacoes().isEmpty()){
             throw new NotFoundAgenciaException("Esta agência não tem avaliações");
         }
-        return agencia.getAvaliacoes();
+        return hotel.getAvaliacoes();
 	}
 
 	// TODO: Atualizar a excessão

@@ -7,15 +7,15 @@ import logoImg from '../../assets/logo.png';
 export default function BemVindo(){
     return (
         <div className="container">
-            <img src={logoImg} alt="Logo ViagemApp" />
+            <img src={logoImg} alt="Logo QuartoApp" />
 
             <h1>Faça sua escolha</h1>
             
             <Link 
             className='button-bem-vindo' 
             style={{ marginTop: '40px' }} 
-            to='/loginAgencia'>
-                Entrar como agência
+            to='/loginHotel'>
+                Entrar como hotel
             </Link>
             
             <Link 

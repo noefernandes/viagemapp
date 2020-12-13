@@ -1,13 +1,13 @@
 package com.spring.viagemapp.utils;
 
-import com.spring.viagemapp.model.Agencia;
+import com.spring.viagemapp.model.Hotel;
 import com.spring.viagemapp.model.Cliente;
-import com.spring.viagemapp.model.ClienteViagem;
-import com.spring.viagemapp.model.Viagem;
+import com.spring.viagemapp.model.ClienteQuarto;
+import com.spring.viagemapp.model.Quarto;
 import com.spring.viagemapp.repository.ClienteRepository;
-import com.spring.viagemapp.repository.AgenciaRepository;
-import com.spring.viagemapp.repository.ClienteViagemRepository;
-import com.spring.viagemapp.repository.ViagemRepository;
+import com.spring.viagemapp.repository.HotelRepository;
+import com.spring.viagemapp.repository.ClienteQuartoRepository;
+import com.spring.viagemapp.repository.QuartoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;

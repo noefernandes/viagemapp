@@ -15,14 +15,14 @@ export default function ShowAvaliacoes(){
 
     const[avaliacoes,setAvaliacoes] = useState([]);
 
-    const idHotel = localStorage.getItem('idHotel');
-    const nomeHotel = localStorage.getItem('nomeHotel');
+    const idHotel = localStorage.getItem('idUsuario');
+    const nomeHotel = localStorage.getItem('nomeUsuario');
 
     const history = useHistory();
 
     useEffect(() => {
-        console.log('Nome do hotel:' + nomeHotel);
-        //Pegando viagens do cliente
+        console.log('Nome da agência:' + nomeHotel);
+        //Pegando quartos do cliente
         api.get(`/showNotas/${idHotel}`).then(response => {
             setAvaliacoes(response.data);
             console.log(response.data)
@@ -46,7 +46,7 @@ export default function ShowAvaliacoes(){
                 <img src={logoImg} alt="Logo QuartoApp"/>
 
                 <div style={{display:"flex", alignItems: "center", justifyContent: "center", flexDirection: "row"}}>
-                <Link className='button-minhas-viagens' to='feedCliente'>Feed</Link>
+                <Link className='button-minhas-quartos' to='perfilHotel'>Minhas quartos</Link>
                     <button onClick={handleLogout} type='button' className="power" style={{ borderStyle:'none' }}>
                         <FiPower size={50} />
                     </button>

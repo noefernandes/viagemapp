@@ -4,7 +4,7 @@ package com.spring.viagemapp.service;
 import com.spring.viagemapp.model.Cliente;
 import com.spring.viagemapp.model.Usuario;
 import com.spring.viagemapp.utils.ClienteTags;
-import com.spring.viagemapp.utils.ViagemComNome;
+import com.spring.viagemapp.utils.QuartoComNome;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.http.ResponseEntity;
 
@@ -26,9 +26,9 @@ public interface ClienteService {
     Cliente checkLogin(Usuario usuario);
     Cliente resave(Cliente cliente);
 
-    List<Object[]> getViagensDoCliente(long idCliente);
-    List<ViagemComNome> getViagensDoClienteComNome(long idCliente);
+    List<Object[]> getQuartosDoCliente(long idCliente);
+    List<QuartoComNome> getQuartosDoClienteComNome(long idCliente);
     List<String> getTagsCliente(long idCliente);
-    List<ViagemComNome> convert(List<Object[]> viagensObj);
+    List<QuartoComNome> convert(List<Object[]> viagensObj);
     int quantidadeDeClientes(long idViagem);
 }

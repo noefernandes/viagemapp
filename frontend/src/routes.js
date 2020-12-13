@@ -3,16 +3,16 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 import BemVindo from './pages/BemVindo/';
 import CadastroCliente from './pages/CadastroCliente';
-import CadastroAgencia from './pages/CadastroAgencia';
+import CadastroHotel from './pages/CadastroHotel';
 import LoginCliente from './pages/LoginCliente';
-import LoginAgencia from './pages/LoginAgencia';
-import PerfilAgencia from './pages/PerfilAgencia';
-import CadastroViagem from './pages/CadastroViagem';
+import LoginHotel from './pages/LoginHotel';
+import PerfilHotel from './pages/PerfilHotel';
+import CadastroQuarto from './pages/CadastroQuarto';
 import PerfilCliente from './pages/PerfilCliente';
 import FeedCliente from './pages/FeedCliente';
-import AvaliarAgencia from './pages/AvaliarAgencia';
+import AvaliarHotel from './pages/AvaliarHotel';
 import ShowAvaliacoes from './pages/ShowAvaliacoes';
-import ShowAvaliacoesAgencia from './pages/ShowAvaliacoesAgencia';
+import ShowAvaliacoesHotel from './pages/ShowAvaliacoesHotel';
 
 export default function Routes(){
     return (
@@ -20,16 +20,16 @@ export default function Routes(){
             <Switch>
                 <Route path='/' exact component={BemVindo} />
                 <Route path='/cadastroCliente' exact component={CadastroCliente} />
-                <Route path='/cadastroAgencia' exact component={CadastroAgencia} />
+                <Route path='/cadastroHotel' exact component={CadastroHotel} />
                 <Route path='/loginCliente' exact component={LoginCliente} />
-                <Route path='/loginAgencia' exact component={LoginAgencia} />
-                <Route path='/perfilAgencia' exact component={PerfilAgencia} />
-                <Route path='/cadastroViagem' exact component={CadastroViagem} />
+                <Route path='/loginHotel' exact component={LoginHotel} />
+                <Route path='/perfilHotel' exact component={PerfilHotel} />
+                <Route path='/cadastroQuarto' exact component={CadastroQuarto} />
                 <Route path='/perfilCliente' exact component={PerfilCliente}/>
                 <Route path='/feedCliente' exact component={FeedCliente}/>
-                <Route path='/avaliarAgencia' exact component={AvaliarAgencia}/>
+                <Route path='/avaliarHotel' exact component={AvaliarHotel}/>
                 <Route path='/showAvaliacoes' exact component={ShowAvaliacoes}/>
-                <Route path='/showAvaliacoesAgencia' exact component={ShowAvaliacoesAgencia}/>
+                <Route path='/showAvaliacoesHotel' exact component={ShowAvaliacoesHotel}/>
             </Switch>
         </BrowserRouter>
     );

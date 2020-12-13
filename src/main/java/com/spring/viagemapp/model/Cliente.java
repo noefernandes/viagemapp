@@ -24,9 +24,9 @@ public class Cliente extends Usuario{
 
     //Adding in the cascade = {CascadeType.ALL} on the Parent's reference to the Child solved
     // the problem in both cases. This saved the Child and the Parent.
-    @JsonManagedReference("cliente-cliente_viagem")
+    @JsonManagedReference("cliente-cliente_quarto")
     @OneToMany(mappedBy = "cliente")
-    private List<ClienteViagem> clienteViagem;
+    private List<ClienteQuarto> clienteQuarto;
     
     @JsonManagedReference("Avaliacao-cliente-reference")
     @OneToMany(mappedBy = "cliente")
@@ -77,12 +77,12 @@ public class Cliente extends Usuario{
     	this.tags.addAll((tagsCliente)); 
     }
 
-	public List<ClienteViagem> getClienteViagem() {
-        return clienteViagem;
+	public List<ClienteQuarto> getClienteQuarto() {
+        return clienteQuarto;
     }
 
-    public void setClienteViagem(List<ClienteViagem> clienteViagem) {
-        this.clienteViagem = clienteViagem;
+    public void setClienteViagem(List<ClienteQuarto> clienteQuarto) {
+        this.clienteQuarto = clienteQuarto;
     }
     
 }

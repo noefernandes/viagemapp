@@ -1,0 +1,65 @@
+.container-cadastro-quarto{
+    width: 100%;
+    max-width: 1120px;
+    height: 100vh;
+    margin: 0 auto;
+}
+
+.container-cadastro-quarto header{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.container-cadastro-quarto header h1{
+    margin-right: 150px;
+    font-size: 25px;
+    font-weight: bold;
+}
+
+
+.container-cadastro-quarto form.form-cadastro-quarto{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.container-cadastro-quarto form.form-cadastro-quarto h1{
+    font-size: 30px;
+}
+
+.container-cadastro-quarto form.form-cadastro-quarto div{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.container-cadastro-quarto form.form-cadastro-quarto input{
+    width: 300px;
+    height: 50px;
+
+    border-radius: 8px;
+    border-style: none;
+
+    margin-bottom: 32px;
+    padding-left: 32px;
+}
+
+.container-cadastro-quarto form.form-cadastro-quarto button{
+    width: 620px;
+    height: 50px;
+
+    margin-bottom: 80px;
+}
+
+.container-cadastro-quarto form.form-cadastro-quarto div.tags{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.container-cadastro-quarto form.form-cadastro-quarto div.tags input{
+    width: 630px;
+}

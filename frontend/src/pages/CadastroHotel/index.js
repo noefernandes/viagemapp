@@ -6,42 +6,36 @@ import './styles.css';
 import logoImg from '../../assets/logo.png';
 import api from '../../services/api';
 
-
-export default function CadastroCliente(){
+export default function CadastroHotel(){
     //Cria os estados a serem armazenados
     const [nome, setNome] = useState('');
-    const [cpf, setCpf] = useState('');
+    const [cnpj, setCnpj] = useState('');
     const [email, setEmail] = useState('');
     const [nomeUsuario, setNomeUsuario] = useState('');
     const [senha, setSenha] = useState('');
-    const [tagString, setTags] = useState('');
-
+    
     const history = useHistory();
 
     async function handleCadastro(e){
         e.preventDefault();
-
+        
         const data = {
-        	cliente:{
-            	nome,
-            	cpf,
-            	email,
-            	nomeUsuario,
-            	senha,
-            },
-            	tagString
+            nome,
+            cnpj,
+            email,
+            nomeUsuario,
+            senha
         }
 
-	
         try{
             //Manda a requisição
-            const response = await api.post('cadastroCliente', data);
+            const response = await api.post('cadastroHotel', data);
 
             if(response.status === 200){
                 alert('Usuario cadastrado com sucesso!');
             }
             //Redireciona para a página
-            history.push('loginCliente');
+            history.push('loginHotel');
         }catch (err){
             //Equivale ao BADREQUEST
             if(err.response.status === 400){
@@ -56,10 +50,10 @@ export default function CadastroCliente(){
     }
 
     return (
-        <div className="cadastro-cliente-container">
+        <div className="cadastro-hotel-container">
             <section>
                 <img src={logoImg} width={200} alt="QuartoApp logo"/>
-                <Link className="back-link" style={{ marginLeft: 120 }} to="/loginCliente">
+                <Link className="back-link" style={{ marginLeft: 120 }} to="/loginHotel">
                     <FiArrowLeft/>
                     Já tenho login
                 </Link>
@@ -70,39 +64,36 @@ export default function CadastroCliente(){
                 <form onSubmit={handleCadastro}>
                     <h1>Faça seu cadastro</h1>
 
-                    <input
-                        placeholder='Seu nome'
+                    <input 
+                        placeholder='Nome do hotel'
                         value={nome}
                         onChange = {e => setNome(e.target.value)}
                     />
-                    <input
-                        placeholder='CPF'
-                        value={cpf}
-                        onChange = {e => setCpf(e.target.value)}
+                    <input 
+                        placeholder='CNPJ'
+                        value={cnpj}
+                        onChange = {e => setCnpj(e.target.value)}
                     />
-                    <input
+                    <input 
                         placeholder='E-mail'
                         type='email'
                         value={email}
                         onChange = {e => setEmail(e.target.value)}
                     />
                     <div className='container-autenticacao'>
-                        <input
-                            placeholder='Nome de usuário'
+                        <input 
+                            placeholder='Nome de usuário' 
                             value={nomeUsuario}
                             onChange = {e => setNomeUsuario(e.target.value)}
                         />
-
-                        <input
-                            type='password'
-                            placeholder='Senha'
+                        
+                        <input 
+                            type='password' 
+                            placeholder='Senha' 
                             value={senha}
                             onChange = {e => setSenha(e.target.value)}
                         />
                     </div>
-
-                    
-
                     <button type='submit'>Cadastrar</button>
 
                 </form>

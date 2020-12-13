@@ -8,37 +8,34 @@ import logoImg from '../../assets/logo.png';
 
 const CurrencyFormat = require('react-currency-format');
 
-export default function PerfilAgencia(){
+export default function FeedCliente(){
     //Inicia-se com um vetor vazio como total de viagens do usuario.
-    const [viagensComNome, setViagensComNome] = useState([])
-    const [nomeAgencia, setNomeAgencia] = useState('');
-    const [localPartida, setLocalPartida] = useState('');
-    const [localChegada, setLocalChegada] = useState('');
-    const [data, setData] = useState('');
+    const [quartosComNome, setQuartosComNome] = useState([])
+    const [nomeHotel, setNomeHotel] = useState('');
     const [tags, setTags] = useState([]);
     const [loading, setLoading] = useState(false);
-    const [filteredViagensComNome, setFilteredViagensComNome] = useState([]);
+    const [filteredQuartosComNome, setFilteredQuartosComNome] = useState([]);
     const [aux, setAux] = useState([]);
 
     //Para pegar valor do nome da agencia
     const [temp, setTemp] = useState('');
-    
+
     //Pega os dados anteriormente armazenados no localStorage.
     const idUsuario = localStorage.getItem('idUsuario');
 
     const history = useHistory();
 
-    async function handleComprarViagem(id){
+    async function handleComprarQuarto(id){
         try{
-            const response = await api.post(`/${idUsuario}/comprarViagem/${id}`, idUsuario);
+            const response = await api.post(`/${idUsuario}/comprarQuarto/${id}`, idUsuario);
             /*Filtra a lista de incidents mantendo apenas aqueles
             com id diferente do com id deletado*/
-            setViagensComNome(viagensComNome.filter(viagemComNome => viagemComNome.viagem.id !== id));
+            setQuartosComNome(quartosComNome.filter(quartoComNome => quartoComNome.quarto.id !== id));
         }catch(err){
             if(err.response.status === 403){
                 alert(err.response.data);
             }else{
-                alert('Erro ao comprar viagem.');
+                alert('Erro ao comprar quarto.');
             }
         }
     }
@@ -46,8 +43,8 @@ export default function PerfilAgencia(){
     useEffect(() => {
         setLoading(true);
         //
-        api.get(`${idUsuario}/viagensComNome/`).then(response => {
-            setViagensComNome(response.data);
+        api.get(`${idUsuario}/quartosComNome/`).then(response => {
+            setQuartosComNome(response.data);
             console.log(response.data);
             setAux(response.data);
             setLoading(false);
@@ -57,22 +54,19 @@ export default function PerfilAgencia(){
 
     useEffect(() => {
 
-        setFilteredViagensComNome(
-          viagensComNome.filter((viagemComNome) =>{
+        setFilteredQuartosComNome(
+          quartosComNome.filter((quartoComNome) =>{
             if(tags[0] === "")
             {
                 console.log(aux);
                 return aux;
             }
             return (
-               viagemComNome.nomeAgencia.toLowerCase().includes(nomeAgencia.toLowerCase())
-            && viagemComNome.viagem.localPartida.toLowerCase().includes(localPartida.toLowerCase())
-            && viagemComNome.viagem.localChegada.toLowerCase().includes(localChegada.toLowerCase())
-            && viagemComNome.viagem.data.toLowerCase().includes(data)
-            && tags.every(e => viagemComNome.viagem.tags.includes(e)));    
+               quartoComNome.nomeHotel.toLowerCase().includes(nomeHotel.toLowerCase())
+            && tags.every(e => quartoComNome.quarto.tags.includes(e)));
           })
         );
-      }, [nomeAgencia, localPartida, localChegada, data, tags, viagensComNome]);
+      }, [nomeHotel, tags, quartosComNome]);
 
 
     //Função responsáel por limpar o localStorage ao deslogar.
@@ -83,120 +77,98 @@ export default function PerfilAgencia(){
         history.push('/loginCliente');
     }
 
-    function handleGuardarAgencia(id, nomeAgencia){
-        localStorage.setItem('idAgencia', id);
-        localStorage.setItem('nomeAgencia', nomeAgencia);
-        console.log('Primeiro:' + nomeAgencia);
+    function handleGuardarHotel(id, nomeHotel){
+        localStorage.setItem('idHotel', id);
+        localStorage.setItem('nomeHotel', nomeHotel);
+        console.log('Primeiro:' + nomeHotel);
     }
 
     if (loading) {
         return <p>Carregando Viagens...</p>;
     }
 
+
+
     return (
-        <div className="container-feed-cliente">
-            <header>
-                <img src={logoImg} alt="Logo ViagemApp"/>
-                <div style={{display:"flex", alignItems: "center", justifyContent: "center", flexDirection: "row"}}>
-                <Link className='button-minhas-viagens' to='perfilCliente'>Minhas viagens</Link>
-                    <button onClick={handleLogout} type='button' className="power" style={{ borderStyle:'none' }}>
-                        <FiPower size={50} />
-                    </button>
+            <div className="container-feed-cliente">
+                <header>
+                    <img src={logoImg} alt="Logo ViagemApp"/>
+                    <div style={{display:"flex", alignItems: "center", justifyContent: "center", flexDirection: "row"}}>
+                    <Link className='button-minhas-quartos' to='perfilCliente'>Minhas viagens</Link>
+                        <button onClick={handleLogout} type='button' className="power" style={{ borderStyle:'none' }}>
+                            <FiPower size={50} />
+                        </button>
+                    </div>
+                </header>
+
+                <div className="filtro">
+                    <h1 style={{marginBottom: 30}}>Busque um quarto</h1>
+                    <div className='part1'>
+                        <input
+                            type='text'
+                            placeholder='Nome do Hotel'
+                            value={nomeHotel}
+                            onChange={e => setNomeHotel(e.target.value)}
+                        />
+
+                    </div>
+                    <div className="part2">
+                        <input
+                            type='text'
+                            placeholder='Tags'
+                            value={tags}
+                            onChange={e => setTags(e.target.value.split(';'))}
+                        />
+                    </div>
                 </div>
-            </header>
-           
-            <div className="filtro">
-                <h1 style={{marginBottom: 30}}>Busque uma viagem</h1>
-                <div className='part1'>
-                    <input 
-                        type='text' 
-                        placeholder='Nome da agência' 
-                        value={nomeAgencia}
-                        onChange={e => setNomeAgencia(e.target.value)}
-                    />
-                    
-                    <input 
-                        type='text' 
-                        placeholder='Local de partida' 
-                        value={localPartida}
-                        onChange={e => setLocalPartida(e.target.value)}
-                    />
-                    <input
-                        type='text' 
-                        placeholder='Local de chegada' 
-                        value={localChegada}
-                        onChange={e => setLocalChegada(e.target.value)}
-                    />
-                    <CurrencyFormat 
-                        format="##/##/####" 
-                        placeholder="Data (DD/MM/AAAA)" 
-                        mask={['D', 'D', 'M', 'M', 'A', 'A', 'A', 'A']}
-                        value={data}
-                        onChange={e => setData(e.target.value)}
-                    />
-                </div>
-                    
-                <div className="part2">
-                    <input 
-                        type='text'
-                        placeholder='Tags' 
-                        value={tags}
-                        onChange={e => setTags(e.target.value.split(';'))}
-                    />
-                </div>
-            </div>   
-                
 
 
 
-            <div className='container-feed-cliente'>
-                <div className="lista-viagens">
-                    <ul>
-                        {filteredViagensComNome.map(viagemComNome => (
-                        <li>
-                            <strong>Agência</strong>
-                            <Link className='button-avaliar-agencia' to='showAvaliacoes'
-                                      onClick={() => handleGuardarAgencia(viagemComNome.viagem.idAgencia, 
-                                                                    viagemComNome.nomeAgencia)}>
-                                {viagemComNome.nomeAgencia}
-                            </Link>
-                            <strong>Nota</strong>
-                            <p>{viagemComNome.nota}</p>
-                            <strong>Local de partida</strong>
-                            <p>{viagemComNome.viagem.localPartida}</p>
-                            <strong>Local de chegada</strong>
-                            <p>{viagemComNome.viagem.localChegada}</p>
-                            <strong>Data</strong>
-                            <p>{viagemComNome.viagem.data}</p>
-                            <strong>Horário de partida</strong>
-                            <p>{viagemComNome.viagem.horarioPartida}</p>
-                            <strong>Horário de chegada</strong>
-                            <p>{viagemComNome.viagem.horarioChegada}</p>
-                            <strong>Preço</strong>
-                            <p>{Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(viagemComNome.viagem.preco)}</p>
-                            <strong>Capacidade</strong>
-                            <p>{viagemComNome.viagem.qtdPassageiros}/{viagemComNome.viagem.capacidade}</p>
-                            <strong>Tags: </strong>
-                            <ul className="listaTags">
-                                {viagemComNome.viagem.tags.map(tag => (
-                                    <li>
-                                        <p>{tag}</p>
-                                    </li>
-                                ))}
-                            </ul>
 
-                            <button 
-                                onClick={() => handleComprarViagem(viagemComNome.viagem.id)}
-                                type='button' 
-                                className='buy'
-                            >
-                                <FiShoppingCart/>
-                            </button>
-                        </li>
-                        ))}
-                    </ul>
+                <div className='container-feed-cliente'>
+                    <div className="lista-quartos">
+                        <ul>
+                            {filteredQuartosComNome.map(quartoComNome => (
+                            <li>
+                                <strong>Hotel</strong>
+                                <Link className='button-avaliar-hotel' to='showAvaliacoes'
+                                          onClick={() => handleGuardarHotel(quartoComNome.quarto.idHotel,
+                                                                        quartoComNome.nomeHotel)}>
+                                    {quartoComNome.nomeHotel}
+                                </Link>
+                                <strong>Nota</strong>
+                                <p>{quartoComNome.nota}</p>
+                                <strong>Número do quarto</strong>
+                                <p>{quartoComNome.quarto.numero}</p>
+                                <strong>Número do andar</strong>
+                                <p>{quartoComNome.quarto.andar}</p>
+                                <strong>Inicio da Reserva</strong>
+                                <p>{quartoComNome.quarto.inicioReserva}</p>
+                                <strong>Fim da Reserva</strong>
+                                <p>{quartoComNome.quarto.fimReserva}</p>
+                                <strong>Situação</strong>
+                                <p>{quartoComNome.quarto.estado}</p>
+                                <strong>Tags: </strong>
+                                <ul className="listaTags">
+                                    {quartoComNome.quarto.tags.map(tag => (
+                                        <li>
+                                            <p>{tag}</p>
+                                        </li>
+                                    ))}
+                                </ul>
+
+                                <button
+                                    onClick={() => handleComprarQuarto(quartoComNome.quarto.id)}
+                                    type='button'
+                                    className='buy'
+                                >
+                                    <FiShoppingCart/>
+                                </button>
+                            </li>
+                            ))}
+                        </ul>
+                    </div>
                 </div>
             </div>
-        </div>
-    );
+        );
 }
