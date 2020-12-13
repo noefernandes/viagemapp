@@ -70,20 +70,12 @@ export default function PerfilAgencia(){
                     <ul>
                         {mesas.map(mesa => (
                         <li>
-                            <strong>Local de partida</strong>
-                            <p>{mesa.localPartida}</p>
-                            <strong>Local de chegada</strong>
-                            <p>{mesa.localChegada}</p>
-                            <strong>Data</strong>
-                            <p>{mesa.data}</p>
-                            <strong>Horário de partida</strong>
-                            <p>{mesa.horarioPartida}</p>
-                            <strong>Horário de chegada</strong>
-                            <p>{mesa.horarioChegada}</p>
-                            <strong>Preço</strong>
-                            <p>{Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(mesa.preco)}</p>
-                            <strong>Capacidade</strong>
-                            <p>{mesa.qtdPassageiros}/{mesa.capacidade}</p>
+                            <strong>Número da mesa</strong>
+                            <p>{mesa.numero}</p>
+                            <strong>Situação</strong>
+                            <p>{mesa.estado}</p>
+                            <strong>Nota</strong>
+
                             <strong>Tags: </strong>
                             <ul className="listaTags">
                                 {mesa.tags.map(tag => (

@@ -12,13 +12,11 @@ const CurrencyFormat = require('react-currency-format');
 
 export default function CadastroViagem(){
 
-    const [localPartida, setLocalPartida] = useState('');
-    const [localChegada, setLocalChegada] = useState('');
-    const [horarioPartida, sethorarioPartida] = useState('');
-    const [horarioChegada, setHorarioChegada]= useState('');
-    const [data, setData] = useState('');
-    const [preco, setPreco] = useState();
-    const [capacidade, setCapacidade] = useState();
+    const [inicioReserva, setInicioReserva] = useState('');
+    const [ocupada, setOcupada]= useState(false);
+    const [estado, setEstado] = useState('Disponível');
+    const [numero, setNumero] = useState('');
+    const [totalCompras, setTotalCompras] = useState(0);
     const [tagString, setTags] = useState('');
     const [idRestaurante, setIdRestaurante] = useState();
     
@@ -31,13 +29,11 @@ export default function CadastroViagem(){
 
          const mesa = {
          	    mesa:{
-                	localPartida,
-                	localChegada,
-                	data,
-                	horarioPartida,
-                	horarioChegada,
-                	preco,
-                    capacidade,
+                    numero,
+                	inicioReserva,
+                    estado,
+                    ocupada,
+                    totalCompras,
                     idRestaurante 
                 },
             		tagString
@@ -82,56 +78,11 @@ export default function CadastroViagem(){
                 <div className='local'>
                     <input 
                         type='text' 
-                        placeholder='Local de partida' 
-                        value={localPartida}
-                        onChange={e => {setLocalPartida(e.target.value);
+                        placeholder='Número da mesa' 
+                        value={numero}
+                        onChange={e => {setNumero(e.target.value);
                                        setIdRestaurante(idUsuario)
                         }}
-                    />
-                    <input
-                        type='text' 
-                        placeholder='Local de chegada' 
-                        value={localChegada}
-                        onChange={e => setLocalChegada(e.target.value)}
-                    />
-                </div>
-                <div className='data'>
-                    <CurrencyFormat 
-                        format="##/##/####" 
-                        placeholder="Data (DD/MM/AAAA)" 
-                        mask={['D', 'D', 'M', 'M', 'A', 'A', 'A', 'A']}
-                        value={data}
-                        onChange={e => setData(e.target.value)}
-                    />
-                </div>
-                <div>
-                    <CurrencyFormat
-                        format="##:##" 
-                        placeholder="Horário de partida (HH/MM)" 
-                        mask={['H', 'H', 'M', 'M']}
-                        value={horarioPartida}
-                        onChange={e => sethorarioPartida(e.target.value)}
-                    />
-                    
-                    <CurrencyFormat 
-                        format="##:##" 
-                        placeholder="Horário de chegada (HH/MM)" 
-                        mask={['H', 'H', 'M', 'M']}
-                        value={horarioChegada}
-                        onChange={e => setHorarioChegada(e.target.value)}
-                    />
-                </div>
-                <div>
-                    <CurrencyFormat 
-                        placeholder='Preço' 
-                        value={preco}
-                        onChange={e => setPreco(e.target.value)}
-                    />
-                    <input 
-                        type='text'
-                        placeholder='Capacidade' 
-                        value={capacidade}
-                        onChange={e => setCapacidade(e.target.value)}
                     />
                 </div>
 

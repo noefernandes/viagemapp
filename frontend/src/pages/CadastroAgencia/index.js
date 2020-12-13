@@ -65,7 +65,7 @@ export default function CadastroAgencia(){
                     <h1>Faça seu cadastro</h1>
 
                     <input 
-                        placeholder='Nome da agência'
+                        placeholder='Nome do restaurante'
                         value={nome}
                         onChange = {e => setNome(e.target.value)}
                     />

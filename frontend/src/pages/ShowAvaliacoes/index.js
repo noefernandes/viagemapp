@@ -22,6 +22,7 @@ export default function ShowAvaliacoes(){
 
     useEffect(() => {
         console.log('Nome da agência:' + nomeAgencia);
+        console.log('ID da agência:' + idAgencia);
         //Pegando viagens do cliente
         api.get(`/showNotas/${idAgencia}`).then(response => {
             setAvaliacoes(response.data);

@@ -47,7 +47,7 @@ public class AgenciaController {
         return new ResponseEntity<>(temp, HttpStatus.CREATED);
     }
 
-    @PostMapping(value = "/{idCliente}/avaliarAgencia/{idAgencia}")
+    @PostMapping(value = "/{idCliente}/avaliarAgencia/{idRestaurante}")
     public ResponseEntity<?> avaliarRestaurante(@PathVariable long idCliente,
     										@PathVariable long idRestaurante, @RequestBody @Valid AvaliacaoPerUser avaliacao){
         Restaurante restaurante;
@@ -81,7 +81,7 @@ public class AgenciaController {
     }
 
 //Aqui será retornado um hashmap, sendo a chave o nome do usuario que comentou e o valor o comentário
-    @GetMapping(value = "/showComentarios/{idAgencia}")
+    @GetMapping(value = "/showComentarios/{idRestaurante}")
     public ResponseEntity<?> showComentarios(@PathVariable long idRestaurante){
         Restaurante restaurante = new Restaurante();
         List<ComentarioComNome> comentarios;
@@ -106,7 +106,7 @@ public class AgenciaController {
         return new ResponseEntity<>(comentarios, HttpStatus.OK);
     }
 
-    @GetMapping(value = "/showNotas/{id_agencia}")
+    @GetMapping(value = "/showNotas/{id_restaurante}")
     public ResponseEntity<?> showNotas(@PathVariable long id_restaurante){
         Restaurante restaurante;
         List<Double> avaliacao;

@@ -111,16 +111,19 @@ public class ClienteServiceImpl implements ClienteService {
             List<String> tags = mesaService.getTagsMesa(mesa.getId());
             mesa.setTags(tags);
 
-            mesa.setCapacidade((Integer) obj[2]);
             mesa.setData((String) obj[4]);
-            mesa.setHorarioChegada((String) obj[5]);
-            mesa.setHorarioPartida((String) obj[6]);
-            mesa.setIdRestaurante((Long.parseLong(obj[7].toString())));
-            mesa.setLocalChegada((String) obj[8]);
-            mesa.setLocalPartida((String) obj[9]);
-            mesa.setPreco((double) obj[3]);
-            mesa.setQtdPassageiros((int) obj[10]);
-
+            mesa.setEstado((String) obj[5]);
+            
+            String bigString2 = (obj[6].toString());
+            BigInteger bi2 = new BigInteger(bigString2);
+            Long idRestaurante = bi2.longValue();
+            
+            mesa.setIdRestaurante(idRestaurante);
+            mesa.setInicioReserva((String) obj[7]);
+            mesa.setNumero((int) obj[8]);
+            mesa.setOcupada((boolean) obj[9]);
+            mesa.setTotalCompras((int) obj[10]);
+            
             mesas.add(mesa);
         }
 

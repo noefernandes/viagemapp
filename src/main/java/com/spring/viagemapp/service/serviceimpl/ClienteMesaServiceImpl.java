@@ -15,6 +15,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import java.util.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,25 +33,51 @@ public class ClienteMesaServiceImpl implements ClienteMesaService {
 
     @Autowired
     MesaRepository mesaRepository;
-
+    
+    String getHoraAtual() {
+    	Calendar now = Calendar.getInstance();
+        int horaIni = now.get(Calendar.HOUR_OF_DAY);
+        int minIni = now.get(Calendar.MINUTE);
+        
+        String horaIniStr = "";
+        String minIniStr = "";
+        if(horaIni < 10) {
+        	horaIniStr = "0" + Integer.toString(horaIni);
+        }else {
+        	horaIniStr = Integer.toString(horaIni);
+        }
+        
+        if(minIni < 10) {
+        	minIniStr = "0" + Integer.toString(minIni);
+        }else {
+        	minIniStr = Integer.toString(minIni);
+        }
+        
+        return horaIniStr + ":" + minIniStr;
+    }
+    
     @Override
     @Transactional(readOnly = false)
     public ClienteMesa comprarMesa(@PathVariable long idCliente, @PathVariable long idMesa){
-        int qtdClientes = clienteRepository.quantidadeDeClientes(idMesa);
         Mesa mesa = mesaRepository.findById(idMesa).get();
 
-        if(qtdClientes >= mesa.getCapacidade()) {
-            throw new CapacityException("A mesa já está cheia!");
+        if(mesa.isOcupada()) {
+            throw new CapacityException("A mesa já está ocupada!");
         }
-
+        
+        mesa.setInicioReserva(getHoraAtual());
+        mesa.setOcupada(true);
+        mesa.setEstado("Ocupada");
+        
+        mesa.setTotalCompras(mesa.getTotalCompras() + 1);
+        
         ClienteMesa clienteMesa = new ClienteMesa();
         clienteMesa.setIdCliente(idCliente);
         clienteMesa.setIdMesa(idMesa);
 
-        mesa.setQtdPassageiros(qtdClientes + 1);
-
         return clienteMesaRepository.save(clienteMesa);
     }
+    
 
     @Override
     public List<ClienteMesa> findAll() {
@@ -79,16 +109,17 @@ public class ClienteMesaServiceImpl implements ClienteMesaService {
         Optional<Mesa> mesaOp = mesaRepository.findById(idMesa);
 
         if(!clienteOp.isPresent()){
-            throw new NotFoundClienteException("Cliente não encontrado. Nenhuma viagem foi deletada.");
+            throw new NotFoundClienteException("Cliente não encontrado. Nenhuma mesa foi deletada.");
         }
 
         if(!mesaOp.isPresent()){
-            throw new NotFoundMesasException("Viagem não encontrada. Nenhuma viagem foi deletada");
+            throw new NotFoundMesasException("Mesa não encontrada. Nenhuma mesa foi deletada");
         }
 
-        int qtdClientes = clienteRepository.quantidadeDeClientes(idMesa);
-        mesaOp.get().setQtdPassageiros(qtdClientes - 1);
-
+        
+        mesaOp.get().setOcupada(false);
+        mesaOp.get().setEstado("Disponível");
+        
         clienteMesaRepository.deleteClienteMesa(idCliente, idMesa);
     }
 }

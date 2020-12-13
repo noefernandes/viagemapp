@@ -13,19 +13,14 @@ import javax.validation.constraints.NotBlank;
 @Entity
 @Table(name="mesa")
 public class Mesa extends Servico{
-    
-    @NotBlank
-    private String localPartida;
-    @NotBlank
-    private String localChegada;
-    @NotBlank
-    private String horarioPartida;
-    @NotBlank
-    private String horarioChegada;
 
-    @NotBlank
+    private int numero;
     private String data;
-    private int qtdPassageiros;
+    private String inicioReserva;
+    private boolean ocupada;
+    private String estado;
+    private int totalCompras;
+
     
     @JsonBackReference("restaurante_mesa-mesa")
     @ManyToOne(fetch=FetchType.EAGER)
@@ -40,36 +35,37 @@ public class Mesa extends Servico{
 
     private long idRestaurante;
 
-	public String getLocalPartida() {
-		return localPartida;
+	public int getNumero() {
+		return numero;
 	}
 
-	public void setLocalPartida(String localPartida) {
-		this.localPartida = localPartida;
+	public void setNumero(int numero) {
+		this.numero = numero;
 	}
 
-	public String getLocalChegada() {
-		return localChegada;
+	public String getInicioReserva() {
+		return inicioReserva;
 	}
 
-	public void setLocalChegada(String localChegada) {
-		this.localChegada = localChegada;
+	public void setInicioReserva(String inicioReserva) {
+		this.inicioReserva = inicioReserva;
 	}
 
-	public String getHorarioPartida() {
-		return horarioPartida;
+	public boolean isOcupada() {
+		return ocupada;
+	}
+	
+
+	public String getEstado() {
+		return estado;
 	}
 
-	public void setHorarioPartida(String horarioPartida) {
-		this.horarioPartida = horarioPartida;
+	public void setEstado(String estado) {
+		this.estado = estado;
 	}
 
-	public String getHorarioChegada() {
-		return horarioChegada;
-	}
-
-	public void setHorarioChegada(String horarioChegada) {
-		this.horarioChegada = horarioChegada;
+	public void setOcupada(boolean ocupada) {
+		this.ocupada = ocupada;
 	}
 
 	public String getData() {
@@ -78,14 +74,6 @@ public class Mesa extends Servico{
 
 	public void setData(String data) {
 		this.data = data;
-	}
-
-	public int getQtdPassageiros() {
-		return qtdPassageiros;
-	}
-
-	public void setQtdPassageiros(int qtdPassageiros) {
-		this.qtdPassageiros = qtdPassageiros;
 	}
 
 	public PrestadorDeServico getRestaurante() {
@@ -103,4 +91,13 @@ public class Mesa extends Servico{
 	public void setIdRestaurante(long idRestaurante) {
 		this.idRestaurante = idRestaurante;
 	}
+
+	public int getTotalCompras() {
+		return totalCompras;
+	}
+
+	public void setTotalCompras(int totalCompras) {
+		this.totalCompras = totalCompras;
+	}
+	
 }

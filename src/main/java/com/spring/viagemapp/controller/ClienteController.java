@@ -53,7 +53,7 @@ public class ClienteController {
         return new ResponseEntity<Cliente>(temp, HttpStatus.CREATED);
     }
 
-    @PostMapping(value="/{idCliente}/comprarViagem/{idViagem}")
+    @PostMapping(value="/{idCliente}/comprarViagem/{idMesa}")
     public ResponseEntity<?> comprarViagem(@PathVariable long idCliente, @PathVariable long idMesa){
         ClienteMesa clienteMesa;
         try{
@@ -65,7 +65,7 @@ public class ClienteController {
         return new ResponseEntity<>(clienteMesa, HttpStatus.OK);
     }
     
-    @DeleteMapping(value="/{idCliente}/deletarViagemDoCliente/{idViagem}")
+    @DeleteMapping(value="/{idCliente}/deletarViagemDoCliente/{idMesa}")
     public ResponseEntity<?> deletarViagemDoCliente(@PathVariable long idCliente, @PathVariable long idMesa){
         try{
             clienteMesaService.deleteClienteMesa(idCliente, idMesa);
@@ -109,7 +109,7 @@ public class ClienteController {
         return new ResponseEntity<>(clientes, HttpStatus.OK);
     }
 
-    @GetMapping(value = "/{idViagem}/quantidadeDeClientes")
+    @GetMapping(value = "/{idMesa}/quantidadeDeClientes")
     public ResponseEntity<?> quantidadeDeClientes(@PathVariable long idMesa){
         return new ResponseEntity<>(clienteService.quantidadeDeClientes(idMesa), HttpStatus.OK);
     }

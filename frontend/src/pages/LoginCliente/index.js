@@ -41,6 +41,8 @@ export default function LoginCliente(){
             //FORBIDDEN
             }else if(err.response.status === 401){
                 alert(err.response.data);
+            }else if(err.response.status === 403){
+                alert(err.response.data);
             }else{
                 alert('Falha ao logar, tente novamente.');
             }

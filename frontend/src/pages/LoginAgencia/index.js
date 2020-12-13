@@ -70,7 +70,7 @@ export default function LoginAgencia(){
                 </input>
                 
                 <button className='button' type='submit'>
-                    Entrar como agência
+                    Entrar como restaurante
                 </button>
             </form>
             <Link className = "back-link" to="/cadastroAgencia">

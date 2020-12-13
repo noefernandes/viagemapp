@@ -85,11 +85,11 @@ public class MesaServiceImpl extends ServicoServiceImpl<Mesa> implements MesaSer
         
         mesasComNome.sort((MesaComNome rhs, MesaComNome lhs) -> 
         {
-        	if(rhs.nota < lhs.nota) 
+        	if(rhs.mesa.getTotalCompras() < lhs.mesa.getTotalCompras()) 
         	{
         		return 1;
         	}
-        	else if(rhs.nota == lhs.nota) 
+        	else if(rhs.mesa.getTotalCompras() == lhs.mesa.getTotalCompras()) 
         	{
         		return 0;
         	}
