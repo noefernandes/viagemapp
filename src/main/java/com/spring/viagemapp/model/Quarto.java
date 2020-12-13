@@ -22,7 +22,10 @@ public class Quarto extends Servico{
     private String inicioReserva;
     @NotBlank
     private String fimReserva;
- 
+    private boolean ocupado;
+    
+    @NotBlank
+    private String estado;
     
     @JsonBackReference("hotel_quarto-quarto")
     @ManyToOne(fetch=FetchType.EAGER)
@@ -36,6 +39,22 @@ public class Quarto extends Servico{
     //private List<ClienteViagem> clienteViagem;
 
     private long idHotel;
+    
+    public void setOcupado(boolean ocupado) {
+    	this.ocupado = ocupado;
+    }
+    
+    public boolean getOcupado() {
+    	return this.ocupado;
+    }
+    
+    public void setEstado(String estado) {
+    	this.estado = estado;
+    }
+    
+    public String getEstado() {
+    	return this.estado;
+    }
     
     public long getIdHotel() {
         return idHotel;

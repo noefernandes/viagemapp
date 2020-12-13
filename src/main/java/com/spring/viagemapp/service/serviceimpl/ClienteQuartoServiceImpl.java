@@ -37,11 +37,17 @@ public class ClienteQuartoServiceImpl implements ClienteQuartoService {
     public ClienteQuarto comprarQuarto(@PathVariable long idCliente, @PathVariable long idQuarto){
         int qtdClientes = clienteRepository.quantidadeDeClientes(idQuarto);
         Quarto quarto = quartoRepository.findById(idQuarto).get();
+        
+        if(quarto.getOcupado()) {
+        	throw new CapacityException("Este quarto está ocupado");
+        }
 
 
         ClienteQuarto clienteQuarto = new ClienteQuarto();
         clienteQuarto.setIdCliente(idCliente);
         clienteQuarto.setIdQuarto(idQuarto);
+        quarto.setOcupado(true);
+        quarto.setEstado("Ocupado");
 
         return clienteQuartoRepository.save(clienteQuarto);
     }
@@ -83,8 +89,8 @@ public class ClienteQuartoServiceImpl implements ClienteQuartoService {
             throw new NotFoundViagensException("Quarto não encontrado. Nenhum quarto foi deletado");
         }
 
-        int qtdClientes = clienteRepository.quantidadeDeClientes(idQuarto);
-
+        quartoOp.get().setOcupado(false);
+        quartoOp.get().setEstado("Disponível");
         clienteQuartoRepository.deleteClienteQuarto(idCliente,idQuarto);
     }
 }
