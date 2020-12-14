@@ -128,7 +128,7 @@ export default function PerfilAgencia(){
                     <ul>
                         {filteredViagensComNome.map(viagemComNome => (
                         <li>
-                            <strong>Agência</strong>
+                            <strong>Restaurante</strong>
                             <Link className='button-avaliar-agencia' to='showAvaliacoes'
                                       onClick={() => handleGuardarAgencia(viagemComNome.mesa.idRestaurante, 
                                                                     viagemComNome.nomeRestaurante)}>
