@@ -10,9 +10,9 @@ O backend foi feito em Spring enquanto o frontend em React.
 
 ### Exemplo de imagens do front-end
 
-![img1](login.png | width=900)
+<img src="https://github.com/noefernandes/viagemapp/blob/b2efd482daa49a75aa885c554fdb641cefba9f8e/login.png" width=50% height=50%>
 
-![img2](cadastro.png | width=900)
+<img src="https://github.com/noefernandes/viagemapp/blob/b2efd482daa49a75aa885c554fdb641cefba9f8e/cadastro.png" width=50% height=50%>
 
 #### Desenvolvedores:
 - Giovanne da Silva Santos
